@@ -1,6 +1,7 @@
 import Token from "./Token";
 import Reader from "./Reader";
 import TokenWithData from "./TokenWithData";
+import digitRegex from './digitRegex'
 
 const getNextToken = (reader: Reader): TokenWithData => {
   const char = reader.getNextChar();
@@ -20,11 +21,12 @@ const getNextToken = (reader: Reader): TokenWithData => {
     reader.doneWithCurrentChar();
     return { token: Token.PARENTHESIS_CLOSE };
   }
-  if (/d/.test(char)) {
+  if (digitRegex.test(char)) {
     let numberLiteral = char;
+    reader.doneWithCurrentChar()
     {
       let char: string;
-      while (/d/.test((char = reader.getNextChar()))) {
+      while (digitRegex.test((char = reader.getNextChar()))) {
         numberLiteral += char;
         reader.doneWithCurrentChar();
       }
