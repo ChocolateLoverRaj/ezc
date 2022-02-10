@@ -1,0 +1,30 @@
+{
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "lint": "eslint .",
+    "build": "tsc",
+    "test": "jest"
+  },
+  "private": true,
+  "name": "ezc",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "eslint": "^7.12.1",
+    "eslint-config-standard-with-typescript": "21.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1 || ^5.0.0",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.5.5"
+  },
+  "main": "dist/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "dependencies": {
+    "tslib": "^2.3.1"
+  },
+  "keywords": [],
+  "description": ""
+}

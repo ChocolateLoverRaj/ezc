@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "esModuleInterop": false,
+    "strictNullChecks": true,
+    "importHelpers": true,
+    "module": "CommonJS",
+    "declaration": true,
+    "moduleResolution": "node"
+  }
+}
