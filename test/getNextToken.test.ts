@@ -30,4 +30,12 @@ describe('number literal', () => {
     })
     expect(index).toBe(3)
   })
+
+  test.todo('negative number')
+
+  test.todo('decimal number')
+
+  test.todo('hexadecimal number')
+
+  test.todo('binary number')
 })
