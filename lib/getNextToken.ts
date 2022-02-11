@@ -37,10 +37,11 @@ const getNextToken = ({getNextChar, doneWithCurrentChar}: Reader): TokenWithData
     };
   }
   if (char === '"') {
+    doneWithCurrentChar()
     let stringLiteral = "";
     let char: string;
     // FIXME: use \ to escape
-    while ((char = getNextChar()) !== "") {
+    while ((char = getNextChar()) !== '"') {
       stringLiteral += char;
       doneWithCurrentChar();
     }

@@ -1,5 +1,6 @@
 import getNextToken from "../lib/getNextToken";
 import Token from "../lib/Token";
+import tokenFromString from '../test-lib/tokenFromString'
 
 test("<", () => {
   const getNextChar = jest.fn(() => "<");
@@ -17,18 +18,10 @@ test("<", () => {
 
 describe('number literal', () => {
   test('whole number', () => {
-    const str = "432;"
-    let index = 0
-    const getNextChar = () => str.charAt(index)
-    const doneWithCurrentChar = () => index++
-    expect(getNextToken({
-      getNextChar,
-      doneWithCurrentChar
-    })).toStrictEqual({
+    tokenFromString('432;', {
       token: Token.NUMBER_LITERAL,
       data: 432
-    })
-    expect(index).toBe(3)
+    }, 3)
   })
 
   test.todo('negative number')
@@ -38,4 +31,13 @@ describe('number literal', () => {
   test.todo('hexadecimal number')
 
   test.todo('binary number')
+})
+
+describe('string literal', () => {
+  test('normal', () => {
+    tokenFromString('"abc";', {
+      token: Token.STRING_LITERAL,
+      data: 'abc'
+    }, 5)
+  })
 })
