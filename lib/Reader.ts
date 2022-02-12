@@ -1,6 +1,6 @@
-interface Reader {
-  getNextChar: () => string;
-  doneWithCurrentChar: () => void;
+interface Reader<T> {
+  getCurrent: () => T;
+  next: () => void;
 }
 
 export default Reader;

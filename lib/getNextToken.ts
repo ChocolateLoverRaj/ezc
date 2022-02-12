@@ -3,32 +3,37 @@ import Reader from "./Reader";
 import TokenWithData from "./TokenWithData";
 import digitRegex from './digitRegex'
 
-const getNextToken = ({getNextChar, doneWithCurrentChar}: Reader): TokenWithData => {
-  const char = getNextChar();
+const getCurrentToken = (
+  {
+    getCurrent, 
+    next
+  }: Reader<string>
+): TokenWithData => {
+  const char = getCurrent();
   if (char === "<") {
-    doneWithCurrentChar();
+    next();
     return { token: Token.RETURN };
   }
   if (char === ";") {
-    doneWithCurrentChar();
+    next();
     return { token: Token.SEMICOLON };
   }
   if (char === "(") {
-    doneWithCurrentChar();
+    next();
     return { token: Token.PARENTHESIS_OPEN };
   }
   if (char === ")") {
-    doneWithCurrentChar();
+    next();
     return { token: Token.PARENTHESIS_CLOSE };
   }
   if (digitRegex.test(char)) {
     let numberLiteral = char;
-    doneWithCurrentChar()
+    next()
     {
       let char: string;
-      while (digitRegex.test((char = getNextChar()))) {
+      while (digitRegex.test((char = getCurrent()))) {
         numberLiteral += char;
-        doneWithCurrentChar();
+        next();
       }
     }
     return {
@@ -37,15 +42,15 @@ const getNextToken = ({getNextChar, doneWithCurrentChar}: Reader): TokenWithData
     };
   }
   if (char === '"') {
-    doneWithCurrentChar()
+    next()
     let stringLiteral = "";
     let char: string;
     // FIXME: use \ to escape
-    while ((char = getNextChar()) !== '"') {
+    while ((char = getCurrent()) !== '"') {
       stringLiteral += char;
-      doneWithCurrentChar();
+      next();
     }
-    doneWithCurrentChar();
+    next();
     return {
       token: Token.STRING_LITERAL,
       data: stringLiteral
@@ -54,4 +59,4 @@ const getNextToken = ({getNextChar, doneWithCurrentChar}: Reader): TokenWithData
   throw new Error("Unkown token");
 };
 
-export default getNextToken;
+export default getCurrentToken;

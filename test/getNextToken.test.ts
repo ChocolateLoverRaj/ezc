@@ -3,17 +3,17 @@ import Token from "../lib/Token";
 import tokenFromString from '../test-lib/tokenFromString'
 
 test("<", () => {
-  const getNextChar = jest.fn(() => "<");
-  const doneWithCurrentChar = jest.fn();
+  const getCurrent = jest.fn(() => "<");
+  const next = jest.fn();
   expect(
     getNextToken({
-      getNextChar,
-      doneWithCurrentChar
+      getCurrent,
+      next
     })
   ).toStrictEqual({
     token: Token.RETURN
   });
-  expect(doneWithCurrentChar).toBeCalledTimes(1)
+  expect(next).toBeCalledTimes(1)
 });
 
 describe('number literal', () => {

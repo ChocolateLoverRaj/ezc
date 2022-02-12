@@ -7,11 +7,11 @@ const tokenFromString = (
   expectedIndexAtEnd: number
 ) => {
   let index = 0
-  const getNextChar = () => str.charAt(index)
-  const doneWithCurrentChar = () => index++
+  const getCurrent = () => str.charAt(index)
+  const next = () => index++
   expect(getNextToken({
-    getNextChar,
-    doneWithCurrentChar
+    getCurrent,
+    next
   })).toStrictEqual(expectedTokenWithData)
   expect(index).toBe(expectedIndexAtEnd)
 }
