@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "strictNullChecks": true,
     "importHelpers": true,
     "module": "CommonJS",

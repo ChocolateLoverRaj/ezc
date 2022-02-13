@@ -1,10 +1,10 @@
-import getNextToken from "../lib/getNextToken";
-import Token from "../lib/Token";
+import getNextToken from '../lib/getNextToken'
+import Token from '../lib/Token'
 import tokenFromString from '../test-lib/tokenFromString'
 
-test("<", () => {
-  const getCurrent = jest.fn(() => "<");
-  const next = jest.fn();
+test('<', () => {
+  const getCurrent = jest.fn(() => '<')
+  const next = jest.fn()
   expect(
     getNextToken({
       getCurrent,
@@ -12,9 +12,9 @@ test("<", () => {
     })
   ).toStrictEqual({
     token: Token.RETURN
-  });
+  })
   expect(next).toBeCalledTimes(1)
-});
+})
 
 describe('number literal', () => {
   test('whole number', () => {
@@ -40,4 +40,11 @@ describe('string literal', () => {
       data: 'abc'
     }, 5)
   })
+})
+
+test('identifier', () => {
+  tokenFromString('myVariable', {
+    token: Token.IDENTIFIER,
+    data: 'myVariable'
+  }, 'myVariable'.length)
 })

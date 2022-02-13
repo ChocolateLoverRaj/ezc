@@ -7,12 +7,13 @@ enum Token {
 
   // int goodNumber = 3
   INT,
+  // byte b = 255
+  BYTE,
+  // auto a = () > 234
+  AUTO,
 
   // 3, 23423, 93
   NUMBER_LITERAL,
-
-  // byte b = 255
-  BYTE,
 
   // "Hello world!"
   STRING_LITERAL,
@@ -22,11 +23,11 @@ enum Token {
   // )
   PARENTHESIS_CLOSE,
 
-  // auto a = () > 234
-  AUTO,
-
   // myFunction()
-  IDENTIFIER
+  IDENTIFIER,
+
+  // =
+  ASSIGNMENT
 }
 
-export default Token;
+export default Token

@@ -2,7 +2,9 @@ enum NodeType {
   VARIABLE_INITIALIZE,
   FUNCTION_CALL,
   FUNCTION,
-  MULTIPLE_NODES
+  MULTIPLE_NODES,
+  RETURN,
+  NUMBER_LITERAL
 }
 
 export default NodeType

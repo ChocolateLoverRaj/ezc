@@ -5,13 +5,11 @@ const tokenFromString = (
   str: string,
   expectedTokenWithData: TokenWithData,
   expectedIndexAtEnd: number
-) => {
+): void => {
   let index = 0
-  const getCurrent = () => str.charAt(index)
-  const next = () => index++
   expect(getNextToken({
-    getCurrent,
-    next
+    getCurrent: () => str.charAt(index),
+    next: () => index++
   })).toStrictEqual(expectedTokenWithData)
   expect(index).toBe(expectedIndexAtEnd)
 }

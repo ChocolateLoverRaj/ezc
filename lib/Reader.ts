@@ -1,6 +1,6 @@
 interface Reader<T> {
-  getCurrent: () => T;
-  next: () => void;
+  getCurrent: () => T | undefined
+  next: () => void
 }
 
-export default Reader;
+export default Reader
