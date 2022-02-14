@@ -11,7 +11,7 @@ test('<', () => {
       next
     })
   ).toStrictEqual({
-    token: Token.RETURN
+    token: Token.ARROW_LEFT
   })
   expect(next).toBeCalledTimes(1)
 })

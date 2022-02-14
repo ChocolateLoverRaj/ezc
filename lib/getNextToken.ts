@@ -15,7 +15,7 @@ const getCurrentToken = (
   const char = getCurrent() ?? never('No char')
   if (char === '<') {
     next()
-    return { token: Token.RETURN }
+    return { token: Token.ARROW_LEFT }
   }
   if (char === ';') {
     next()

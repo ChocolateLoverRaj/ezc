@@ -1,9 +1,22 @@
 enum Token {
   // <
-  RETURN,
-
+  ARROW_LEFT,
+  // >
+  ARROW_RIGHT,
   // ;
   SEMICOLON,
+  // (
+  PARENTHESIS_OPEN,
+  // )
+  PARENTHESIS_CLOSE,
+  // =
+  ASSIGNMENT,
+  // ,
+  COMMA,
+  // {
+  CURLY_BRACKET_OPEN,
+  // }
+  CURLY_PRACKET_CLOSE,
 
   // int goodNumber = 3
   INT,
@@ -18,16 +31,8 @@ enum Token {
   // "Hello world!"
   STRING_LITERAL,
 
-  // (
-  PARENTHESIS_OPEN,
-  // )
-  PARENTHESIS_CLOSE,
-
   // myFunction()
-  IDENTIFIER,
-
-  // =
-  ASSIGNMENT
+  IDENTIFIER
 }
 
 export default Token
