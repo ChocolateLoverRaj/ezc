@@ -1,1 +1,1 @@
-clang++ test.cpp sample.s -o test.exe
+clang++ test.cpp sample.so -o test.exe

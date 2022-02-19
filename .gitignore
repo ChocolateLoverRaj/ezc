@@ -5,4 +5,5 @@ package-lock.json
 .codesandbox
 sample-code-generation/sample.ll
 sample-code-generation/sample.s
+sample-code-generation/sample.so
 sample-code-generation/test.exe
