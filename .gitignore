@@ -3,7 +3,7 @@ yarn.lock
 pnpm-lock.yaml
 package-lock.json
 .codesandbox
-sample-code-generation/sample.ll
-sample-code-generation/sample.s
-sample-code-generation/sample.so
-sample-code-generation/test.exe
+sample-code-generation/*.ll
+sample-code-generation/*.s
+sample-code-generation/*.so
+sample-code-generation/*.exe
