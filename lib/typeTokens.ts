@@ -1,9 +1,9 @@
 import Token from './Token'
 
-const typeTokens: readonly Token[] = [
-  Token.INT,
+const typeTokens = [
+  Token.INT32,
   Token.BYTE,
   Token.AUTO
-]
+] as const
 
 export default typeTokens

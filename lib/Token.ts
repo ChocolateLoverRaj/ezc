@@ -18,8 +18,8 @@ enum Token {
   // }
   CURLY_PRACKET_CLOSE,
 
-  // int goodNumber = 3
-  INT,
+  // int32 goodNumber = 3
+  INT32,
   // byte b = 255
   BYTE,
   // auto a = () > 234

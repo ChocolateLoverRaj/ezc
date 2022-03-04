@@ -39,9 +39,9 @@ test('< <', () => {
   expect(() => getNextNode(getReader(data))).toThrowErrorMatchingSnapshot()
 })
 
-test('int n', () => {
+test('int32 n', () => {
   const data = initialize<TokenWithData>([{
-    token: Token.INT
+    token: Token.INT32
   }, {
     token: Token.IDENTIFIER,
     data: 'n'
@@ -50,7 +50,7 @@ test('int n', () => {
   expect(node).toStrictEqual<Node>({
     type: NodeType.VARIABLE_INITIALIZE,
     data: {
-      type: Token.INT,
+      type: Token.INT32,
       variableIdentifier: 'n',
       initializedValue: undefined
     }
@@ -58,9 +58,9 @@ test('int n', () => {
   expect(data.index).toBe(2)
 })
 
-test('int n = 1', () => {
+test('int32 n = 1', () => {
   const data = initialize<TokenWithData>([{
-    token: Token.INT
+    token: Token.INT32
   }, {
     token: Token.IDENTIFIER,
     data: 'n'
@@ -74,7 +74,7 @@ test('int n = 1', () => {
   expect(node).toStrictEqual<Node>({
     type: NodeType.VARIABLE_INITIALIZE,
     data: {
-      type: Token.INT,
+      type: Token.INT32,
       variableIdentifier: 'n',
       initializedValue: {
         type: NodeType.NUMBER_LITERAL,
