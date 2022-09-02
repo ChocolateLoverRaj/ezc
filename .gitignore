@@ -8,3 +8,6 @@ samples/sum/*.s
 samples/sum/*.so
 samples/sum/*.exe
 .log
+
+samples/hello-world/*.s
+samples/hello-world/*.exe
