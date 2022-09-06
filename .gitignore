@@ -11,3 +11,5 @@ samples/sum/*.exe
 
 samples/hello-world/*.s
 samples/hello-world/*.exe
+
+samples/libuv/**/*.exe
