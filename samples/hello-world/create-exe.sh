@@ -1,1 +1,1 @@
-clang hello-world.s -o hello-world.exe
+clang hello-world.ll -o hello-world.exe -m64
