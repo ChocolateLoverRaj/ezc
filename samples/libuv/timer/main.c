@@ -2,15 +2,20 @@
 #include <stdlib.h>
 #include <uv.h>
 
-void timerCallback(uv_timer_t *handle) {
+void timerCallback(uv_timer_t *handle)
+{
   puts("Timer callback!");
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
   int timeout;
-  if (argc == 2) {
+  if (argc == 2)
+  {
     timeout = atoi(argv[1]);
-  } else {
+  }
+  else
+  {
     timeout = 1000;
   }
 
