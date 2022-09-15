@@ -1,0 +1,15 @@
+enum KeyWord {
+  PRIVATE,
+  UNNAMED_ADDR,
+  CONSTANT,
+  ALIGN,
+  DECLARE,
+  DEFINE,
+  ASTERISK,
+  GET_ELEMENT_PTR,
+  INBOUNDS,
+  X,
+  RETURN
+}
+
+export default KeyWord

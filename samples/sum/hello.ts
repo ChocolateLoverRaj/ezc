@@ -23,8 +23,8 @@ builder.SetInsertPoint(basicBlock)
 
 const printF = Function.Create(
   FunctionType.get(Type.getInt32Ty(context),
-  [PointerType.get(Type.getInt8Ty(context), 0)],
-  false),
+    [PointerType.get(Type.getInt8Ty(context), 0)],
+    false),
   Function.LinkageTypes.ExternalLinkage, 'puts', module)
 
 const messageStr = 'Hello'
