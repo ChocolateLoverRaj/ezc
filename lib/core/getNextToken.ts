@@ -30,6 +30,7 @@ const getNextToken = async ({ get, free }: InputController): Promise<TokenWithDa
     string += chunk
   }
   console.log(string)
+  return undefined
 }
 
 export default getNextToken

@@ -14,6 +14,7 @@
   },
   "typescript.tsdk": "node_modules/typescript/lib",
   "files.associations": {
-    "uv.h": "c"
+    "uv.h": "c",
+    "stddef.h": "c"
   }
 }
