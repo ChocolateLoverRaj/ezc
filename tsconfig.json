@@ -6,6 +6,7 @@
     "importHelpers": true,
     "module": "CommonJS",
     "declaration": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "target": "es2022"
   }
 }
