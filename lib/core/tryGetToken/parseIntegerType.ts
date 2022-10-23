@@ -11,13 +11,13 @@ const parseIntegerType: TryGetToken = async stream => {
   let number = ''
   while (true) {
     const { value, done } = await iterator.next()
-    if (/\d/.test(value)) {
-      number += value as string
-    } else {
-      break
-    }
     if (done === true) {
       return
+    }
+    if (/\d/.test(value)) {
+      number += value
+    } else {
+      break
     }
   }
   if (number.length === 0) return
