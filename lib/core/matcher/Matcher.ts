@@ -1,4 +1,4 @@
-interface Matcher<T extends string[]> {
+interface Matcher<T extends readonly string[]> {
   find: T
   matches: number[]
   index: number

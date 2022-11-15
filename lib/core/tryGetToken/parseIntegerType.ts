@@ -12,7 +12,7 @@ const parseIntegerType: TryGetToken = async stream => {
   while (true) {
     const { value, done } = await iterator.next()
     if (done === true) {
-      return
+      break
     }
     if (/\d/.test(value)) {
       number += value

@@ -9,7 +9,10 @@ enum KeyWord {
   GET_ELEMENT_PTR,
   INBOUNDS,
   X,
-  RETURN
+  RETURN,
+  EQUALS,
+  COLON,
+  ENTRY_BLOCK
 }
 
 export default KeyWord
