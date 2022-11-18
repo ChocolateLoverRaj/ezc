@@ -42,3 +42,11 @@ test('-2', async () => {
     length: 2
   })
 })
+
+test('not a number', async () => {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  async function * getAsyncIterable () {
+    yield 'c'
+  }
+  await expect(parseNumberLiteral(getAsyncIterable())).resolves.toBeUndefined()
+})
