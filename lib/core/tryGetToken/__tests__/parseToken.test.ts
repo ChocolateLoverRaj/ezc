@@ -3,11 +3,11 @@ import TokenType from '../../TokenType'
 import parseToken from '../parseToken'
 
 test('string', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield 'c"Hello world!"'
-  }
-  await expect(parseToken(getAsyncIterable())).resolves.toEqual({
+  await expect(parseToken({
+    async * [Symbol.asyncIterator] () {
+      yield 'c"Hello world!"'
+    }
+  })).resolves.toEqual({
     token: {
       type: TokenType.STRING_LITERAL,
       data: 'Hello world!'
@@ -17,11 +17,11 @@ test('string', async () => {
 })
 
 test('leading space', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield ' 34'
-  }
-  await expect(parseToken(getAsyncIterable())).resolves.toEqual({
+  await expect(parseToken({
+    async * [Symbol.asyncIterator] () {
+      yield ' 34'
+    }
+  })).resolves.toEqual({
     token: {
       type: TokenType.NUMBER_LITERAL,
       data: 34
@@ -31,11 +31,11 @@ test('leading space', async () => {
 })
 
 test('leading newline', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield '\nret'
-  }
-  await expect(parseToken(getAsyncIterable())).resolves.toEqual({
+  await expect(parseToken({
+    async * [Symbol.asyncIterator] () {
+      yield '\nret'
+    }
+  })).resolves.toEqual({
     token: {
       type: TokenType.KEY_WORD,
       data: KeyWord.RETURN
