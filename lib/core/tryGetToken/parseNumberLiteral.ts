@@ -16,6 +16,7 @@ const parseNumberLiteral: TryGetToken = async stream => {
       break
     }
   }
+  if (number.length === 0) return
   // FIXME: Doesn't really check for errors like just '-' or '3.'
   return {
     token: {
