@@ -43,3 +43,11 @@ test('getelementptr', async () => {
     length: 'getelementptr'.length
   })
 })
+
+test("doesn't parse if trailing letters", async () => {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  async function * getAsyncIterable () {
+    yield 'getelementptrabc'
+  }
+  await expect(parseKeyword(getAsyncIterable())).resolves.toBeUndefined()
+})
