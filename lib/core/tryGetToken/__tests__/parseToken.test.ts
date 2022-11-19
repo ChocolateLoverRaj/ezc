@@ -1,7 +1,6 @@
 import CoreTokensWithData from '../../CoreTokensWithData'
 import KeyWord from '../../KeyWord'
 import TokenType from '../../TokenType'
-import TokenWithData from '../../TokenWithData'
 import charAsyncIterable from '../charAsyncIterable'
 import coreTryers from '../coreTryers'
 import parseToken from '../parseToken'
