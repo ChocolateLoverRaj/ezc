@@ -14,7 +14,6 @@ const parseToken: TryGetToken = async stream => {
       }
     })
     if (parsedToken !== undefined) {
-      console.log(tryer, parsedToken)
       return {
         token: parsedToken.token,
         length: parsedToken.length + skippedWhitespace
