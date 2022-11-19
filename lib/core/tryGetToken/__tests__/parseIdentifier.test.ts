@@ -3,13 +3,16 @@ import TokenType from '../../TokenType'
 import parseIdentifier from '../parseIdentifier'
 
 test('@0', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield '@0'
-  }
-  await expect(parseIdentifier(getAsyncIterable())).resolves.toEqual({
+  await expect(parseIdentifier({
+    async * [Symbol.asyncIterator] () {
+      yield '@0'
+    }
+  })).resolves.toEqual({
     token: {
-      type: TokenType.IDENTIFIER,
+      type: {
+        enum: TokenType,
+        id: TokenType.IDENTIFIER
+      },
       data: {
         type: IdentifierType.AT,
         name: '0'
@@ -20,13 +23,16 @@ test('@0', async () => {
 })
 
 test('@main', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield '@main'
-  }
-  await expect(parseIdentifier(getAsyncIterable())).resolves.toEqual({
+  await expect(parseIdentifier({
+    async * [Symbol.asyncIterator] () {
+      yield '@main'
+    }
+  })).resolves.toEqual({
     token: {
-      type: TokenType.IDENTIFIER,
+      type: {
+        enum: TokenType,
+        id: TokenType.IDENTIFIER
+      },
       data: {
         type: IdentifierType.AT,
         name: 'main'
@@ -37,13 +43,16 @@ test('@main', async () => {
 })
 
 test('%0', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield '%0'
-  }
-  await expect(parseIdentifier(getAsyncIterable())).resolves.toEqual({
+  await expect(parseIdentifier({
+    async * [Symbol.asyncIterator] () {
+      yield '%0'
+    }
+  })).resolves.toEqual({
     token: {
-      type: TokenType.IDENTIFIER,
+      type: {
+        enum: TokenType,
+        id: TokenType.IDENTIFIER
+      },
       data: {
         type: IdentifierType.PERCENT,
         name: '0'

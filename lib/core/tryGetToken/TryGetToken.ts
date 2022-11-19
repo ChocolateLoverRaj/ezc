@@ -1,5 +1,7 @@
+import TokenWithData from '../TokenWithData'
 import ParsedToken from './ParsedToken'
 
-type TryGetToken = (stream: AsyncIterable<string>) => Promise<ParsedToken | undefined>
+type TryGetToken<T extends TokenWithData> =
+  (stream: AsyncIterable<string>) => Promise<ParsedToken<T> | undefined>
 
 export default TryGetToken

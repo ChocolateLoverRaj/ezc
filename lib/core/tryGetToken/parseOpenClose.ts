@@ -1,9 +1,10 @@
 import OpenCloseType from '../OpenCloseType'
+import CoreTokensWithData from '../CoreTokensWithData'
 import TokenType from '../TokenType'
 import charAsyncIterable from './charAsyncIterable'
 import TryGetToken from './TryGetToken'
 
-const parseOpenClose: TryGetToken = async stream => {
+const parseOpenClose: TryGetToken<CoreTokensWithData[TokenType.OPEN_CLOSE]> = async stream => {
   const { value, done } = await charAsyncIterable(stream)[Symbol.asyncIterator]().next()
   if (done === true) return
   const char = value[0]
@@ -17,7 +18,10 @@ const parseOpenClose: TryGetToken = async stream => {
     const remainder = index % 2
     return {
       token: {
-        type: TokenType.OPEN_CLOSE,
+        type: {
+          enum: TokenType,
+          id: TokenType.OPEN_CLOSE
+        },
         data: {
           type: Object.values(chars)[(index - remainder) / 2],
           close: Boolean(remainder)

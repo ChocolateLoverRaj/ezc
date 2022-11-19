@@ -9,7 +9,10 @@ test('string', async () => {
     }
   })).resolves.toEqual({
     token: {
-      type: TokenType.STRING_LITERAL,
+      type: {
+        enum: TokenType,
+        id: TokenType.STRING_LITERAL
+      },
       data: 'Hello world!'
     },
     length: 'c"Hello world!"'.length
@@ -23,7 +26,10 @@ test('leading space', async () => {
     }
   })).resolves.toEqual({
     token: {
-      type: TokenType.NUMBER_LITERAL,
+      type: {
+        enum: TokenType,
+        id: TokenType.NUMBER_LITERAL
+      },
       data: 34
     },
     length: 3
@@ -37,7 +43,10 @@ test('leading newline', async () => {
     }
   })).resolves.toEqual({
     token: {
-      type: TokenType.KEY_WORD,
+      type: {
+        enum: TokenType,
+        id: TokenType.KEY_WORD
+      },
       data: KeyWord.RETURN
     },
     length: 4

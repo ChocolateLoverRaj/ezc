@@ -1,7 +1,8 @@
+import CoreTokenWithData from '../CoreTokenWithData'
 import tryers from './tryers'
 import TryGetToken from './TryGetToken'
 
-const parseToken: TryGetToken = async stream => {
+const parseToken: TryGetToken<CoreTokenWithData> = async stream => {
   for (const tryer of tryers) {
     let skippedWhitespace = 0
     const parsedToken = await tryer({

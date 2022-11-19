@@ -1,10 +1,9 @@
-import TokensWithData from './TokensWithData'
-
-type TokenWithData = {
-  [K in keyof TokensWithData]: {
-    type: K
-    data: TokensWithData[K]
+interface TokenWithData {
+  type: {
+    enum: any
+    id: number
   }
-}[keyof TokensWithData]
+  data: any
+}
 
 export default TokenWithData

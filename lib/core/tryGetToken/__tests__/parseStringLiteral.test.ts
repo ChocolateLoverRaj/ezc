@@ -2,13 +2,16 @@ import TokenType from '../../TokenType'
 import parseStringLiteral from '../parseStringLiteral'
 
 test('string', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield 'c"Hello world!"'
-  }
-  await expect(parseStringLiteral(getAsyncIterable())).resolves.toEqual({
+  await expect(parseStringLiteral({
+    async * [Symbol.asyncIterator] () {
+      yield 'c"Hello world!"'
+    }
+  })).resolves.toEqual({
     token: {
-      type: TokenType.STRING_LITERAL,
+      type: {
+        enum: TokenType,
+        id: TokenType.STRING_LITERAL
+      },
       data: 'Hello world!'
     },
     length: 'c"Hello world!"'.length
@@ -16,17 +19,17 @@ test('string', async () => {
 })
 
 test('unclosed string', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield 'c"Hello world!'
-  }
-  await expect(parseStringLiteral(getAsyncIterable())).resolves.toBeUndefined()
+  await expect(parseStringLiteral({
+    async * [Symbol.asyncIterator] () {
+      yield 'c"Hello world!'
+    }
+  })).resolves.toBeUndefined()
 })
 
 test("just 'c'", async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield 'c'
-  }
-  await expect(parseStringLiteral(getAsyncIterable())).resolves.toBeUndefined()
+  await expect(parseStringLiteral({
+    async * [Symbol.asyncIterator] () {
+      yield 'c'
+    }
+  })).resolves.toBeUndefined()
 })

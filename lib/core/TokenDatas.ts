@@ -3,7 +3,7 @@ import KeyWord from './KeyWord'
 import OpenCloseType from './OpenCloseType'
 import TokenType from './TokenType'
 
-interface TokensWithData {
+interface TokenDatas {
   [TokenType.IDENTIFIER]: {
     type: IdentifierType
     name: string
@@ -18,4 +18,4 @@ interface TokensWithData {
   }
 }
 
-export default TokensWithData
+export default TokenDatas

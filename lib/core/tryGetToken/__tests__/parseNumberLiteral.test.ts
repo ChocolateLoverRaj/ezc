@@ -2,13 +2,16 @@ import TokenType from '../../TokenType'
 import parseNumberLiteral from '../parseNumberLiteral'
 
 test('123', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield '123'
-  }
-  await expect(parseNumberLiteral(getAsyncIterable())).resolves.toEqual({
+  await expect(parseNumberLiteral({
+    async * [Symbol.asyncIterator] () {
+      yield '123'
+    }
+  })).resolves.toEqual({
     token: {
-      type: TokenType.NUMBER_LITERAL,
+      type: {
+        enum: TokenType,
+        id: TokenType.NUMBER_LITERAL
+      },
       data: 123
     },
     length: 3
@@ -16,13 +19,16 @@ test('123', async () => {
 })
 
 test('3.0', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield '3.0'
-  }
-  await expect(parseNumberLiteral(getAsyncIterable())).resolves.toEqual({
+  await expect(parseNumberLiteral({
+    async * [Symbol.asyncIterator] () {
+      yield '3.0'
+    }
+  })).resolves.toEqual({
     token: {
-      type: TokenType.NUMBER_LITERAL,
+      type: {
+        enum: TokenType,
+        id: TokenType.NUMBER_LITERAL
+      },
       data: 3.0
     },
     length: 3
@@ -30,13 +36,16 @@ test('3.0', async () => {
 })
 
 test('-2', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield '-2'
-  }
-  await expect(parseNumberLiteral(getAsyncIterable())).resolves.toEqual({
+  await expect(parseNumberLiteral({
+    async * [Symbol.asyncIterator] () {
+      yield '-2'
+    }
+  })).resolves.toEqual({
     token: {
-      type: TokenType.NUMBER_LITERAL,
+      type: {
+        enum: TokenType,
+        id: TokenType.NUMBER_LITERAL
+      },
       data: -2
     },
     length: 2
@@ -44,9 +53,9 @@ test('-2', async () => {
 })
 
 test('not a number', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield 'c'
-  }
-  await expect(parseNumberLiteral(getAsyncIterable())).resolves.toBeUndefined()
+  await expect(parseNumberLiteral({
+    async * [Symbol.asyncIterator] () {
+      yield 'c'
+    }
+  })).resolves.toBeUndefined()
 })

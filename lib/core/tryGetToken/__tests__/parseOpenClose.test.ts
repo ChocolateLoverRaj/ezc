@@ -3,13 +3,16 @@ import TokenType from '../../TokenType'
 import parseOpenClose from '../parseOpenClose'
 
 test('(', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield '('
-  }
-  await expect(parseOpenClose(getAsyncIterable())).resolves.toEqual({
+  await expect(parseOpenClose({
+    async * [Symbol.asyncIterator] () {
+      yield '('
+    }
+  })).resolves.toEqual({
     token: {
-      type: TokenType.OPEN_CLOSE,
+      type: {
+        enum: TokenType,
+        id: TokenType.OPEN_CLOSE
+      },
       data: {
         type: OpenCloseType.PARENTHESIS,
         close: false
@@ -20,13 +23,16 @@ test('(', async () => {
 })
 
 test(')', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield ')'
-  }
-  await expect(parseOpenClose(getAsyncIterable())).resolves.toEqual({
+  await expect(parseOpenClose({
+    async * [Symbol.asyncIterator] () {
+      yield ')'
+    }
+  })).resolves.toEqual({
     token: {
-      type: TokenType.OPEN_CLOSE,
+      type: {
+        enum: TokenType,
+        id: TokenType.OPEN_CLOSE
+      },
       data: {
         type: OpenCloseType.PARENTHESIS,
         close: true
@@ -37,13 +43,16 @@ test(')', async () => {
 })
 
 test('[', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield '['
-  }
-  await expect(parseOpenClose(getAsyncIterable())).resolves.toEqual({
+  await expect(parseOpenClose({
+    async * [Symbol.asyncIterator] () {
+      yield '['
+    }
+  })).resolves.toEqual({
     token: {
-      type: TokenType.OPEN_CLOSE,
+      type: {
+        enum: TokenType,
+        id: TokenType.OPEN_CLOSE
+      },
       data: {
         type: OpenCloseType.BRACKET,
         close: false

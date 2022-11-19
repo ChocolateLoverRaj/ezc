@@ -1,9 +1,10 @@
 import IdentifierType from '../IdentifierType'
+import CoreTokensWithData from '../CoreTokensWithData'
 import TokenType from '../TokenType'
 import charAsyncIterable from './charAsyncIterable'
 import TryGetToken from './TryGetToken'
 
-const parseIdentifier: TryGetToken = async stream => {
+const parseIdentifier: TryGetToken<CoreTokensWithData[TokenType.IDENTIFIER]> = async stream => {
   const iterator = charAsyncIterable(stream)[Symbol.asyncIterator]()
   const identifierType = await (async (): Promise<IdentifierType | undefined> => {
     const { value, done } = await iterator.next()
@@ -32,7 +33,10 @@ const parseIdentifier: TryGetToken = async stream => {
   if (name.length === 0) return
   return {
     token: {
-      type: TokenType.IDENTIFIER,
+      type: {
+        enum: TokenType,
+        id: TokenType.IDENTIFIER
+      },
       data: {
         type: identifierType,
         name

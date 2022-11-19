@@ -3,13 +3,16 @@ import TokenType from '../../TokenType'
 import parseKeyword from '../parseKeyword'
 
 test('=', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield '='
-  }
-  await expect(parseKeyword(getAsyncIterable())).resolves.toEqual({
+  await expect(parseKeyword({
+    async * [Symbol.asyncIterator] () {
+      yield '='
+    }
+  })).resolves.toEqual({
     token: {
-      type: TokenType.KEY_WORD,
+      type: {
+        enum: TokenType,
+        id: TokenType.KEY_WORD
+      },
       data: KeyWord.EQUALS
     },
     length: 1
@@ -17,13 +20,16 @@ test('=', async () => {
 })
 
 test('ret', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield 'ret'
-  }
-  await expect(parseKeyword(getAsyncIterable())).resolves.toEqual({
+  await expect(parseKeyword({
+    async * [Symbol.asyncIterator] () {
+      yield 'ret'
+    }
+  })).resolves.toEqual({
     token: {
-      type: TokenType.KEY_WORD,
+      type: {
+        enum: TokenType,
+        id: TokenType.KEY_WORD
+      },
       data: KeyWord.RETURN
     },
     length: 3
@@ -31,13 +37,16 @@ test('ret', async () => {
 })
 
 test('getelementptr', async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield 'getelementptr'
-  }
-  await expect(parseKeyword(getAsyncIterable())).resolves.toEqual({
+  await expect(parseKeyword({
+    async * [Symbol.asyncIterator] () {
+      yield 'getelementptr'
+    }
+  })).resolves.toEqual({
     token: {
-      type: TokenType.KEY_WORD,
+      type: {
+        enum: TokenType,
+        id: TokenType.KEY_WORD
+      },
       data: KeyWord.GET_ELEMENT_PTR
     },
     length: 'getelementptr'.length
@@ -45,9 +54,10 @@ test('getelementptr', async () => {
 })
 
 test("doesn't parse if trailing letters", async () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  async function * getAsyncIterable () {
-    yield 'getelementptrabc'
-  }
-  await expect(parseKeyword(getAsyncIterable())).resolves.toBeUndefined()
+  await expect(parseKeyword({
+    async * [Symbol.asyncIterator] () {
+      // cspell:disable-next-line
+      yield 'getelementptrabc'
+    }
+  })).resolves.toBeUndefined()
 })

@@ -1,11 +1,12 @@
 import KeyWord from '../KeyWord'
 import add from '../matcher/add'
 import create from '../matcher/create'
+import CoreTokensWithData from '../CoreTokensWithData'
 import TokenType from '../TokenType'
 import charAsyncIterable from './charAsyncIterable'
 import TryGetToken from './TryGetToken'
 
-const parseKeyword: TryGetToken = async stream => {
+const parseKeyword: TryGetToken<CoreTokensWithData[TokenType.KEY_WORD]> = async stream => {
   const keyWordStrings: Record<string, KeyWord> = {
     private: KeyWord.PRIVATE,
     unnamed_addr: KeyWord.UNNAMED_ADDR,
@@ -37,7 +38,10 @@ const parseKeyword: TryGetToken = async stream => {
         if (!/\w/.test(char)) {
           return {
             token: {
-              type: TokenType.KEY_WORD,
+              type: {
+                enum: TokenType,
+                id: TokenType.KEY_WORD
+              },
               data: keyWordStrings[matcher.find[exactMatch]]
             },
             length: matcher.find[exactMatch].length
@@ -49,7 +53,10 @@ const parseKeyword: TryGetToken = async stream => {
         if (Object.keys(specialTokens).includes(char)) {
           return {
             token: {
-              type: TokenType.KEY_WORD,
+              type: {
+                enum: TokenType,
+                id: TokenType.KEY_WORD
+              },
               data: specialTokens[char]
             },
             length: 1
@@ -63,7 +70,10 @@ const parseKeyword: TryGetToken = async stream => {
   if (exactMatch !== undefined) {
     return {
       token: {
-        type: TokenType.KEY_WORD,
+        type: {
+          enum: TokenType,
+          id: TokenType.KEY_WORD
+        },
         data: keyWordStrings[matcher.find[exactMatch]]
       },
       length: matcher.find[exactMatch].length
