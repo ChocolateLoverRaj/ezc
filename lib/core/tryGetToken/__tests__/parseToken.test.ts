@@ -1,9 +1,10 @@
 import KeyWord from '../../KeyWord'
 import TokenType from '../../TokenType'
+import coreTryers from '../coreTryers'
 import parseToken from '../parseToken'
 
 test('string', async () => {
-  await expect(parseToken({
+  await expect(parseToken(coreTryers)({
     async * [Symbol.asyncIterator] () {
       yield 'c"Hello world!"'
     }
@@ -20,7 +21,7 @@ test('string', async () => {
 })
 
 test('leading space', async () => {
-  await expect(parseToken({
+  await expect(parseToken(coreTryers)({
     async * [Symbol.asyncIterator] () {
       yield ' 34'
     }
@@ -37,7 +38,7 @@ test('leading space', async () => {
 })
 
 test('leading newline', async () => {
-  await expect(parseToken({
+  await expect(parseToken(coreTryers)({
     async * [Symbol.asyncIterator] () {
       yield '\nret'
     }

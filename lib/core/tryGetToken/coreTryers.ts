@@ -7,7 +7,7 @@ import parseOpenClose from './parseOpenClose'
 import parseStringLiteral from './parseStringLiteral'
 import TryGetToken from './TryGetToken'
 
-const tryers: ReadonlyArray<TryGetToken<CoreTokenWithData>> = [
+const coreTryers: ReadonlyArray<TryGetToken<CoreTokenWithData>> = [
   parseIdentifier,
   parseIntegerType,
   parseKeyword,
@@ -16,4 +16,4 @@ const tryers: ReadonlyArray<TryGetToken<CoreTokenWithData>> = [
   parseStringLiteral
 ] as const
 
-export default tryers
+export default coreTryers
