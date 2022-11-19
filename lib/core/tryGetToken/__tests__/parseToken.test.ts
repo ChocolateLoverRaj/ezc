@@ -1,7 +1,11 @@
+import CoreTokensWithData from '../../CoreTokensWithData'
 import KeyWord from '../../KeyWord'
 import TokenType from '../../TokenType'
+import TokenWithData from '../../TokenWithData'
+import charAsyncIterable from '../charAsyncIterable'
 import coreTryers from '../coreTryers'
 import parseToken from '../parseToken'
+import TryGetToken from '../TryGetToken'
 
 test('string', async () => {
   await expect(parseToken(coreTryers)({
@@ -51,5 +55,40 @@ test('leading newline', async () => {
       data: KeyWord.RETURN
     },
     length: 4
+  })
+})
+
+test('custom tryer', async () => {
+  const parseLeftArrow: TryGetToken<CoreTokensWithData[TokenType.KEY_WORD]> = async stream => {
+    // eslint-disable-next-line no-unreachable-loop
+    for await (const char of charAsyncIterable(stream)) {
+      if (char === '<') {
+        return {
+          token: {
+            type: {
+              enum: TokenType,
+              id: TokenType.KEY_WORD
+            },
+            data: KeyWord.RETURN
+          },
+          length: 1
+        }
+      }
+      return
+    }
+  }
+  await expect(parseToken([parseLeftArrow])({
+    async * [Symbol.asyncIterator] () {
+      yield '<'
+    }
+  })).resolves.toEqual({
+    token: {
+      type: {
+        enum: TokenType,
+        id: TokenType.KEY_WORD
+      },
+      data: KeyWord.RETURN
+    },
+    length: 1
   })
 })
