@@ -1,9 +1,10 @@
 import KeyWord from '../../KeyWord'
 import TokenType from '../../TokenType'
+import coreParseKeywordOptions from '../coreParseKeywordOptions'
 import parseKeyword from '../parseKeyword'
 
 test('=', async () => {
-  await expect(parseKeyword({
+  await expect(parseKeyword(coreParseKeywordOptions)({
     async * [Symbol.asyncIterator] () {
       yield '='
     }
@@ -13,14 +14,17 @@ test('=', async () => {
         enum: TokenType,
         id: TokenType.KEY_WORD
       },
-      data: KeyWord.EQUALS
+      data: {
+        enum: KeyWord,
+        id: KeyWord.EQUALS
+      }
     },
     length: 1
   })
 })
 
 test('ret', async () => {
-  await expect(parseKeyword({
+  await expect(parseKeyword(coreParseKeywordOptions)({
     async * [Symbol.asyncIterator] () {
       yield 'ret'
     }
@@ -30,14 +34,17 @@ test('ret', async () => {
         enum: TokenType,
         id: TokenType.KEY_WORD
       },
-      data: KeyWord.RETURN
+      data: {
+        enum: KeyWord,
+        id: KeyWord.RETURN
+      }
     },
     length: 3
   })
 })
 
 test('getelementptr', async () => {
-  await expect(parseKeyword({
+  await expect(parseKeyword(coreParseKeywordOptions)({
     async * [Symbol.asyncIterator] () {
       yield 'getelementptr'
     }
@@ -47,14 +54,17 @@ test('getelementptr', async () => {
         enum: TokenType,
         id: TokenType.KEY_WORD
       },
-      data: KeyWord.GET_ELEMENT_PTR
+      data: {
+        enum: KeyWord,
+        id: KeyWord.GET_ELEMENT_PTR
+      }
     },
     length: 'getelementptr'.length
   })
 })
 
 test("doesn't parse if trailing letters", async () => {
-  await expect(parseKeyword({
+  await expect(parseKeyword(coreParseKeywordOptions)({
     async * [Symbol.asyncIterator] () {
       // cspell:disable-next-line
       yield 'getelementptrabc'

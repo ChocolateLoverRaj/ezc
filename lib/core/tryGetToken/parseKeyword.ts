@@ -1,35 +1,15 @@
-import KeyWord from '../KeyWord'
 import add from '../matcher/add'
 import create from '../matcher/create'
 import CoreTokensWithData from '../CoreTokensWithData'
 import TokenType from '../TokenType'
 import charAsyncIterable from './charAsyncIterable'
 import TryGetToken from './TryGetToken'
+import ParseKeywordOptions from './ParseKeywordOptions'
 
-const parseKeyword: TryGetToken<CoreTokensWithData[TokenType.KEY_WORD]> = async stream => {
-  const keyWordStrings: Record<string, KeyWord> = {
-    private: KeyWord.PRIVATE,
-    unnamed_addr: KeyWord.UNNAMED_ADDR,
-    constant: KeyWord.CONSTANT,
-    x: KeyWord.X,
-    declare: KeyWord.DECLARE,
-    define: KeyWord.DEFINE,
-    EntryBlock: KeyWord.ENTRY_BLOCK,
-    getelementptr: KeyWord.GET_ELEMENT_PTR,
-    inbounds: KeyWord.INBOUNDS,
-    ret: KeyWord.RETURN
-  }
-
-  const matcher = create(Object.keys(keyWordStrings))
-  /**
-   * These have characters other than letters.
-   * Do not put strings more than 1 char long in this arr.
-   */
-  const specialTokens: Record<string, KeyWord> = {
-    '=': KeyWord.EQUALS,
-    ':': KeyWord.COLON,
-    '*': KeyWord.ASTERISK
-  }
+const parseKeyword = (
+  { singleCharKeywords, letterKeywords }: ParseKeywordOptions
+): TryGetToken<CoreTokensWithData[TokenType.KEY_WORD]> => async stream => {
+  const matcher = create(Object.keys(letterKeywords))
   let exactMatch: number | undefined
   for await (const char of charAsyncIterable(stream)) {
     add(matcher, char)
@@ -42,7 +22,7 @@ const parseKeyword: TryGetToken<CoreTokensWithData[TokenType.KEY_WORD]> = async 
                 enum: TokenType,
                 id: TokenType.KEY_WORD
               },
-              data: keyWordStrings[matcher.find[exactMatch]]
+              data: letterKeywords[matcher.find[exactMatch]]
             },
             length: matcher.find[exactMatch].length
           }
@@ -50,14 +30,14 @@ const parseKeyword: TryGetToken<CoreTokensWithData[TokenType.KEY_WORD]> = async 
           return
         }
       } else {
-        if (Object.keys(specialTokens).includes(char)) {
+        if (Object.keys(singleCharKeywords).includes(char)) {
           return {
             token: {
               type: {
                 enum: TokenType,
                 id: TokenType.KEY_WORD
               },
-              data: specialTokens[char]
+              data: singleCharKeywords[char]
             },
             length: 1
           }
@@ -74,7 +54,7 @@ const parseKeyword: TryGetToken<CoreTokensWithData[TokenType.KEY_WORD]> = async 
           enum: TokenType,
           id: TokenType.KEY_WORD
         },
-        data: keyWordStrings[matcher.find[exactMatch]]
+        data: letterKeywords[matcher.find[exactMatch]]
       },
       length: matcher.find[exactMatch].length
     }

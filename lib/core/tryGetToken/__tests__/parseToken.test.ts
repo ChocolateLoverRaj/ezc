@@ -51,7 +51,10 @@ test('leading newline', async () => {
         enum: TokenType,
         id: TokenType.KEY_WORD
       },
-      data: KeyWord.RETURN
+      data: {
+        enum: KeyWord,
+        id: KeyWord.RETURN
+      }
     },
     length: 4
   })
@@ -68,7 +71,10 @@ test('custom tryer', async () => {
               enum: TokenType,
               id: TokenType.KEY_WORD
             },
-            data: KeyWord.RETURN
+            data: {
+              enum: KeyWord,
+              id: KeyWord.RETURN
+            }
           },
           length: 1
         }
@@ -86,7 +92,10 @@ test('custom tryer', async () => {
         enum: TokenType,
         id: TokenType.KEY_WORD
       },
-      data: KeyWord.RETURN
+      data: {
+        enum: KeyWord,
+        id: KeyWord.RETURN
+      }
     },
     length: 1
   })

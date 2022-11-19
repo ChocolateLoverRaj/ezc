@@ -1,4 +1,5 @@
 import CoreTokenWithData from '../CoreTokenWithData'
+import coreParseKeywordOptions from './coreParseKeywordOptions'
 import parseIdentifier from './parseIdentifier'
 import parseIntegerType from './parseIntegerType'
 import parseKeyword from './parseKeyword'
@@ -10,7 +11,7 @@ import TryGetToken from './TryGetToken'
 const coreTryers: ReadonlyArray<TryGetToken<CoreTokenWithData>> = [
   parseIdentifier,
   parseIntegerType,
-  parseKeyword,
+  parseKeyword(coreParseKeywordOptions),
   parseNumberLiteral,
   parseOpenClose,
   parseStringLiteral

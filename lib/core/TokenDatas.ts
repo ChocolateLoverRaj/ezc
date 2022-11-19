@@ -1,14 +1,14 @@
 import IdentifierType from './IdentifierType'
-import KeyWord from './KeyWord'
 import OpenCloseType from './OpenCloseType'
 import TokenType from './TokenType'
+import EnumItem from './tryGetToken/EnumItem'
 
 interface TokenDatas {
   [TokenType.IDENTIFIER]: {
     type: IdentifierType
     name: string
   }
-  [TokenType.KEY_WORD]: KeyWord
+  [TokenType.KEY_WORD]: EnumItem
   [TokenType.NUMBER_LITERAL]: number
   [TokenType.INTEGER_TYPE]: number
   [TokenType.STRING_LITERAL]: string
