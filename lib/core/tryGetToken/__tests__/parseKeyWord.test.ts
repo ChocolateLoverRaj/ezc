@@ -71,3 +71,33 @@ test("doesn't parse if trailing letters", async () => {
     }
   })).resolves.toBeUndefined()
 })
+
+describe('custom options', () => {
+  test('custom single char keyword', async () => {
+    await expect(parseKeyword({
+      singleCharKeywords: {
+        '<': {
+          enum: KeyWord,
+          id: KeyWord.RETURN
+        }
+      },
+      letterKeywords: {}
+    })({
+      async * [Symbol.asyncIterator] () {
+        yield '<'
+      }
+    })).resolves.toEqual({
+      token: {
+        type: {
+          enum: TokenType,
+          id: TokenType.KEY_WORD
+        },
+        data: {
+          enum: KeyWord,
+          id: KeyWord.RETURN
+        }
+      },
+      length: 1
+    })
+  })
+})
