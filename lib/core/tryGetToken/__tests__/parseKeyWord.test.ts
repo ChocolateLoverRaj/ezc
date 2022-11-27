@@ -1,5 +1,5 @@
 import KeyWord from '../../KeyWord'
-import TokenType from '../../TokenType'
+import CoreTokenType from '../../CoreTokenType'
 import coreParseKeywordOptions from '../coreParseKeywordOptions'
 import parseKeyword from '../parseKeyword'
 
@@ -11,8 +11,8 @@ test('=', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.KEY_WORD
+        enum: CoreTokenType,
+        id: CoreTokenType.KEY_WORD
       },
       data: {
         enum: KeyWord,
@@ -31,8 +31,8 @@ test('ret', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.KEY_WORD
+        enum: CoreTokenType,
+        id: CoreTokenType.KEY_WORD
       },
       data: {
         enum: KeyWord,
@@ -51,8 +51,8 @@ test('getelementptr', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.KEY_WORD
+        enum: CoreTokenType,
+        id: CoreTokenType.KEY_WORD
       },
       data: {
         enum: KeyWord,
@@ -89,8 +89,8 @@ describe('custom options', () => {
     })).resolves.toEqual({
       token: {
         type: {
-          enum: TokenType,
-          id: TokenType.KEY_WORD
+          enum: CoreTokenType,
+          id: CoreTokenType.KEY_WORD
         },
         data: {
           enum: KeyWord,

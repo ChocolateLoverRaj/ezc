@@ -1,8 +1,7 @@
+import EnumItem from './EnumItem'
+
 interface TokenWithData {
-  type: {
-    enum: any
-    id: number
-  }
+  type: EnumItem
   data: any
 }
 

@@ -1,6 +1,6 @@
 import CoreTokensWithData from '../../CoreTokensWithData'
 import KeyWord from '../../KeyWord'
-import TokenType from '../../TokenType'
+import CoreTokenType from '../../CoreTokenType'
 import charAsyncIterable from '../charAsyncIterable'
 import coreTryers from '../coreTryers'
 import parseToken from '../parseToken'
@@ -14,8 +14,8 @@ test('string', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.STRING_LITERAL
+        enum: CoreTokenType,
+        id: CoreTokenType.STRING_LITERAL
       },
       data: 'Hello world!'
     },
@@ -31,8 +31,8 @@ test('leading space', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.NUMBER_LITERAL
+        enum: CoreTokenType,
+        id: CoreTokenType.NUMBER_LITERAL
       },
       data: 34
     },
@@ -48,8 +48,8 @@ test('leading newline', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.KEY_WORD
+        enum: CoreTokenType,
+        id: CoreTokenType.KEY_WORD
       },
       data: {
         enum: KeyWord,
@@ -61,15 +61,15 @@ test('leading newline', async () => {
 })
 
 test('custom tryer', async () => {
-  const parseLeftArrow: TryGetToken<CoreTokensWithData[TokenType.KEY_WORD]> = async stream => {
+  const parseLeftArrow: TryGetToken<CoreTokensWithData[CoreTokenType.KEY_WORD]> = async stream => {
     // eslint-disable-next-line no-unreachable-loop
     for await (const char of charAsyncIterable(stream)) {
       if (char === '<') {
         return {
           token: {
             type: {
-              enum: TokenType,
-              id: TokenType.KEY_WORD
+              enum: CoreTokenType,
+              id: CoreTokenType.KEY_WORD
             },
             data: {
               enum: KeyWord,
@@ -89,8 +89,8 @@ test('custom tryer', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.KEY_WORD
+        enum: CoreTokenType,
+        id: CoreTokenType.KEY_WORD
       },
       data: {
         enum: KeyWord,

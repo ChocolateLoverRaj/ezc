@@ -1,4 +1,4 @@
-import TokenType from '../../TokenType'
+import CoreTokenType from '../../CoreTokenType'
 import parseNumberLiteral from '../parseNumberLiteral'
 
 test('123', async () => {
@@ -9,8 +9,8 @@ test('123', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.NUMBER_LITERAL
+        enum: CoreTokenType,
+        id: CoreTokenType.NUMBER_LITERAL
       },
       data: 123
     },
@@ -26,8 +26,8 @@ test('3.0', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.NUMBER_LITERAL
+        enum: CoreTokenType,
+        id: CoreTokenType.NUMBER_LITERAL
       },
       data: 3.0
     },
@@ -43,8 +43,8 @@ test('-2', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.NUMBER_LITERAL
+        enum: CoreTokenType,
+        id: CoreTokenType.NUMBER_LITERAL
       },
       data: -2
     },

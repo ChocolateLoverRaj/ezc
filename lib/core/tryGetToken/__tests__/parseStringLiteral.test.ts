@@ -1,4 +1,4 @@
-import TokenType from '../../TokenType'
+import CoreTokenType from '../../CoreTokenType'
 import parseStringLiteral from '../parseStringLiteral'
 
 test('string', async () => {
@@ -9,8 +9,8 @@ test('string', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.STRING_LITERAL
+        enum: CoreTokenType,
+        id: CoreTokenType.STRING_LITERAL
       },
       data: 'Hello world!'
     },

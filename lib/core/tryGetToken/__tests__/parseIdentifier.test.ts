@@ -1,5 +1,5 @@
 import IdentifierType from '../../IdentifierType'
-import TokenType from '../../TokenType'
+import CoreTokenType from '../../CoreTokenType'
 import parseIdentifier from '../parseIdentifier'
 
 test('@0', async () => {
@@ -10,8 +10,8 @@ test('@0', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.IDENTIFIER
+        enum: CoreTokenType,
+        id: CoreTokenType.IDENTIFIER
       },
       data: {
         type: IdentifierType.AT,
@@ -30,8 +30,8 @@ test('@main', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.IDENTIFIER
+        enum: CoreTokenType,
+        id: CoreTokenType.IDENTIFIER
       },
       data: {
         type: IdentifierType.AT,
@@ -50,8 +50,8 @@ test('%0', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.IDENTIFIER
+        enum: CoreTokenType,
+        id: CoreTokenType.IDENTIFIER
       },
       data: {
         type: IdentifierType.PERCENT,

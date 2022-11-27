@@ -1,14 +1,14 @@
 import add from '../matcher/add'
 import create from '../matcher/create'
 import CoreTokensWithData from '../CoreTokensWithData'
-import TokenType from '../TokenType'
+import CoreTokenType from '../CoreTokenType'
 import charAsyncIterable from './charAsyncIterable'
 import TryGetToken from './TryGetToken'
 import ParseKeywordOptions from './ParseKeywordOptions'
 
 const parseKeyword = (
   { singleCharKeywords, letterKeywords }: ParseKeywordOptions
-): TryGetToken<CoreTokensWithData[TokenType.KEY_WORD]> => async stream => {
+): TryGetToken<CoreTokensWithData[CoreTokenType.KEY_WORD]> => async stream => {
   const matcher = create(Object.keys(letterKeywords))
   let exactMatch: number | undefined
   for await (const char of charAsyncIterable(stream)) {
@@ -19,8 +19,8 @@ const parseKeyword = (
           return {
             token: {
               type: {
-                enum: TokenType,
-                id: TokenType.KEY_WORD
+                enum: CoreTokenType,
+                id: CoreTokenType.KEY_WORD
               },
               data: letterKeywords[matcher.find[exactMatch]]
             },
@@ -34,8 +34,8 @@ const parseKeyword = (
           return {
             token: {
               type: {
-                enum: TokenType,
-                id: TokenType.KEY_WORD
+                enum: CoreTokenType,
+                id: CoreTokenType.KEY_WORD
               },
               data: singleCharKeywords[char]
             },
@@ -51,8 +51,8 @@ const parseKeyword = (
     return {
       token: {
         type: {
-          enum: TokenType,
-          id: TokenType.KEY_WORD
+          enum: CoreTokenType,
+          id: CoreTokenType.KEY_WORD
         },
         data: letterKeywords[matcher.find[exactMatch]]
       },

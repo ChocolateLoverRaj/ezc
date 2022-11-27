@@ -1,4 +1,4 @@
-import EnumItem from './EnumItem'
+import EnumItem from '../EnumItem'
 
 type Keywords = Record<string, EnumItem>
 

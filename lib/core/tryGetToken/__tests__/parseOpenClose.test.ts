@@ -1,5 +1,5 @@
 import OpenCloseType from '../../OpenCloseType'
-import TokenType from '../../TokenType'
+import CoreTokenType from '../../CoreTokenType'
 import parseOpenClose from '../parseOpenClose'
 
 test('(', async () => {
@@ -10,8 +10,8 @@ test('(', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.OPEN_CLOSE
+        enum: CoreTokenType,
+        id: CoreTokenType.OPEN_CLOSE
       },
       data: {
         type: OpenCloseType.PARENTHESIS,
@@ -30,8 +30,8 @@ test(')', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.OPEN_CLOSE
+        enum: CoreTokenType,
+        id: CoreTokenType.OPEN_CLOSE
       },
       data: {
         type: OpenCloseType.PARENTHESIS,
@@ -50,8 +50,8 @@ test('[', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.OPEN_CLOSE
+        enum: CoreTokenType,
+        id: CoreTokenType.OPEN_CLOSE
       },
       data: {
         type: OpenCloseType.BRACKET,

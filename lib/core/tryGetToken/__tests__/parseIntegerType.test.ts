@@ -1,4 +1,4 @@
-import TokenType from '../../TokenType'
+import CoreTokenType from '../../CoreTokenType'
 import parseIntegerType from '../parseIntegerType'
 
 test('i1', async () => {
@@ -9,8 +9,8 @@ test('i1', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.INTEGER_TYPE
+        enum: CoreTokenType,
+        id: CoreTokenType.INTEGER_TYPE
       },
       data: 1
     },
@@ -26,8 +26,8 @@ test('i32', async () => {
   })).resolves.toEqual({
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.INTEGER_TYPE
+        enum: CoreTokenType,
+        id: CoreTokenType.INTEGER_TYPE
       },
       data: 32
     },

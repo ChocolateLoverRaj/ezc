@@ -1,9 +1,9 @@
 import CoreTokensWithData from '../CoreTokensWithData'
-import TokenType from '../TokenType'
+import CoreTokenType from '../CoreTokenType'
 import charAsyncIterable from './charAsyncIterable'
 import TryGetToken from './TryGetToken'
 
-const parseNumberLiteral: TryGetToken<CoreTokensWithData[TokenType.NUMBER_LITERAL]> =
+const parseNumberLiteral: TryGetToken<CoreTokensWithData[CoreTokenType.NUMBER_LITERAL]> =
   async stream => {
     const iterable = charAsyncIterable(stream)
     let number = ''
@@ -23,8 +23,8 @@ const parseNumberLiteral: TryGetToken<CoreTokensWithData[TokenType.NUMBER_LITERA
     return {
       token: {
         type: {
-          enum: TokenType,
-          id: TokenType.NUMBER_LITERAL
+          enum: CoreTokenType,
+          id: CoreTokenType.NUMBER_LITERAL
         },
         data: parseFloat(number)
       },

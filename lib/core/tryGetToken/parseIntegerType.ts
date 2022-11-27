@@ -1,9 +1,9 @@
 import CoreTokensWithData from '../CoreTokensWithData'
-import TokenType from '../TokenType'
+import CoreTokenType from '../CoreTokenType'
 import charAsyncIterable from './charAsyncIterable'
 import TryGetToken from './TryGetToken'
 
-const parseIntegerType: TryGetToken<CoreTokensWithData[TokenType.INTEGER_TYPE]> = async stream => {
+const parseIntegerType: TryGetToken<CoreTokensWithData[CoreTokenType.INTEGER_TYPE]> = async stream => {
   const iterator = charAsyncIterable(stream)[Symbol.asyncIterator]()
   {
     const { value, done } = await iterator.next()
@@ -25,8 +25,8 @@ const parseIntegerType: TryGetToken<CoreTokensWithData[TokenType.INTEGER_TYPE]> 
   return {
     token: {
       type: {
-        enum: TokenType,
-        id: TokenType.INTEGER_TYPE
+        enum: CoreTokenType,
+        id: CoreTokenType.INTEGER_TYPE
       },
       data: parseInt(number)
     },

@@ -1,13 +1,13 @@
-import TokenDatas from './TokenDatas'
-import TokenType from './TokenType'
+import CoreTokenDatas from './CoreTokenDatas'
+import CoreTokenType from './CoreTokenType'
 
 type CoreTokensWithData = {
-  [K in keyof TokenDatas]: {
+  [K in keyof CoreTokenDatas]: {
     type: {
-      enum: typeof TokenType
-      id: TokenType
+      enum: typeof CoreTokenType
+      id: CoreTokenType
     }
-    data: TokenDatas[K]
+    data: CoreTokenDatas[K]
   }
 }
 

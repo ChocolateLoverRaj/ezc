@@ -1,4 +1,4 @@
-enum TokenType {
+enum CoreTokenType {
   IDENTIFIER,
   NUMBER_LITERAL,
   INTEGER_TYPE,
@@ -8,4 +8,4 @@ enum TokenType {
   OPEN_CLOSE
 }
 
-export default TokenType
+export default CoreTokenType

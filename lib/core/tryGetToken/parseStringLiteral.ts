@@ -1,9 +1,9 @@
-import TokenType from '../TokenType'
+import CoreTokenType from '../CoreTokenType'
 import TryGetToken from './TryGetToken'
 import charAsyncIterable from './charAsyncIterable'
 import CoreTokensWithData from '../CoreTokensWithData'
 
-const parseStringLiteral: TryGetToken<CoreTokensWithData[TokenType.STRING_LITERAL]> =
+const parseStringLiteral: TryGetToken<CoreTokensWithData[CoreTokenType.STRING_LITERAL]> =
   async stream => {
     const iterator = charAsyncIterable(stream)[Symbol.asyncIterator]()
     {
@@ -24,8 +24,8 @@ const parseStringLiteral: TryGetToken<CoreTokensWithData[TokenType.STRING_LITERA
         return {
           token: {
             type: {
-              enum: TokenType,
-              id: TokenType.STRING_LITERAL
+              enum: CoreTokenType,
+              id: CoreTokenType.STRING_LITERAL
             },
             data: string
           },
