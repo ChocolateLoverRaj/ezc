@@ -8,7 +8,7 @@ import CoreTypeType from '../CoreTypeType'
 import ParsedNode from '../ParsedNode'
 import parsePointerType from '../parsePointerType'
 
-test('i64', async () => {
+test('ptr', async () => {
   const pointerTypeData: CoreTypesWithData[CoreTypeType.POINTER] = {
     type: {
       enum: CoreTypeType,

@@ -7,7 +7,7 @@ import CoreTypeType from './CoreTypeType'
 import TryParseNode from './TryParseNode'
 import EnumItem from '../EnumItem'
 
-const parseIntegerType: TryParseNode<CoreNodesWithData[CoreNodeType.TYPE]> = async stream => {
+const parsePointerType: TryParseNode<CoreNodesWithData[CoreNodeType.TYPE]> = async stream => {
   const iterator = stream[Symbol.asyncIterator]()
   const { value, done } = await iterator.next()
   if (done === true) return
@@ -37,4 +37,4 @@ const parseIntegerType: TryParseNode<CoreNodesWithData[CoreNodeType.TYPE]> = asy
   }
 }
 
-export default parseIntegerType
+export default parsePointerType
