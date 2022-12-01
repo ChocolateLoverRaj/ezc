@@ -1,5 +1,5 @@
 ; Have to put string up here because we can't put it inside the main function / it doesn't make sense
-@.str = private unnamed_addr constant [4 x i8] c"%i\0A\00", align 1
+@.str = private unnamed_addr constant [4 x i8] c"%i\0A\00"
 
 %struct.S = type { i32, i32 }
 
