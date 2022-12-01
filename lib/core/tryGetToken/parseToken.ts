@@ -1,10 +1,10 @@
-import TokenWithData from '../TokenWithData'
+import CoreTokenWithData from '../CoreTokenWithData'
 import TryGetToken from './TryGetToken'
 
 const parseToken =
-  <T extends TokenWithData[]>(
+  <T extends CoreTokenWithData[]>(
     tryers: ReadonlyArray<TryGetToken<T[number]>>
-  ): TryGetToken<TokenWithData> => async stream => {
+  ): TryGetToken<CoreTokenWithData> => async stream => {
     for (const tryer of tryers) {
       let skippedWhitespace = 0
       const parsedToken = await tryer({

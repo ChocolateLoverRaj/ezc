@@ -5,7 +5,7 @@ enum KeyWord {
   ALIGN,
   DECLARE,
   DEFINE,
-  ASTERISK,
+  PTR,
   GET_ELEMENT_PTR,
   INBOUNDS,
   X,
