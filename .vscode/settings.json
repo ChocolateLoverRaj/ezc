@@ -15,6 +15,9 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "files.associations": {
     "uv.h": "c",
-    "stddef.h": "c"
+    "stddef.h": "c",
+    "*.tcc": "c",
+    "istream": "c",
+    "ostream": "c"
   }
 }

@@ -10,7 +10,7 @@ samples/sum/*.s
 samples/sum/*.so
 samples/sum/*.exe
 samples/sum/*.dll
-
+samples/cat/*.exe
 samples/hello-world/*.exe
 
 samples/libuv/**/*.exe

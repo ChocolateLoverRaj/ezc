@@ -1,3 +1,4 @@
+import EnumItem from '../EnumItem'
 import CoreNodeType from './CoreNodeType'
 import FunctionTypeData from './FunctionTypeData'
 
@@ -6,13 +7,14 @@ interface CoreNodeDatas {
     name: string
     inputNames: string[]
     type: FunctionTypeData
+    inside: any
   }
   [CoreNodeType.DECLARE]: {
     name: string
     type: FunctionTypeData
   }
   [CoreNodeType.TYPE]: {
-    type: any
+    type: EnumItem
     data: any
   }
 }
