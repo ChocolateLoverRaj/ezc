@@ -2,7 +2,9 @@ enum CoreNodeType {
   FILE,
   DECLARE,
   FUNCTION,
-  TYPE
+  TYPE,
+  VARIABLE,
+  STRING
 }
 
 export default CoreNodeType
