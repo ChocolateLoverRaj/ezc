@@ -1,4 +1,6 @@
 import EnumItemWithData from '../EnumItemWithData'
+import IdentifierType from '../IdentifierType'
+import CoreNodesWithData from './CoreNodesWithData'
 import CoreNodeType from './CoreNodeType'
 import FloatType from './FloatType'
 import FunctionTypeData from './FunctionTypeData'
@@ -15,13 +17,12 @@ interface CoreNodeDatas {
     name: string
     type: FunctionTypeData
   }
-  [CoreNodeType.VARIABLE]: {
-    global: boolean
+  [CoreNodeType.GLOBAL_VARIABLE]: {
     constant: boolean
     align: number | undefined
     unnamed_addr: boolean
     linkage: Linkage
-    name: string
+    identifier: CoreNodesWithData[CoreNodeType.IDENTIFIER]
     type: EnumItemWithData
     value: any
   }
@@ -34,6 +35,10 @@ interface CoreNodeDatas {
     length: number
   }
   [CoreNodeType.STRUCT_TYPE]: EnumItemWithData[]
+  [CoreNodeType.IDENTIFIER]: {
+    type: IdentifierType
+    name: string
+  }
 }
 
 export default CoreNodeDatas

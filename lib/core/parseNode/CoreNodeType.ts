@@ -3,12 +3,13 @@ enum CoreNodeType {
   DECLARE,
   FUNCTION,
   INTEGER_TYPE,
-  VARIABLE,
+  GLOBAL_VARIABLE,
   STRING,
   FLOAT_TYPE,
   POINTER_TYPE,
   ARRAY_TYPE,
-  STRUCT_TYPE
+  STRUCT_TYPE,
+  IDENTIFIER
 }
 
 export default CoreNodeType
