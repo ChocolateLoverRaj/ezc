@@ -9,7 +9,8 @@ enum CoreNodeType {
   POINTER_TYPE,
   ARRAY_TYPE,
   STRUCT_TYPE,
-  IDENTIFIER
+  IDENTIFIER,
+  NUMBER
 }
 
 export default CoreNodeType

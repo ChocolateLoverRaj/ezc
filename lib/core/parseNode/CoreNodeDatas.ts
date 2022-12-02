@@ -39,6 +39,7 @@ interface CoreNodeDatas {
     type: IdentifierType
     name: string
   }
+  [CoreNodeType.NUMBER]: number
 }
 
 export default CoreNodeDatas
