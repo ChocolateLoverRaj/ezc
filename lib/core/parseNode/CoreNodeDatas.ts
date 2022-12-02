@@ -1,6 +1,8 @@
 import EnumItem from '../EnumItem'
+import EnumItemWithData from '../EnumItemWithData'
 import CoreNodesWithData from './CoreNodesWithData'
 import CoreNodeType from './CoreNodeType'
+import FloatType from './FloatType'
 import FunctionTypeData from './FunctionTypeData'
 import Linkage from './Linkage'
 
@@ -15,10 +17,6 @@ interface CoreNodeDatas {
     name: string
     type: FunctionTypeData
   }
-  [CoreNodeType.TYPE]: {
-    type: EnumItem
-    data: any
-  }
   [CoreNodeType.VARIABLE]: {
     global: boolean
     constant: boolean
@@ -26,10 +24,18 @@ interface CoreNodeDatas {
     unnamed_addr: boolean
     linkage: Linkage
     name: string
-    type: CoreNodesWithData[CoreNodeType.TYPE]
+    type: EnumItemWithData
     value: any
   }
   [CoreNodeType.STRING]: string
+  [CoreNodeType.INTEGER_TYPE]: number
+  [CoreNodeType.FLOAT_TYPE]: FloatType
+  [CoreNodeType.POINTER_TYPE]: undefined
+  [CoreNodeType.ARRAY_TYPE]: {
+    itemsType: EnumItemWithData
+    length: number
+  }
+  [CoreNodeType.STRUCT_TYPE]: EnumItemWithData[]
 }
 
 export default CoreNodeDatas

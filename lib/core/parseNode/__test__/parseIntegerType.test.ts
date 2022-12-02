@@ -3,25 +3,16 @@ import CoreTokenType from '../../CoreTokenType'
 import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
 import parseIntegerType from '../parseIntegerType'
-import CoreTypesWithData from '../CoreTypesWithData'
-import CoreTypeType from '../CoreTypeType'
 import ParsedNode from '../ParsedNode'
 
 test('i64', async () => {
-  const integerTypeData: CoreTypesWithData[CoreTypeType.INTEGER] = {
-    type: {
-      enum: CoreTypeType,
-      id: CoreTypeType.INTEGER
-    },
-    data: 64
-  }
-  const expected: ParsedNode<CoreNodesWithData[CoreNodeType.TYPE]> = {
+  const expected: ParsedNode<CoreNodesWithData[CoreNodeType.INTEGER_TYPE]> = {
     node: {
       type: {
         enum: CoreNodeType,
-        id: CoreNodeType.TYPE
+        id: CoreNodeType.INTEGER_TYPE
       },
-      data: integerTypeData
+      data: 64
     },
     length: 1
   }

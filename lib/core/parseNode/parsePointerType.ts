@@ -2,12 +2,10 @@ import CoreTokenType from '../CoreTokenType'
 import KeyWord from '../KeyWord'
 import CoreNodesWithData from './CoreNodesWithData'
 import CoreNodeType from './CoreNodeType'
-import CoreTypeWithData from './CoreTypesWithData'
-import CoreTypeType from './CoreTypeType'
 import TryParseNode from './TryParseNode'
 import EnumItem from '../EnumItem'
 
-const parsePointerType: TryParseNode<CoreNodesWithData[CoreNodeType.TYPE]> = async stream => {
+const parsePointerType: TryParseNode<CoreNodesWithData[CoreNodeType.POINTER_TYPE]> = async stream => {
   const iterator = stream[Symbol.asyncIterator]()
   const { value, done } = await iterator.next()
   if (done === true) return
@@ -18,20 +16,13 @@ const parsePointerType: TryParseNode<CoreNodesWithData[CoreNodeType.TYPE]> = asy
     (value.data as EnumItem).id === KeyWord.PTR)) {
     return
   }
-  const typeData: CoreTypeWithData[CoreTypeType.POINTER] = {
-    type: {
-      enum: CoreTypeType,
-      id: CoreTypeType.POINTER
-    },
-    data: undefined
-  }
   return {
     node: {
       type: {
         enum: CoreNodeType,
-        id: CoreNodeType.TYPE
+        id: CoreNodeType.POINTER_TYPE
       },
-      data: typeData
+      data: undefined
     },
     length: 1
   }

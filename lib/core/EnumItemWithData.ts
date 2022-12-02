@@ -1,8 +1,8 @@
 import EnumItem from './EnumItem'
 
-interface TokenWithData {
+interface EnumItemWithData {
   type: EnumItem
   data: any
 }
 
-export default TokenWithData
+export default EnumItemWithData

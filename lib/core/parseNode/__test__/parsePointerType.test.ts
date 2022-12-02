@@ -3,26 +3,17 @@ import CoreTokenType from '../../CoreTokenType'
 import KeyWord from '../../KeyWord'
 import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
-import CoreTypesWithData from '../CoreTypesWithData'
-import CoreTypeType from '../CoreTypeType'
 import ParsedNode from '../ParsedNode'
 import parsePointerType from '../parsePointerType'
 
 test('ptr', async () => {
-  const pointerTypeData: CoreTypesWithData[CoreTypeType.POINTER] = {
-    type: {
-      enum: CoreTypeType,
-      id: CoreTypeType.POINTER
-    },
-    data: undefined
-  }
-  const expected: ParsedNode<CoreNodesWithData[CoreNodeType.TYPE]> = {
+  const expected: ParsedNode<CoreNodesWithData[CoreNodeType.POINTER_TYPE]> = {
     node: {
       type: {
         enum: CoreNodeType,
-        id: CoreNodeType.TYPE
+        id: CoreNodeType.POINTER_TYPE
       },
-      data: pointerTypeData
+      data: undefined
     },
     length: 1
   }

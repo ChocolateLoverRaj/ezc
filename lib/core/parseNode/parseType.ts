@@ -4,7 +4,7 @@ import TryParseNode from './TryParseNode'
 import TypeParser from './TypeParser'
 
 const parseType = (typeParsers: readonly TypeParser[]):
-TryParseNode<CoreNodeDatas[CoreNodeType.TYPE]> => async stream => {
+TryParseNode<any> => async stream => {
   for (const typeParser of typeParsers) {
     const parsedNode = await typeParser(stream)
     if (parsedNode !== undefined) return parsedNode

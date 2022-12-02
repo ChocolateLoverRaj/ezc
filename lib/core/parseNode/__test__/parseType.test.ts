@@ -1,5 +1,3 @@
-import CoreTypeType from '../CoreTypeType'
-import CoreTypesWithData from '../CoreTypesWithData'
 import ParsedNode from '../ParsedNode'
 import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
@@ -10,20 +8,13 @@ import KeyWord from '../../KeyWord'
 import coreTypeParsers from '../coreTypeParsers'
 
 test('ptr', async () => {
-  const pointerTypeData: CoreTypesWithData[CoreTypeType.POINTER] = {
-    type: {
-      enum: CoreTypeType,
-      id: CoreTypeType.POINTER
-    },
-    data: undefined
-  }
-  const expected: ParsedNode<CoreNodesWithData[CoreNodeType.TYPE]> = {
+  const expected: ParsedNode<CoreNodesWithData[CoreNodeType.POINTER_TYPE]> = {
     node: {
       type: {
         enum: CoreNodeType,
-        id: CoreNodeType.TYPE
+        id: CoreNodeType.POINTER_TYPE
       },
-      data: pointerTypeData
+      data: undefined
     },
     length: 1
   }
@@ -45,20 +36,13 @@ test('ptr', async () => {
 })
 
 test('i8', async () => {
-  const integerTypeData: CoreTypesWithData[CoreTypeType.INTEGER] = {
-    type: {
-      enum: CoreTypeType,
-      id: CoreTypeType.INTEGER
-    },
-    data: 8
-  }
-  const expected: ParsedNode<CoreNodesWithData[CoreNodeType.TYPE]> = {
+  const expected: ParsedNode<CoreNodesWithData[CoreNodeType.INTEGER_TYPE]> = {
     node: {
       type: {
         enum: CoreNodeType,
-        id: CoreNodeType.TYPE
+        id: CoreNodeType.INTEGER_TYPE
       },
-      data: integerTypeData
+      data: 8
     },
     length: 1
   }
