@@ -1,7 +1,7 @@
 import ParsedNode from '../ParsedNode'
 import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
-import parseType from '../parseType'
+import tryNodeParsers from '../tryNodeParsers'
 import CoreTokensWithData from '../../CoreTokensWithData'
 import CoreTokenType from '../../CoreTokenType'
 import KeyWord from '../../KeyWord'
@@ -18,7 +18,7 @@ test('ptr', async () => {
     },
     length: 1
   }
-  await expect(parseType(coreTypeParsers)({
+  await expect(tryNodeParsers(coreTypeParsers)({
     async * [Symbol.asyncIterator] () {
       const token: CoreTokensWithData[CoreTokenType.KEY_WORD] = {
         type: {
@@ -46,7 +46,7 @@ test('i8', async () => {
     },
     length: 1
   }
-  await expect(parseType(coreTypeParsers)({
+  await expect(tryNodeParsers(coreTypeParsers)({
     async * [Symbol.asyncIterator] () {
       const token: CoreTokensWithData[CoreTokenType.INTEGER_TYPE] = {
         type: {
