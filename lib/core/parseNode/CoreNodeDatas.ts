@@ -1,6 +1,4 @@
-import EnumItem from '../EnumItem'
 import EnumItemWithData from '../EnumItemWithData'
-import CoreNodesWithData from './CoreNodesWithData'
 import CoreNodeType from './CoreNodeType'
 import FloatType from './FloatType'
 import FunctionTypeData from './FunctionTypeData'
