@@ -1,10 +1,11 @@
 import CoreTokenWithData from '../CoreTokenWithData'
+import EnumItemWithData from '../EnumItemWithData'
 import TryGetToken from './TryGetToken'
 
 const parseToken =
   <T extends CoreTokenWithData[]>(
     tryers: ReadonlyArray<TryGetToken<T[number]>>
-  ): TryGetToken<CoreTokenWithData> => async stream => {
+  ): TryGetToken<EnumItemWithData> => async stream => {
     for (const tryer of tryers) {
       let skippedWhitespace = 0
       const parsedToken = await tryer({
