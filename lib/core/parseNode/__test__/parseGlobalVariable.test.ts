@@ -6,9 +6,11 @@ import OpenCloseType from '../../OpenCloseType'
 import ConstantOrGlobal from '../ConstantOrGlobal'
 import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
+import coreTypeParsers from '../coreTypeParsers'
+import coreValueParsers from '../coreValueParsers'
 import Linkage from '../Linkage'
 import ParsedNode from '../ParsedNode'
-import parseGlobalVariable from '../parseGlobalVariable'
+import parseGlobalVariable from '../parseGlobalVariable/parseGlobalVariable'
 
 test('@0 = private unnamed_addr constant [13 x i8] c"Hello World!\\00"', async () => {
   const expected: ParsedNode<CoreNodesWithData[CoreNodeType.GLOBAL_VARIABLE]> = {
@@ -60,6 +62,9 @@ test('@0 = private unnamed_addr constant [13 x i8] c"Hello World!\\00"', async (
     length: 11
   }
   await expect(parseGlobalVariable({
+    typeParsers: coreTypeParsers,
+    valueParsers: coreValueParsers
+  })({
     async * [Symbol.asyncIterator] () {
       const identifier: CoreTokensWithData[CoreTokenType.IDENTIFIER] = {
         type: {

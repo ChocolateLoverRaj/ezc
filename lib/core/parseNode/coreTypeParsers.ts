@@ -3,10 +3,13 @@ import parseIntegerType from './parseIntegerType'
 import parsePointerType from './parsePointerType'
 import TypeParser from './TypeParser'
 
-const coreTypeParsers: TypeParser[] = [
-  parseIntegerType,
-  parsePointerType
-]
-coreTypeParsers.push(parseArrayType(coreTypeParsers))
+const coreTypeParsers = ((): readonly TypeParser[] => {
+  const coreTypeParsers: TypeParser[] = [
+    parseIntegerType,
+    parsePointerType
+  ]
+  coreTypeParsers.push(parseArrayType(coreTypeParsers))
+  return coreTypeParsers
+})()
 
-export default coreTypeParsers as readonly TypeParser[]
+export default coreTypeParsers
