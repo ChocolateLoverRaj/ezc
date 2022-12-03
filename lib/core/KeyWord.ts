@@ -12,7 +12,8 @@ enum KeyWord {
   RETURN,
   EQUALS,
   COLON,
-  ENTRY_BLOCK
+  ENTRY_BLOCK,
+  GLOBAL
 }
 
 export default KeyWord

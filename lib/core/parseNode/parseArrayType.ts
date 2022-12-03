@@ -2,7 +2,7 @@ import CoreTokenDatas from '../CoreTokenDatas'
 import CoreTokenType from '../CoreTokenType'
 import KeyWord from '../KeyWord'
 import OpenCloseType from '../OpenCloseType'
-import splitAsyncIterator from '../splitAsyncIterator'
+import splitAsyncIterator from '../splitAsyncIterator/splitAsyncIterator'
 import CoreNodeType from './CoreNodeType'
 import tryNodeParsers from './tryNodeParsers'
 import TypeParser from './TypeParser'
@@ -33,7 +33,8 @@ const parseArrayType = (typeParsers: readonly TypeParser[]): TypeParser => async
     const data = value.data as CoreTokenDatas[CoreTokenType.KEY_WORD]
     if (!(data.enum === KeyWord && data.id === KeyWord.X)) return
   }
-  const itemsType = await tryNodeParsers(typeParsers)(splitAsyncIterator(asyncIterator))
+  const itemsType = await tryNodeParsers(
+    typeParsers)(splitAsyncIterator(asyncIterator).asyncIterable)
   if (itemsType === undefined) return
   {
     const { value, done } = await asyncIterator.next()

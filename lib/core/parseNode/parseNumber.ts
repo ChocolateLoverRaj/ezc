@@ -8,7 +8,7 @@ const parseNumber: TryParseNode<CoreNodesWithData[CoreNodeType.NUMBER]> = async 
   const asyncIterator = stream[Symbol.asyncIterator]()
   const { done, value } = await asyncIterator.next()
   if (done === true) return
-  if (value.type.id !== CoreTokenType.NUMBER_LITERAL) return
+  if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.NUMBER_LITERAL)) return
   return {
     node: {
       type: {

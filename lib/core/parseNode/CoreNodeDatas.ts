@@ -4,6 +4,7 @@ import CoreNodesWithData from './CoreNodesWithData'
 import CoreNodeType from './CoreNodeType'
 import FloatType from './FloatType'
 import FunctionTypeData from './FunctionTypeData'
+import ConstantOrGlobal from './ConstantOrGlobal'
 import Linkage from './Linkage'
 
 interface CoreNodeDatas {
@@ -18,13 +19,13 @@ interface CoreNodeDatas {
     type: FunctionTypeData
   }
   [CoreNodeType.GLOBAL_VARIABLE]: {
-    constant: boolean
+    constantOrGlobal: ConstantOrGlobal
     align: number | undefined
     unnamed_addr: boolean
     linkage: Linkage
     identifier: CoreNodesWithData[CoreNodeType.IDENTIFIER]
     type: EnumItemWithData
-    value: any
+    value: EnumItemWithData
   }
   [CoreNodeType.STRING]: string
   [CoreNodeType.INTEGER_TYPE]: number
