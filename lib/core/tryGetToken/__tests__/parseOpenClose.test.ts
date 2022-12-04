@@ -1,6 +1,7 @@
 import OpenCloseType from '../../OpenCloseType'
 import CoreTokenType from '../../CoreTokenType'
 import parseOpenClose from '../parseOpenClose'
+import arrayToAsyncIterable from '../../arrayToAsyncIterable'
 
 test('(', async () => {
   await expect(parseOpenClose({
@@ -60,4 +61,8 @@ test('[', async () => {
     },
     length: 1
   })
+})
+
+test(',', async () => {
+  await expect(parseOpenClose(arrayToAsyncIterable([',']))).resolves.toBeUndefined()
 })

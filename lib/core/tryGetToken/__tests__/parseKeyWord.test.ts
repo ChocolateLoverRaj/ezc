@@ -2,6 +2,7 @@ import KeyWord from '../../KeyWord'
 import CoreTokenType from '../../CoreTokenType'
 import coreParseKeywordOptions from '../coreParseKeywordOptions'
 import parseKeyword from '../parseKeyword'
+import arrayToAsyncIterable from '../../arrayToAsyncIterable'
 
 test('=', async () => {
   await expect(parseKeyword(coreParseKeywordOptions)({
@@ -100,4 +101,38 @@ describe('custom options', () => {
       length: 1
     })
   })
+})
+
+test(',', async () => {
+  await expect(parseKeyword(coreParseKeywordOptions)(
+    arrayToAsyncIterable([',']))).resolves.toEqual({
+    token: {
+      type: {
+        enum: CoreTokenType,
+        id: CoreTokenType.KEY_WORD
+      },
+      data: {
+        enum: KeyWord,
+        id: KeyWord.COMMA
+      }
+    },
+    length: 1
+  })
+})
+
+test('empty chunk', async () => {
+  await expect(parseKeyword(coreParseKeywordOptions)(arrayToAsyncIterable(['', ','])))
+    .resolves.toEqual({
+      token: {
+        type: {
+          enum: CoreTokenType,
+          id: CoreTokenType.KEY_WORD
+        },
+        data: {
+          enum: KeyWord,
+          id: KeyWord.COMMA
+        }
+      },
+      length: 1
+    })
 })

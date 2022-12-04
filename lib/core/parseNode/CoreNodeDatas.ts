@@ -41,6 +41,7 @@ interface CoreNodeDatas {
     name: string
   }
   [CoreNodeType.NUMBER]: number
+  [CoreNodeType.VOID_TYPE]: undefined
 }
 
 export default CoreNodeDatas

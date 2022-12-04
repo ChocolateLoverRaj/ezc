@@ -8,7 +8,7 @@ import ParseKeywordOptions from './ParseKeywordOptions'
 
 const parseKeyword = (
   { singleCharKeywords, letterKeywords }: ParseKeywordOptions
-): TryGetToken<CoreTokensWithData[CoreTokenType.KEY_WORD]> => async stream => {
+): TryGetToken<CoreTokensWithData[CoreTokenType.KEY_WORD]> => async function hello (stream) {
   const matcher = create(Object.keys(letterKeywords))
   let exactMatch: number | undefined
   for await (const char of charAsyncIterable(stream)) {
@@ -29,18 +29,16 @@ const parseKeyword = (
         } else {
           return
         }
-      } else {
-        if (Object.keys(singleCharKeywords).includes(char)) {
-          return {
-            token: {
-              type: {
-                enum: CoreTokenType,
-                id: CoreTokenType.KEY_WORD
-              },
-              data: singleCharKeywords[char]
+      } else if (matcher.index === 1 && Object.keys(singleCharKeywords).includes(char)) {
+        return {
+          token: {
+            type: {
+              enum: CoreTokenType,
+              id: CoreTokenType.KEY_WORD
             },
-            length: 1
-          }
+            data: singleCharKeywords[char]
+          },
+          length: 1
         }
       }
     } else {

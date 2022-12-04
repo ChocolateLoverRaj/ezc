@@ -3,6 +3,8 @@
   "words": [
     "Datas",
     "getelementptr",
+    "noalias",
+    "nocapture",
     "tryer",
     "tryers"
   ]

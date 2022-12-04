@@ -13,12 +13,17 @@ const coreLetterKeywords: Record<string, KeyWord> = {
   getelementptr: KeyWord.GET_ELEMENT_PTR,
   inbounds: KeyWord.INBOUNDS,
   ret: KeyWord.RETURN,
-  ptr: KeyWord.PTR
+  ptr: KeyWord.PTR,
+  global: KeyWord.GLOBAL,
+  nocapture: KeyWord.NO_CAPTURE,
+  noalias: KeyWord.NO_ALIAS,
+  void: KeyWord.VOID
 }
 
 const coreSingleCharKeywords: Record<string, KeyWord> = {
   '=': KeyWord.EQUALS,
-  ':': KeyWord.COLON
+  ':': KeyWord.COLON,
+  ',': KeyWord.COMMA
 }
 
 const convertToKeywords = (coreKeywords: Record<string, KeyWord>): Keywords =>

@@ -13,7 +13,11 @@ enum KeyWord {
   EQUALS,
   COLON,
   ENTRY_BLOCK,
-  GLOBAL
+  GLOBAL,
+  NO_CAPTURE,
+  NO_ALIAS,
+  COMMA,
+  VOID
 }
 
 export default KeyWord

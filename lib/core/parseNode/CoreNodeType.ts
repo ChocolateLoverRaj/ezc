@@ -10,7 +10,8 @@ enum CoreNodeType {
   ARRAY_TYPE,
   STRUCT_TYPE,
   IDENTIFIER,
-  NUMBER
+  NUMBER,
+  VOID_TYPE
 }
 
 export default CoreNodeType

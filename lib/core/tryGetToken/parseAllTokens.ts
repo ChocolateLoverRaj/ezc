@@ -1,4 +1,5 @@
 import EnumItemWithData from '../EnumItemWithData'
+import isStreamWhitespace from '../isStreamWhitespace'
 import skip from '../splitAsyncIterator/skip'
 import splitAsyncIterator from '../splitAsyncIterator/splitAsyncIterator'
 import parseToken from './parseToken'
@@ -10,16 +11,19 @@ const parseAllTokens = (tryers: ReadonlyArray<TryGetToken<EnumItemWithData>>) =>
   const splittedIterator = splitAsyncIterator(asyncIterable[Symbol.asyncIterator]())
   let chunkBefore = ''
   while (true) {
-    const token = await parseToken(tryers)({
+    const asyncIterable: AsyncIterable<string> = {
       async * [Symbol.asyncIterator] () {
         yield chunkBefore
         for await (const chunk of splittedIterator.asyncIterable) {
           yield chunk
         }
       }
-    })
+    }
+    const token = await parseToken(tryers)(asyncIterable)
     if (token === undefined) {
-      yield undefined
+      // If the string wasn't empty don't yield undefined because it means something couldn't be
+      // parsed
+      if (!await isStreamWhitespace(asyncIterable)) yield undefined
       return
     }
     yield token.token

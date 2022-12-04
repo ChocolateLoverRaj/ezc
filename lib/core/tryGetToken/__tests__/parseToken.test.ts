@@ -5,6 +5,7 @@ import charAsyncIterable from '../charAsyncIterable'
 import coreTryers from '../coreTryers'
 import parseToken from '../parseToken'
 import TryGetToken from '../TryGetToken'
+import arrayToAsyncIterable from '../../arrayToAsyncIterable'
 
 test('string', async () => {
   await expect(parseToken(coreTryers)({
@@ -95,6 +96,22 @@ test('custom tryer', async () => {
       data: {
         enum: KeyWord,
         id: KeyWord.RETURN
+      }
+    },
+    length: 1
+  })
+})
+
+test('empty chunk', async () => {
+  await expect(parseToken(coreTryers)(arrayToAsyncIterable(['', ',']))).resolves.toEqual({
+    token: {
+      type: {
+        enum: CoreTokenType,
+        id: CoreTokenType.KEY_WORD
+      },
+      data: {
+        enum: KeyWord,
+        id: KeyWord.COMMA
       }
     },
     length: 1
