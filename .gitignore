@@ -11,7 +11,8 @@ samples/sum/*.exe
 samples/sum/*.dll
 samples/cat/*.exe
 samples/struct/*.exe
-samples/hello-world/*.exe
+
+samples/llvm/**/*.exe
 
 samples/libuv/**/*.exe
 
