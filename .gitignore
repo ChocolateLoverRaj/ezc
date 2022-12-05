@@ -5,7 +5,6 @@ package-lock.json
 .codesandbox
 .log
 
-samples/sum/*.ll
 samples/sum/*.s
 samples/sum/*.so
 samples/sum/*.exe
