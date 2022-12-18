@@ -9,12 +9,12 @@ import parseStringLiteral from './parseStringLiteral'
 import TryGetToken from './TryGetToken'
 
 const coreTryers: ReadonlyArray<TryGetToken<CoreTokenWithData>> = [
-  parseIdentifier,
   parseIntegerType,
   parseKeyword(coreParseKeywordOptions),
   parseNumberLiteral,
   parseOpenClose,
-  parseStringLiteral
+  parseStringLiteral,
+  parseIdentifier
 ] as const
 
 export default coreTryers

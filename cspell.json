@@ -5,6 +5,7 @@
     "getelementptr",
     "noalias",
     "nocapture",
+    "nofree",
     "tryer",
     "tryers"
   ]

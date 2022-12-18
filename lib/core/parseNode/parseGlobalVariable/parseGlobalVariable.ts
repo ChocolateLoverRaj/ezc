@@ -1,6 +1,6 @@
 import CoreTokenDatas from '../../CoreTokenDatas'
 import CoreTokenType from '../../CoreTokenType'
-import KeyWord from '../../KeyWord'
+import CoreKeyWord from '../../CoreKeyWord'
 import skip from '../../splitAsyncIterator/skip'
 import splitAsyncIterator from '../../splitAsyncIterator/splitAsyncIterator'
 import ConstantOrGlobal from '../ConstantOrGlobal'
@@ -28,29 +28,29 @@ const parseGlobalVariable = (
       if (done === true) return
       if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) return
       const data = value.data as CoreTokenDatas[CoreTokenType.KEY_WORD]
-      if (!(data.enum === KeyWord && data.id === KeyWord.EQUALS)) return
+      if (!(data.enum === CoreKeyWord && data.id === CoreKeyWord.EQUALS)) return
     }
     skip(splittedAsyncIterator, 1)
 
     const allowedKeyWords = [
-      KeyWord.PRIVATE,
-      KeyWord.CONSTANT,
-      KeyWord.GLOBAL,
-      KeyWord.UNNAMED_ADDR
+      CoreKeyWord.PRIVATE,
+      CoreKeyWord.CONSTANT,
+      CoreKeyWord.GLOBAL,
+      CoreKeyWord.UNNAMED_ADDR
     ]
-    const keyWords: KeyWord[] = []
+    const keyWords: CoreKeyWord[] = []
     for await (const value of splittedAsyncIterator.asyncIterable) {
       if (value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD) {
         const data = value.data as CoreTokenDatas[CoreTokenType.KEY_WORD]
-        if (!(data.enum === KeyWord && allowedKeyWords.includes(data.id))) return
+        if (!(data.enum === CoreKeyWord && allowedKeyWords.includes(data.id))) return
         keyWords.push(data.id)
       } else {
         break
       }
     }
     skip(splittedAsyncIterator, keyWords.length)
-    const isConstant = keyWords.includes(KeyWord.CONSTANT)
-    const isGlobal = keyWords.includes(KeyWord.GLOBAL)
+    const isConstant = keyWords.includes(CoreKeyWord.CONSTANT)
+    const isGlobal = keyWords.includes(CoreKeyWord.GLOBAL)
     // Must have exactly one of constant or global
     if (Number(isConstant) + Number(isGlobal) !== 1) {
       return
@@ -80,7 +80,7 @@ const parseGlobalVariable = (
           // FIXME: No other linkage types
           linkage: Linkage.PRIVATE,
           type: type.node,
-          unnamed_addr: keyWords.includes(KeyWord.UNNAMED_ADDR),
+          unnamed_addr: keyWords.includes(CoreKeyWord.UNNAMED_ADDR),
           value: value.node
         }
       },

@@ -1,5 +1,5 @@
 import CoreTokenType from '../CoreTokenType'
-import KeyWord from '../KeyWord'
+import CoreKeyWord from '../CoreKeyWord'
 import CoreNodesWithData from './CoreNodesWithData'
 import CoreNodeType from './CoreNodeType'
 import TryParseNode from './TryParseNode'
@@ -13,8 +13,8 @@ const parsePointerType: TryParseNode<CoreNodesWithData[CoreNodeType.POINTER_TYPE
     if (!(
       value.type.enum === CoreTokenType &&
     value.type.id === CoreTokenType.KEY_WORD &&
-    (value.data as EnumItem).enum === KeyWord &&
-    (value.data as EnumItem).id === KeyWord.PTR)) {
+    (value.data as EnumItem).enum === CoreKeyWord &&
+    (value.data as EnumItem).id === CoreKeyWord.PTR)) {
       return
     }
     return {

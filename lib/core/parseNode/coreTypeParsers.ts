@@ -1,11 +1,12 @@
+import EnumItemWithData from '../EnumItemWithData'
 import parseArrayType from './parseArrayType'
 import parseIntegerType from './parseIntegerType'
 import parsePointerType from './parsePointerType'
 import parseVoidType from './parseVoidType'
-import TypeParser from './TypeParser'
+import TryParseNode from './TryParseNode'
 
-const coreTypeParsers = ((): readonly TypeParser[] => {
-  const coreTypeParsers: TypeParser[] = [
+const coreTypeParsers = ((): ReadonlyArray<TryParseNode<EnumItemWithData>> => {
+  const coreTypeParsers: Array<TryParseNode<EnumItemWithData>> = [
     parseIntegerType,
     parsePointerType,
     parseVoidType

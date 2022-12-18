@@ -4,7 +4,7 @@ import CoreNodeType from '../CoreNodeType'
 import tryNodeParsers from '../tryNodeParsers'
 import CoreTokensWithData from '../../CoreTokensWithData'
 import CoreTokenType from '../../CoreTokenType'
-import KeyWord from '../../KeyWord'
+import CoreKeyWord from '../../CoreKeyWord'
 import coreTypeParsers from '../coreTypeParsers'
 
 test('ptr', async () => {
@@ -26,8 +26,8 @@ test('ptr', async () => {
           id: CoreTokenType.KEY_WORD
         },
         data: {
-          enum: KeyWord,
-          id: KeyWord.PTR
+          enum: CoreKeyWord,
+          id: CoreKeyWord.PTR
         }
       }
       yield token

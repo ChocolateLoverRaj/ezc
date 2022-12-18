@@ -1,4 +1,4 @@
-import KeyWord from '../../KeyWord'
+import CoreKeyWord from '../../CoreKeyWord'
 import CoreTokenType from '../../CoreTokenType'
 import coreParseKeywordOptions from '../coreParseKeywordOptions'
 import parseKeyword from '../parseKeyword'
@@ -16,8 +16,8 @@ test('=', async () => {
         id: CoreTokenType.KEY_WORD
       },
       data: {
-        enum: KeyWord,
-        id: KeyWord.EQUALS
+        enum: CoreKeyWord,
+        id: CoreKeyWord.EQUALS
       }
     },
     length: 1
@@ -36,8 +36,8 @@ test('ret', async () => {
         id: CoreTokenType.KEY_WORD
       },
       data: {
-        enum: KeyWord,
-        id: KeyWord.RETURN
+        enum: CoreKeyWord,
+        id: CoreKeyWord.RETURN
       }
     },
     length: 3
@@ -56,8 +56,8 @@ test('getelementptr', async () => {
         id: CoreTokenType.KEY_WORD
       },
       data: {
-        enum: KeyWord,
-        id: KeyWord.GET_ELEMENT_PTR
+        enum: CoreKeyWord,
+        id: CoreKeyWord.GET_ELEMENT_PTR
       }
     },
     length: 'getelementptr'.length
@@ -78,8 +78,8 @@ describe('custom options', () => {
     await expect(parseKeyword({
       singleCharKeywords: {
         '<': {
-          enum: KeyWord,
-          id: KeyWord.RETURN
+          enum: CoreKeyWord,
+          id: CoreKeyWord.RETURN
         }
       },
       letterKeywords: {}
@@ -94,8 +94,8 @@ describe('custom options', () => {
           id: CoreTokenType.KEY_WORD
         },
         data: {
-          enum: KeyWord,
-          id: KeyWord.RETURN
+          enum: CoreKeyWord,
+          id: CoreKeyWord.RETURN
         }
       },
       length: 1
@@ -112,8 +112,8 @@ test(',', async () => {
         id: CoreTokenType.KEY_WORD
       },
       data: {
-        enum: KeyWord,
-        id: KeyWord.COMMA
+        enum: CoreKeyWord,
+        id: CoreKeyWord.COMMA
       }
     },
     length: 1
@@ -129,8 +129,8 @@ test('empty chunk', async () => {
           id: CoreTokenType.KEY_WORD
         },
         data: {
-          enum: KeyWord,
-          id: KeyWord.COMMA
+          enum: CoreKeyWord,
+          id: CoreKeyWord.COMMA
         }
       },
       length: 1

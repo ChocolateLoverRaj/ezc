@@ -11,7 +11,9 @@ enum CoreNodeType {
   STRUCT_TYPE,
   IDENTIFIER,
   NUMBER,
-  VOID_TYPE
+  VOID_TYPE,
+  BLOCK,
+  RETURN_INSTRUCTION
 }
 
 export default CoreNodeType

@@ -1,20 +1,20 @@
-import CoreTokensWithData from '../CoreTokensWithData'
-import CoreTokenType from '../CoreTokenType'
-import KeyWord from '../KeyWord'
-import OpenCloseType from '../OpenCloseType'
-import skip from '../splitAsyncIterator/skip'
-import splitAsyncIterator from '../splitAsyncIterator/splitAsyncIterator'
-import CoreNodesWithData from './CoreNodesWithData'
-import CoreNodeType from './CoreNodeType'
-import InputFlag from './InputFlag'
-import InputType from './InputType'
-import parseIdentifier from './parseIdentifier'
-import tryNodeParsers from './tryNodeParsers'
-import TryParseNode from './TryParseNode'
-import TypeParser from './TypeParser'
+import CoreTokensWithData from '../../CoreTokensWithData'
+import CoreTokenType from '../../CoreTokenType'
+import CoreKeyWord from '../../CoreKeyWord'
+import OpenCloseType from '../../OpenCloseType'
+import skip from '../../splitAsyncIterator/skip'
+import splitAsyncIterator from '../../splitAsyncIterator/splitAsyncIterator'
+import CoreNodesWithData from '../CoreNodesWithData'
+import CoreNodeType from '../CoreNodeType'
+import InputType from '../InputType'
+import parseIdentifier from '../parseIdentifier'
+import tryNodeParsers from '../tryNodeParsers'
+import TryParseNode from '../TryParseNode'
+import parseInputFlags from '../parseInputFlags/parseInputFlags'
+import Input from './Input'
 
 const parseDeclare = (
-  typeParsers: readonly TypeParser[]
+  { typeParsers, keyWordsToInputFlags }: Input
 ): TryParseNode<CoreNodesWithData[CoreNodeType.DECLARE]> => async stream => {
   const splittedIterator = splitAsyncIterator(stream[Symbol.asyncIterator]())
   let parsedTokens = 0
@@ -24,7 +24,7 @@ const parseDeclare = (
     if (done === true) return
     if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) return
     const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
-    if (!(data.enum === KeyWord && data.id === KeyWord.DECLARE)) return
+    if (!(data.enum === CoreKeyWord && data.id === CoreKeyWord.DECLARE)) return
     skip(splittedIterator, 1)
     parsedTokens++
   }
@@ -53,10 +53,6 @@ const parseDeclare = (
 
   // Parse all inputs, there could be 0 - Infinity
   const inputTypes: InputType[] = []
-  const keyWordsToInputFlags: Partial<Record<KeyWord, InputFlag>> = {
-    [KeyWord.NO_CAPTURE]: InputFlag.NO_CAPTURE,
-    [KeyWord.NO_ALIAS]: InputFlag.NO_ALIAS
-  }
   while (true) {
     // We're done if it's )
     {
@@ -78,27 +74,25 @@ const parseDeclare = (
     parsedTokens += inputType.length
 
     // Parse all flags
-    const flags: InputFlag[] = []
-    while (true) {
-      const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
-      if (done === true) return
-      if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) break
-      const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
+    const parsedFlags = await parseInputFlags(keyWordsToInputFlags)(splittedIterator.asyncIterable)
+    skip(splittedIterator, parsedFlags.length)
+    parsedTokens += parsedFlags.length
 
-      // We're done if it's ,
-      if (data.enum === KeyWord && data.id === KeyWord.COMMA) {
+    // Skip past ,
+    const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
+    if (done === true) return
+    if (value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD) {
+      const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
+      if (data.enum === CoreKeyWord && data.id === CoreKeyWord.COMMA) {
         skip(splittedIterator, 1)
         parsedTokens++
-        break
       }
-
-      if (!(data.enum === KeyWord && Object.hasOwn(keyWordsToInputFlags, data.id))) break
-      skip(splittedIterator, 1)
-      parsedTokens++
-      flags.push(keyWordsToInputFlags[data.id])
     }
 
-    inputTypes.push({ type: inputType.node, flags })
+    inputTypes.push({
+      type: inputType.node,
+      flags: parsedFlags.flags
+    })
   }
 
   return {

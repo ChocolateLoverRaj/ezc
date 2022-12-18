@@ -1,5 +1,5 @@
 import CoreTokensWithData from '../../CoreTokensWithData'
-import KeyWord from '../../KeyWord'
+import CoreKeyWord from '../../CoreKeyWord'
 import CoreTokenType from '../../CoreTokenType'
 import charAsyncIterable from '../charAsyncIterable'
 import coreTryers from '../coreTryers'
@@ -53,8 +53,8 @@ test('leading newline', async () => {
         id: CoreTokenType.KEY_WORD
       },
       data: {
-        enum: KeyWord,
-        id: KeyWord.RETURN
+        enum: CoreKeyWord,
+        id: CoreKeyWord.RETURN
       }
     },
     length: 4
@@ -73,8 +73,8 @@ test('custom tryer', async () => {
               id: CoreTokenType.KEY_WORD
             },
             data: {
-              enum: KeyWord,
-              id: KeyWord.RETURN
+              enum: CoreKeyWord,
+              id: CoreKeyWord.RETURN
             }
           },
           length: 1
@@ -94,8 +94,8 @@ test('custom tryer', async () => {
         id: CoreTokenType.KEY_WORD
       },
       data: {
-        enum: KeyWord,
-        id: KeyWord.RETURN
+        enum: CoreKeyWord,
+        id: CoreKeyWord.RETURN
       }
     },
     length: 1
@@ -110,8 +110,8 @@ test('empty chunk', async () => {
         id: CoreTokenType.KEY_WORD
       },
       data: {
-        enum: KeyWord,
-        id: KeyWord.COMMA
+        enum: CoreKeyWord,
+        id: CoreKeyWord.COMMA
       }
     },
     length: 1

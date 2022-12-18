@@ -12,7 +12,7 @@ interface CoreNodeDatas {
     name: string
     inputNames: string[]
     type: FunctionTypeData
-    inside: any
+    blocks: any
   }
   [CoreNodeType.DECLARE]: {
     name: string
@@ -42,6 +42,14 @@ interface CoreNodeDatas {
   }
   [CoreNodeType.NUMBER]: number
   [CoreNodeType.VOID_TYPE]: undefined
+  [CoreNodeType.BLOCK]: {
+    name: string
+    instructions: EnumItemWithData[]
+  }
+  [CoreNodeType.RETURN_INSTRUCTION]: {
+    type: EnumItemWithData
+    value: EnumItemWithData
+  }
 }
 
 export default CoreNodeDatas
