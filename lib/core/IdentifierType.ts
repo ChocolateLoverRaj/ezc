@@ -7,12 +7,20 @@ enum IdentifierType {
    * declare i32 @puts(i8*)
    *
    * define i1 main(...) {}
+   * ```
    */
   AT,
   /**
    * For variables
    */
-  PERCENT
+  PERCENT,
+  /**
+   * For blocks. Example:
+   * ```ll
+   * EntryBlock:
+   * ```
+   */
+  BLOCK
 }
 
 export default IdentifierType

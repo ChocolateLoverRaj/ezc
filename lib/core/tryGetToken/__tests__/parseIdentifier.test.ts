@@ -61,3 +61,23 @@ test('%0', async () => {
     length: 2
   })
 })
+
+test('EntryBlock:', async () => {
+  await expect(parseIdentifier({
+    async * [Symbol.asyncIterator] () {
+      yield 'EntryBlock:'
+    }
+  })).resolves.toEqual({
+    token: {
+      type: {
+        enum: CoreTokenType,
+        id: CoreTokenType.IDENTIFIER
+      },
+      data: {
+        type: IdentifierType.BLOCK,
+        name: 'EntryBlock'
+      }
+    },
+    length: 'EntryBlock:'.length
+  })
+})
