@@ -1,14 +1,15 @@
-import arrayFromAsync from '../../arrayFromAsync'
-import arrayToAsyncIterable from '../../arrayToAsyncIterable'
-import EnumItemWithData from '../../EnumItemWithData'
-import coreTryers from '../../tryGetToken/coreTryers'
-import parseAllTokens from '../../tryGetToken/parseAllTokens'
-import CoreNodesWithData from '../CoreNodesWithData'
-import CoreNodeType from '../CoreNodeType'
-import coreTypeParsers from '../coreTypeParsers'
-import InputFlag from '../InputFlag'
+import arrayFromAsync from '../../../arrayFromAsync'
+import arrayToAsyncIterable from '../../../arrayToAsyncIterable'
+import EnumItemWithData from '../../../EnumItemWithData'
+import coreTryers from '../../../tryGetToken/coreTryers'
+import parseAllTokens from '../../../tryGetToken/parseAllTokens'
+import CoreNodesWithData from '../../CoreNodesWithData'
+import CoreNodeType from '../../CoreNodeType'
+import coreTypeParsers from '../../coreTypeParsers'
+import CoreInputFlag from '../../CoreInputFlag'
 import parseDeclare from '../parseDeclare'
-import ParsedNode from '../ParsedNode'
+import ParsedNode from '../../ParsedNode'
+import coreKeyWordsToInputFlags from '../../parseInputFlags/coreKeyWordsToInputFlags'
 
 test('declare i32 @puts(ptr)', async () => {
   const getTokensStream = (): AsyncIterable<EnumItemWithData> => parseAllTokens(coreTryers)(
@@ -45,7 +46,10 @@ test('declare i32 @puts(ptr)', async () => {
     },
     length: (await arrayFromAsync(getTokensStream()[Symbol.asyncIterator]())).length
   }
-  await expect(parseDeclare(coreTypeParsers)(getTokensStream())).resolves.toEqual(expected)
+  await expect(parseDeclare({
+    typeParsers: coreTypeParsers,
+    keyWordsToInputFlags: coreKeyWordsToInputFlags
+  })(getTokensStream())).resolves.toEqual(expected)
 })
 
 test('declare void @someFn(ptr nocapture noalias, i64, i1)', async () => {
@@ -77,7 +81,13 @@ test('declare void @someFn(ptr nocapture noalias, i64, i1)', async () => {
               },
               data: undefined
             },
-            flags: [InputFlag.NO_CAPTURE, InputFlag.NO_ALIAS]
+            flags: [{
+              enum: CoreInputFlag,
+              id: CoreInputFlag.NO_CAPTURE
+            }, {
+              enum: CoreInputFlag,
+              id: CoreInputFlag.NO_ALIAS
+            }]
           }, {
             type: {
               type: {
@@ -102,5 +112,8 @@ test('declare void @someFn(ptr nocapture noalias, i64, i1)', async () => {
     },
     length: (await arrayFromAsync(getTokensStream()[Symbol.asyncIterator]())).length
   }
-  await expect(parseDeclare(coreTypeParsers)(getTokensStream())).resolves.toEqual(expected)
+  await expect(parseDeclare({
+    typeParsers: coreTypeParsers,
+    keyWordsToInputFlags: coreKeyWordsToInputFlags
+  })(getTokensStream())).resolves.toEqual(expected)
 })

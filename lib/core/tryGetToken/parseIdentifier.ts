@@ -1,4 +1,3 @@
-import IdentifierType from '../IdentifierType'
 import CoreTokensWithData from '../CoreTokensWithData'
 import CoreTokenType from '../CoreTokenType'
 import charAsyncIterable from './charAsyncIterable'
@@ -6,17 +5,18 @@ import TryGetToken from './TryGetToken'
 
 const parseIdentifier: TryGetToken<CoreTokensWithData[CoreTokenType.IDENTIFIER]> = async stream => {
   const iterator = charAsyncIterable(stream)[Symbol.asyncIterator]()
-  const identifierType = await (async (): Promise<IdentifierType | undefined> => {
-    const { value, done } = await iterator.next()
-    if (done === true) return
-    switch (value) {
-      case '@':
-        return IdentifierType.AT
-      case '%':
-        return IdentifierType.PERCENT
-    }
-  })()
-  if (identifierType === undefined) return
+  // TODO: Remove comments below
+  // const identifierType = await (async (): Promise<IdentifierType | undefined> => {
+  //   const { value, done } = await iterator.next()
+  //   if (done === true) return
+  //   switch (value) {
+  //     case '@':
+  //       return IdentifierType.AT
+  //     case '%':
+  //       return IdentifierType.PERCENT
+  //   }
+  // })()
+  // if (identifierType === undefined) return
   let name = ''
   while (true) {
     const { value, done } = await iterator.next()
@@ -37,12 +37,9 @@ const parseIdentifier: TryGetToken<CoreTokensWithData[CoreTokenType.IDENTIFIER]>
         enum: CoreTokenType,
         id: CoreTokenType.IDENTIFIER
       },
-      data: {
-        type: identifierType,
-        name
-      }
+      data: name
     },
-    length: 1 + name.length
+    length: name.length
   }
 }
 

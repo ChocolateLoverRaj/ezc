@@ -4,7 +4,7 @@ import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
 import ParsedNode from '../ParsedNode'
 import OpenCloseType from '../../OpenCloseType'
-import KeyWord from '../../KeyWord'
+import CoreKeyWord from '../../CoreKeyWord'
 import parseArrayType from '../parseArrayType'
 import coreTypeParsers from '../coreTypeParsers'
 
@@ -58,8 +58,8 @@ test('[13 x i8]', async () => {
           id: CoreTokenType.KEY_WORD
         },
         data: {
-          enum: KeyWord,
-          id: KeyWord.X
+          enum: CoreKeyWord,
+          id: CoreKeyWord.X
         }
       }
       yield x

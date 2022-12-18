@@ -1,4 +1,4 @@
-enum KeyWord {
+enum CoreKeyWord {
   PRIVATE,
   UNNAMED_ADDR,
   CONSTANT,
@@ -17,7 +17,10 @@ enum KeyWord {
   NO_CAPTURE,
   NO_ALIAS,
   COMMA,
-  VOID
+  VOID,
+  NO_FREE,
+  AT,
+  PERCENT
 }
 
-export default KeyWord
+export default CoreKeyWord

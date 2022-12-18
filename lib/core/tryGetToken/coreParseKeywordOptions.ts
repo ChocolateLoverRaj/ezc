@@ -1,34 +1,37 @@
-import KeyWord from '../KeyWord'
+import CoreKeyWord from '../CoreKeyWord'
 import Keywords from './Keywords'
 import ParseKeywordOptions from './ParseKeywordOptions'
 
-const coreLetterKeywords: Record<string, KeyWord> = {
-  private: KeyWord.PRIVATE,
-  unnamed_addr: KeyWord.UNNAMED_ADDR,
-  constant: KeyWord.CONSTANT,
-  x: KeyWord.X,
-  declare: KeyWord.DECLARE,
-  define: KeyWord.DEFINE,
-  EntryBlock: KeyWord.ENTRY_BLOCK,
-  getelementptr: KeyWord.GET_ELEMENT_PTR,
-  inbounds: KeyWord.INBOUNDS,
-  ret: KeyWord.RETURN,
-  ptr: KeyWord.PTR,
-  global: KeyWord.GLOBAL,
-  nocapture: KeyWord.NO_CAPTURE,
-  noalias: KeyWord.NO_ALIAS,
-  void: KeyWord.VOID
+const coreLetterKeywords: Record<string, CoreKeyWord> = {
+  private: CoreKeyWord.PRIVATE,
+  unnamed_addr: CoreKeyWord.UNNAMED_ADDR,
+  constant: CoreKeyWord.CONSTANT,
+  x: CoreKeyWord.X,
+  declare: CoreKeyWord.DECLARE,
+  define: CoreKeyWord.DEFINE,
+  EntryBlock: CoreKeyWord.ENTRY_BLOCK,
+  getelementptr: CoreKeyWord.GET_ELEMENT_PTR,
+  inbounds: CoreKeyWord.INBOUNDS,
+  ret: CoreKeyWord.RETURN,
+  ptr: CoreKeyWord.PTR,
+  global: CoreKeyWord.GLOBAL,
+  nocapture: CoreKeyWord.NO_CAPTURE,
+  noalias: CoreKeyWord.NO_ALIAS,
+  void: CoreKeyWord.VOID,
+  nofree: CoreKeyWord.NO_FREE
 }
 
-const coreSingleCharKeywords: Record<string, KeyWord> = {
-  '=': KeyWord.EQUALS,
-  ':': KeyWord.COLON,
-  ',': KeyWord.COMMA
+const coreSingleCharKeywords: Record<string, CoreKeyWord> = {
+  '=': CoreKeyWord.EQUALS,
+  ':': CoreKeyWord.COLON,
+  ',': CoreKeyWord.COMMA,
+  '@': CoreKeyWord.AT,
+  '%': CoreKeyWord.PERCENT
 }
 
-const convertToKeywords = (coreKeywords: Record<string, KeyWord>): Keywords =>
+const convertToKeywords = (coreKeywords: Record<string, CoreKeyWord>): Keywords =>
   Object.fromEntries(Object.entries(coreKeywords).map(([key, value]) =>
-    [key, { enum: KeyWord, id: value }]))
+    [key, { enum: CoreKeyWord, id: value }]))
 
 const coreParseKeywordOptions: ParseKeywordOptions = {
   letterKeywords: convertToKeywords(coreLetterKeywords),
