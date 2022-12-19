@@ -1,15 +1,11 @@
 import arrayToAsyncIterable from '../../../arrayToAsyncIterable'
 import coreTryers from '../../../tryGetToken/coreTryers'
 import parseAllTokens from '../../../tryGetToken/parseAllTokens'
-import coreTypeParsers from '../../coreTypeParsers'
-import coreValueParsers from '../../coreValueParsers'
+import coreInput from '../coreInput'
 import parseReturnInstruction from '../parseReturnInstruction'
 
 test('ret i1 0', async () => {
-  await expect(parseReturnInstruction({
-    typeParsers: coreTypeParsers,
-    valueParsers: coreValueParsers
-  })(parseAllTokens(coreTryers)(arrayToAsyncIterable([
+  await expect(parseReturnInstruction(coreInput)(parseAllTokens(coreTryers)(arrayToAsyncIterable([
     'ret i1 0'
   ])) as any)).resolves.toMatchSnapshot()
 })
