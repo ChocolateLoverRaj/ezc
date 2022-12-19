@@ -13,9 +13,10 @@ import CoreTokenDatas from '../../CoreTokenDatas'
 import OpenCloseType from '../../OpenCloseType'
 import InputType from '../InputType'
 import parseInputFlags from '../parseInputFlags/parseInputFlags'
+import EnumItemWithData from '../../EnumItemWithData'
 
 const parseFunction = (
-  { typeParsers, keyWordsToInputFlags }: Input
+  { typeParsers, keyWordsToInputFlags, parseBlock }: Input
 ): TryParseNode<CoreNodesWithData[CoreNodeType.FUNCTION]> => async stream => {
   const splittedIterator = splitAsyncIterator(stream[Symbol.asyncIterator]())
 
@@ -84,7 +85,7 @@ const parseFunction = (
     if (parsedIdentifier === undefined) return
     skip(parsedIdentifier.length)
 
-    // FIXME: @identifiers should be allowed, but in this code they are
+    // FIXME: @identifiers should not be allowed, but in this code they are
     inputNames.push(parsedIdentifier.node.data.name)
 
     {
@@ -102,12 +103,32 @@ const parseFunction = (
     }
   }
 
+  // Parse {
   {
     const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
     if (done === true) return
     if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.OPEN_CLOSE)) return
     const { type, close } = value.data as CoreTokenDatas[CoreTokenType.OPEN_CLOSE]
     if (!(type === OpenCloseType.CURLY_BRACKET && !close)) return
+    skip(1)
+  }
+
+  // Parse blocks
+  const blocks: EnumItemWithData[] = []
+  while (true) {
+    const parsedBlock = await parseBlock(splittedIterator.asyncIterable)
+    if (parsedBlock === undefined) break
+    skip(parsedBlock.length)
+    blocks.push(parsedBlock.node)
+  }
+
+  // Parse }
+  {
+    const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
+    if (done === true) return
+    if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.OPEN_CLOSE)) return
+    const { type, close } = value.data as CoreTokenDatas[CoreTokenType.OPEN_CLOSE]
+    if (!(type === OpenCloseType.CURLY_BRACKET && close)) return
     skip(1)
   }
 
@@ -124,7 +145,7 @@ const parseFunction = (
           inputTypes,
           returnType: parsedReturnType.node
         },
-        blocks: []
+        blocks
       }
     },
     length

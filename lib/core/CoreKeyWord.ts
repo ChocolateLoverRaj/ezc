@@ -11,7 +11,6 @@ enum CoreKeyWord {
   X,
   RETURN,
   EQUALS,
-  ENTRY_BLOCK,
   GLOBAL,
   NO_CAPTURE,
   NO_ALIAS,

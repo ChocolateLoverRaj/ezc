@@ -9,7 +9,6 @@ const coreLetterKeywords: Record<string, CoreKeyWord> = {
   x: CoreKeyWord.X,
   declare: CoreKeyWord.DECLARE,
   define: CoreKeyWord.DEFINE,
-  EntryBlock: CoreKeyWord.ENTRY_BLOCK,
   getelementptr: CoreKeyWord.GET_ELEMENT_PTR,
   inbounds: CoreKeyWord.INBOUNDS,
   ret: CoreKeyWord.RETURN,
