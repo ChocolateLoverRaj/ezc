@@ -1,15 +1,14 @@
-import IdentifierType from '../../IdentifierType'
-import ConstantOrGlobal from '../ConstantOrGlobal'
-import CoreNodesWithData from '../CoreNodesWithData'
-import CoreNodeType from '../CoreNodeType'
-import coreTypeParsers from '../coreTypeParsers'
-import coreValueParsers from '../coreValueParsers'
-import Linkage from '../Linkage'
-import ParsedNode from '../ParsedNode'
-import parseGlobalVariable from '../parseGlobalVariable/parseGlobalVariable'
-import parseAllTokens from '../../tryGetToken/parseAllTokens'
-import coreTryers from '../../tryGetToken/coreTryers'
-import arrayToAsyncIterable from '../../arrayToAsyncIterable'
+import IdentifierType from '../../../IdentifierType'
+import ConstantOrGlobal from '../../ConstantOrGlobal'
+import CoreNodesWithData from '../../CoreNodesWithData'
+import CoreNodeType from '../../CoreNodeType'
+import Linkage from '../../Linkage'
+import ParsedNode from '../../ParsedNode'
+import parseGlobalVariable from '../parseGlobalVariable'
+import parseAllTokens from '../../../tryGetToken/parseAllTokens'
+import coreTryers from '../../../tryGetToken/coreTryers'
+import arrayToAsyncIterable from '../../../arrayToAsyncIterable'
+import coreInput from '../coreInput'
 
 test('@0 = private unnamed_addr constant [13 x i8] c"Hello World!\\00"', async () => {
   const expected: ParsedNode<CoreNodesWithData[CoreNodeType.GLOBAL_VARIABLE]> = {
@@ -60,10 +59,7 @@ test('@0 = private unnamed_addr constant [13 x i8] c"Hello World!\\00"', async (
     },
     length: 11
   }
-  await expect(parseGlobalVariable({
-    typeParsers: coreTypeParsers,
-    valueParsers: coreValueParsers
-  })(parseAllTokens(coreTryers)(arrayToAsyncIterable([
+  await expect(parseGlobalVariable(coreInput)(parseAllTokens(coreTryers)(arrayToAsyncIterable([
     '@0 = private unnamed_addr constant [13 x i8] c"Hello World!\\00"'
   ])) as any)).resolves.toEqual(expected)
 })

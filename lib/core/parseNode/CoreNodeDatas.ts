@@ -50,6 +50,7 @@ interface CoreNodeDatas {
     type: EnumItemWithData
     value: EnumItemWithData
   }
+  [CoreNodeType.FILE]: EnumItemWithData[]
 }
 
 export default CoreNodeDatas

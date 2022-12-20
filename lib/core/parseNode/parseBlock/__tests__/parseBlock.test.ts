@@ -17,3 +17,10 @@ test('MyBlock: <return>', async () => {
         ret i1 0
   `])) as any)).resolves.toMatchSnapshot()
 })
+
+test('0: <return>', async () => {
+  await expect(parseBlock(coreInstructionParsers)(parseAllTokens(coreTryers)(arrayToAsyncIterable([`
+      0:
+        ret i1 0
+  `])) as any)).resolves.toMatchSnapshot()
+})

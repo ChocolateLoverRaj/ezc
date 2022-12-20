@@ -5,11 +5,10 @@ import coreTryers from '../../../tryGetToken/coreTryers'
 import parseAllTokens from '../../../tryGetToken/parseAllTokens'
 import CoreNodesWithData from '../../CoreNodesWithData'
 import CoreNodeType from '../../CoreNodeType'
-import coreTypeParsers from '../../coreTypeParsers'
 import CoreInputFlag from '../../CoreInputFlag'
 import parseDeclare from '../parseDeclare'
 import ParsedNode from '../../ParsedNode'
-import coreKeyWordsToInputFlags from '../../parseInputFlags/coreKeyWordsToInputFlags'
+import coreInput from '../coreInput'
 
 test('declare i32 @puts(ptr)', async () => {
   const getTokensStream = (): AsyncIterable<EnumItemWithData> => parseAllTokens(coreTryers)(
@@ -46,10 +45,7 @@ test('declare i32 @puts(ptr)', async () => {
     },
     length: (await arrayFromAsync(getTokensStream()[Symbol.asyncIterator]())).length
   }
-  await expect(parseDeclare({
-    typeParsers: coreTypeParsers,
-    keyWordsToInputFlags: coreKeyWordsToInputFlags
-  })(getTokensStream())).resolves.toEqual(expected)
+  await expect(parseDeclare(coreInput)(getTokensStream())).resolves.toEqual(expected)
 })
 
 test('declare void @someFn(ptr nocapture noalias, i64, i1)', async () => {
@@ -112,8 +108,5 @@ test('declare void @someFn(ptr nocapture noalias, i64, i1)', async () => {
     },
     length: (await arrayFromAsync(getTokensStream()[Symbol.asyncIterator]())).length
   }
-  await expect(parseDeclare({
-    typeParsers: coreTypeParsers,
-    keyWordsToInputFlags: coreKeyWordsToInputFlags
-  })(getTokensStream())).resolves.toEqual(expected)
+  await expect(parseDeclare(coreInput)(getTokensStream())).resolves.toEqual(expected)
 })
