@@ -4,6 +4,6 @@ declare i32 @puts(ptr)
 
 define i1 @main() {
 0:
-  %1 = call i32 @puts(ptr @0)
+  call i32 @puts(ptr @0)
   ret i1 0
 }
