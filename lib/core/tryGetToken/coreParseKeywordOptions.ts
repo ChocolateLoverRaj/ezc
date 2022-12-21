@@ -17,7 +17,8 @@ const coreLetterKeywords: Record<string, CoreKeyWord> = {
   nocapture: CoreKeyWord.NO_CAPTURE,
   noalias: CoreKeyWord.NO_ALIAS,
   void: CoreKeyWord.VOID,
-  nofree: CoreKeyWord.NO_FREE
+  nofree: CoreKeyWord.NO_FREE,
+  call: CoreKeyWord.CALL
 }
 
 const coreSingleCharKeywords: Record<string, CoreKeyWord> = {

@@ -6,6 +6,7 @@ import FloatType from './FloatType'
 import FunctionTypeData from './FunctionTypeData'
 import ConstantOrGlobal from './ConstantOrGlobal'
 import Linkage from './Linkage'
+import CallAssignableInput from './parseCallAssignable/CallAssignableInput'
 
 interface CoreNodeDatas {
   [CoreNodeType.FUNCTION]: {
@@ -51,6 +52,15 @@ interface CoreNodeDatas {
     value: EnumItemWithData
   }
   [CoreNodeType.FILE]: EnumItemWithData[]
+  [CoreNodeType.CALL_ASSIGNABLE]: {
+    name: string
+    returnType: EnumItemWithData
+    inputs: CallAssignableInput[]
+  }
+  [CoreNodeType.ASSIGNMENT_INSTRUCTION]: {
+    identifier: EnumItemWithData
+    assignable: EnumItemWithData
+  }
 }
 
 export default CoreNodeDatas

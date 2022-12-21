@@ -16,7 +16,8 @@ enum CoreKeyWord {
   NO_ALIAS,
   COMMA,
   VOID,
-  NO_FREE
+  NO_FREE,
+  CALL
 }
 
 export default CoreKeyWord
