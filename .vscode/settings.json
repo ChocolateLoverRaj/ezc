@@ -59,6 +59,8 @@
     "set": "c",
     "stack": "c",
     "unordered_map": "c",
-    "cctype": "c"
+    "cctype": "c",
+    "thread": "c",
+    "__threading_support": "c"
   }
 }
