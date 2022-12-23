@@ -1,8 +1,11 @@
 @msg = private unnamed_addr constant [22 x i8] c"Name: %s. Number: %i\0A\00"
-@debug = private unnamed_addr constant [4 x i8] c"%p\0A\00"
+@debug = private unnamed_addr constant [4 x i8] c"%i\0A\00"
 
 declare void @llvm.memcpy.i64(ptr, ptr, i64, i1)
 declare i32 @printf(ptr, ...)
+declare i64 @time(ptr)
+declare void @srand(i64)
+declare i64 @rand()
 
 %BindedFunction = type {
   ; Function
@@ -125,7 +128,20 @@ define void @innerFunction (ptr %inputPtr) {
     ret void
 }
 
-@name = private unnamed_addr constant [6 x i8] c"Jimmy\00"
+@jimmy = private unnamed_addr constant [6 x i8] c"Jimmy\00"
+@kate = private unnamed_addr constant [5 x i8] c"Kate\00"
+@jojo = private unnamed_addr constant [5 x i8] c"Jojo\00"
+@names = private unnamed_addr constant [3 x ptr] [ptr @jimmy, ptr @kate, ptr @jojo]
+define private ptr @getRandomName () {
+  %now = call i64 @time(ptr null)
+  call void @srand(i64 %now)
+  %randomInt = call i64 @rand()
+  %randomIndex = urem i64 %randomInt, 3
+  %randomElementPtr = getelementptr inbounds [0 x ptr], ptr @names, i64 0, i64 %randomIndex
+  %randomName = load ptr, ptr %randomElementPtr
+  ret ptr %randomName
+}
+
 define i1 @main () {
   EntryBlock:
     %array = alloca [5 x i32]
@@ -136,7 +152,8 @@ define i1 @main () {
 
     %bindedCallback = alloca %BindableFunction
     %additionalInputsPtr = alloca ptr
-    store ptr @name, ptr %additionalInputsPtr
+    %name = call ptr @getRandomName()
+    store ptr %name, ptr %additionalInputsPtr
     %newInputPtrSize = call i64 @getNewInputPtrSize(ptr %unBindedCallback, i64 8)
     %newInputPtr = alloca i8, i64 %newInputPtrSize
     call void @bindInputs(ptr %bindedCallback, ptr %unBindedCallback, ptr %additionalInputsPtr, i64 8, ptr %newInputPtr)
