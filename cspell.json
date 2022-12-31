@@ -8,6 +8,7 @@
     "nocapture",
     "nofree",
     "tryer",
-    "tryers"
+    "tryers",
+    "Unparse"
   ]
 }
