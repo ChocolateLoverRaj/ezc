@@ -1,10 +1,10 @@
-import CoreTokensWithData from '../CoreTokensWithData'
+import CoreTokenDatas from '../CoreTokenDatas'
 import CoreTokenType from '../CoreTokenType'
 import IdentifierType from '../IdentifierType'
 import UnparseToken from './UnparseToken'
 
-const unparseIdentifier: UnparseToken<CoreTokensWithData[CoreTokenType.IDENTIFIER]> = (
-  { data: { name, type } }
+const unparseIdentifier: UnparseToken<CoreTokenDatas[CoreTokenType.IDENTIFIER]> = (
+  { name, type }
 ) => {
   switch (type) {
     case IdentifierType.PERCENT:

@@ -1,5 +1,3 @@
-import EnumItemWithData from '../EnumItemWithData'
-
-type UnparseToken<T extends EnumItemWithData> = (token: T) => string
+type UnparseToken<T> = (token: T) => string
 
 export default UnparseToken
