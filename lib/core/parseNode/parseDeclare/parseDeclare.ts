@@ -1,7 +1,6 @@
 import CoreTokensWithData from '../../CoreTokensWithData'
 import CoreTokenType from '../../CoreTokenType'
 import CoreKeyWord from '../../CoreKeyWord'
-import OpenCloseType from '../../OpenCloseType'
 import skip from '../../splitAsyncIterator/skip'
 import splitAsyncIterator from '../../splitAsyncIterator/splitAsyncIterator'
 import CoreNodesWithData from '../CoreNodesWithData'
@@ -42,11 +41,11 @@ const parseDeclare = (
   {
     const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
     if (done === true) return
-    if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.OPEN_CLOSE)) {
+    if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) {
       return
     }
-    const { data: { type, close } } = value as CoreTokensWithData[CoreTokenType.OPEN_CLOSE]
-    if (!(type === OpenCloseType.PARENTHESIS && !close)) return
+    const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
+    if (!(data.enum === CoreKeyWord && data.id === CoreKeyWord.OPEN_PARENTHESIS)) return
     skip(splittedIterator, 1)
     parsedTokens++
   }
@@ -58,9 +57,9 @@ const parseDeclare = (
     {
       const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
       if (done === true) return
-      if (value.type.enum === CoreTokenType && value.type.id === CoreTokenType.OPEN_CLOSE) {
-        const { data: { type, close } } = value as CoreTokensWithData[CoreTokenType.OPEN_CLOSE]
-        if (type === OpenCloseType.PARENTHESIS && close) {
+      if (value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD) {
+        const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
+        if (data.enum === CoreKeyWord && data.id === CoreKeyWord.CLOSE_PARENTHESIS) {
           skip(splittedIterator, 1)
           parsedTokens++
           break

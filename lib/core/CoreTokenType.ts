@@ -5,8 +5,7 @@ enum CoreTokenType {
   INTEGER_TYPE,
   STRING_LITERAL,
   ENTRY_BLOCK,
-  KEY_WORD,
-  OPEN_CLOSE
+  KEY_WORD
 }
 
 export default CoreTokenType

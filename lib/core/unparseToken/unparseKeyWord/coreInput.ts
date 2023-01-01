@@ -20,7 +20,13 @@ const coreKeyWordToStringMap: Map<CoreKeyWord, string> = new Map([
   [CoreKeyWord.RETURN, 'ret'],
   [CoreKeyWord.UNNAMED_ADDR, 'unnamed_addr'],
   [CoreKeyWord.VOID, 'void'],
-  [CoreKeyWord.X, 'x']
+  [CoreKeyWord.X, 'x'],
+  [CoreKeyWord.OPEN_PARENTHESIS, '('],
+  [CoreKeyWord.CLOSE_PARENTHESIS, ')'],
+  [CoreKeyWord.OPEN_BRACKET, '['],
+  [CoreKeyWord.CLOSE_BRACKET, ']'],
+  [CoreKeyWord.OPEN_CURLY_BRACKET, '{'],
+  [CoreKeyWord.CLOSE_CURLY_BRACKET, '}']
 ])
 
 const coreInput: Input = new Map([

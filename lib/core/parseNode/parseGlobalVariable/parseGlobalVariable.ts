@@ -38,11 +38,12 @@ const parseGlobalVariable = (
       CoreKeyWord.GLOBAL,
       CoreKeyWord.UNNAMED_ADDR
     ]
+
     const keyWords: CoreKeyWord[] = []
     for await (const value of splittedAsyncIterator.asyncIterable) {
       if (value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD) {
         const data = value.data as CoreTokenDatas[CoreTokenType.KEY_WORD]
-        if (!(data.enum === CoreKeyWord && allowedKeyWords.includes(data.id))) return
+        if (!(data.enum === CoreKeyWord && allowedKeyWords.includes(data.id))) break
         keyWords.push(data.id)
       } else {
         break

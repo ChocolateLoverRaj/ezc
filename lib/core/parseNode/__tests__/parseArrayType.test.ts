@@ -3,7 +3,6 @@ import CoreTokenType from '../../CoreTokenType'
 import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
 import ParsedNode from '../ParsedNode'
-import OpenCloseType from '../../OpenCloseType'
 import CoreKeyWord from '../../CoreKeyWord'
 import parseArrayType from '../parseArrayType'
 import coreTypeParsers from '../coreTypeParsers'
@@ -31,14 +30,14 @@ test('[13 x i8]', async () => {
   }
   await expect(parseArrayType(coreTypeParsers)({
     async * [Symbol.asyncIterator] () {
-      const openingBracket: CoreTokensWithData[CoreTokenType.OPEN_CLOSE] = {
+      const openingBracket: CoreTokensWithData[CoreTokenType.KEY_WORD] = {
         type: {
           enum: CoreTokenType,
-          id: CoreTokenType.OPEN_CLOSE
+          id: CoreTokenType.KEY_WORD
         },
         data: {
-          type: OpenCloseType.BRACKET,
-          close: false
+          enum: CoreKeyWord,
+          id: CoreKeyWord.OPEN_BRACKET
         }
       }
       yield openingBracket
@@ -73,14 +72,14 @@ test('[13 x i8]', async () => {
       }
       yield i8
 
-      const closingBracket: CoreTokensWithData[CoreTokenType.OPEN_CLOSE] = {
+      const closingBracket: CoreTokensWithData[CoreTokenType.KEY_WORD] = {
         type: {
           enum: CoreTokenType,
-          id: CoreTokenType.OPEN_CLOSE
+          id: CoreTokenType.KEY_WORD
         },
         data: {
-          type: OpenCloseType.BRACKET,
-          close: true
+          enum: CoreKeyWord,
+          id: CoreKeyWord.CLOSE_BRACKET
         }
       }
       yield closingBracket

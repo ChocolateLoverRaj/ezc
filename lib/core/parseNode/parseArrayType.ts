@@ -1,12 +1,12 @@
 import CoreTokenDatas from '../CoreTokenDatas'
 import CoreTokenType from '../CoreTokenType'
 import CoreKeyWord from '../CoreKeyWord'
-import OpenCloseType from '../OpenCloseType'
 import splitAsyncIterator from '../splitAsyncIterator/splitAsyncIterator'
 import CoreNodeType from './CoreNodeType'
 import tryNodeParsers from './tryNodeParsers'
 import TryParseNode from './TryParseNode'
 import EnumItemWithData from '../EnumItemWithData'
+import CoreTokensWithData from '../CoreTokensWithData'
 
 const parseArrayType = (
   typeParsers: ReadonlyArray<TryParseNode<EnumItemWithData>>
@@ -15,9 +15,9 @@ const parseArrayType = (
   {
     const { value, done } = await asyncIterator.next()
     if (done === true) return
-    if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.OPEN_CLOSE)) return
-    const { type, close } = value.data as CoreTokenDatas[CoreTokenType.OPEN_CLOSE]
-    if (!(type === OpenCloseType.BRACKET && !close)) return
+    if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) return
+    const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
+    if (!(data.enum === CoreKeyWord && data.id === CoreKeyWord.OPEN_BRACKET)) return
   }
   const numberOfItems = await (async () => {
     const { value, done } = await asyncIterator.next()
@@ -42,9 +42,9 @@ const parseArrayType = (
   {
     const { value, done } = await asyncIterator.next()
     if (done === true) return
-    if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.OPEN_CLOSE)) return
-    const { type, close } = value.data as CoreTokenDatas[CoreTokenType.OPEN_CLOSE]
-    if (!(type === OpenCloseType.BRACKET && close)) return
+    if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) return
+    const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
+    if (!(data.enum === CoreKeyWord && data.id === CoreKeyWord.CLOSE_BRACKET)) return
   }
   return {
     node: {
