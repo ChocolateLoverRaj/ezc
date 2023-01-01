@@ -4,7 +4,7 @@ import parseStringLiteral from '../parseStringLiteral'
 test('string', async () => {
   await expect(parseStringLiteral({
     async * [Symbol.asyncIterator] () {
-      yield 'c"Hello world!"'
+      yield 'c"Hello world!\\00"'
     }
   })).resolves.toEqual({
     token: {
@@ -12,9 +12,9 @@ test('string', async () => {
         enum: CoreTokenType,
         id: CoreTokenType.STRING_LITERAL
       },
-      data: 'Hello world!'
+      data: `Hello world!${String.fromCharCode(0)}`
     },
-    length: 'c"Hello world!"'.length
+    length: 'c"Hello world!\\00"'.length
   })
 })
 

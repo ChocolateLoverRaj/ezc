@@ -53,7 +53,7 @@ test('@0 = private unnamed_addr constant [13 x i8] c"Hello World!\\00"', async (
             enum: CoreNodeType,
             id: CoreNodeType.STRING
           },
-          data: 'Hello World!\\00'
+          data: 'Hello World!' + String.fromCharCode(0)
         }
       }
     },

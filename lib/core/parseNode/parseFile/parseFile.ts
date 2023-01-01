@@ -21,7 +21,10 @@ const parseFile = (parseSubNode: Input): TryParseNode<CoreNodesWithData[CoreNode
         // Return undefined if there is a token which can't be parsed
         const { done } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
         if (done === true) break
-        else return
+        else {
+          console.log('r')
+          return
+        }
       }
       const { node, length } = parsedNode
       nodes.push(node)
