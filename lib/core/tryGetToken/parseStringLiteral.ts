@@ -40,11 +40,15 @@ const parseStringLiteral: TryGetToken<CoreTokensWithData[CoreTokenType.STRING_LI
         const { value: hex0, done: done0 } = await iterator.next()
         if (done0 === true) return
         length++
-        const { value: hex1, done: done1 } = await iterator.next()
-        if (done1 === true) return
-        length++
-        const charCode = parseInt(hex0 + hex1, 16)
-        string += String.fromCharCode(charCode)
+        if (hex0 === '\\') {
+          string += '\\'
+        } else {
+          const { value: hex1, done: done1 } = await iterator.next()
+          if (done1 === true) return
+          length++
+          const charCode = parseInt(hex0 + hex1, 16)
+          string += String.fromCharCode(charCode)
+        }
       } else {
         string += char
         length++

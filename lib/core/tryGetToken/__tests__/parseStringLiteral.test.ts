@@ -1,3 +1,4 @@
+import arrayToAsyncIterable from '../../arrayToAsyncIterable'
 import CoreTokenType from '../../CoreTokenType'
 import parseStringLiteral from '../parseStringLiteral'
 
@@ -32,4 +33,19 @@ test("just 'c'", async () => {
       yield 'c'
     }
   })).resolves.toBeUndefined()
+})
+
+test('actual \\', async () => {
+  await expect(parseStringLiteral(arrayToAsyncIterable([
+    'c"\\\\"'
+  ]))).resolves.toEqual({
+    token: {
+      type: {
+        enum: CoreTokenType,
+        id: CoreTokenType.STRING_LITERAL
+      },
+      data: '\\'
+    },
+    length: 'c"\\\\"'.length
+  })
 })
