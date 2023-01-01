@@ -1,11 +1,12 @@
-import CoreKeyWord from '../../CoreKeyWord'
-import CoreTokenType from '../../CoreTokenType'
-import coreParseKeywordOptions from '../coreParseKeywordOptions'
+import CoreKeyWord from '../../../CoreKeyWord'
+import CoreTokenType from '../../../CoreTokenType'
 import parseKeyword from '../parseKeyword'
-import arrayToAsyncIterable from '../../arrayToAsyncIterable'
+import arrayToAsyncIterable from '../../../arrayToAsyncIterable'
+import coreInput from '../coreInput'
 
 test('=', async () => {
-  await expect(parseKeyword(coreParseKeywordOptions)({
+  // console.log(coreInput)
+  await expect(parseKeyword(coreInput)({
     async * [Symbol.asyncIterator] () {
       yield '='
     }
@@ -25,7 +26,7 @@ test('=', async () => {
 })
 
 test('ret', async () => {
-  await expect(parseKeyword(coreParseKeywordOptions)({
+  await expect(parseKeyword(coreInput)({
     async * [Symbol.asyncIterator] () {
       yield 'ret'
     }
@@ -45,7 +46,7 @@ test('ret', async () => {
 })
 
 test('getelementptr', async () => {
-  await expect(parseKeyword(coreParseKeywordOptions)({
+  await expect(parseKeyword(coreInput)({
     async * [Symbol.asyncIterator] () {
       yield 'getelementptr'
     }
@@ -65,7 +66,7 @@ test('getelementptr', async () => {
 })
 
 test("doesn't parse if trailing letters", async () => {
-  await expect(parseKeyword(coreParseKeywordOptions)({
+  await expect(parseKeyword(coreInput)({
     async * [Symbol.asyncIterator] () {
       // cspell:disable-next-line
       yield 'getelementptrabc'
@@ -75,15 +76,12 @@ test("doesn't parse if trailing letters", async () => {
 
 describe('custom options', () => {
   test('custom single char keyword', async () => {
-    await expect(parseKeyword({
-      singleCharKeywords: {
-        '<': {
-          enum: CoreKeyWord,
-          id: CoreKeyWord.RETURN
-        }
-      },
-      letterKeywords: {}
-    })({
+    await expect(parseKeyword(new Map([
+      ['<', {
+        enum: CoreKeyWord,
+        id: CoreKeyWord.RETURN
+      }]
+    ]))({
       async * [Symbol.asyncIterator] () {
         yield '<'
       }
@@ -104,7 +102,7 @@ describe('custom options', () => {
 })
 
 test(',', async () => {
-  await expect(parseKeyword(coreParseKeywordOptions)(
+  await expect(parseKeyword(coreInput)(
     arrayToAsyncIterable([',']))).resolves.toEqual({
     token: {
       type: {
@@ -121,7 +119,7 @@ test(',', async () => {
 })
 
 test('empty chunk', async () => {
-  await expect(parseKeyword(coreParseKeywordOptions)(arrayToAsyncIterable(['', ','])))
+  await expect(parseKeyword(coreInput)(arrayToAsyncIterable(['', ','])))
     .resolves.toEqual({
       token: {
         type: {

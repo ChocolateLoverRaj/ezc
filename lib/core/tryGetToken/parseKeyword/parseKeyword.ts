@@ -1,15 +1,20 @@
-import add from '../matcher/add'
-import create from '../matcher/create'
-import CoreTokensWithData from '../CoreTokensWithData'
-import CoreTokenType from '../CoreTokenType'
-import charAsyncIterable from './charAsyncIterable'
-import TryGetToken from './TryGetToken'
-import ParseKeywordOptions from './ParseKeywordOptions'
+import add from '../../matcher/add'
+import create from '../../matcher/create'
+import CoreTokensWithData from '../../CoreTokensWithData'
+import CoreTokenType from '../../CoreTokenType'
+import charAsyncIterable from '../charAsyncIterable'
+import TryGetToken from '../TryGetToken'
+import Input from './Input'
+import EnumItem from '../../EnumItem'
 
 const parseKeyword = (
-  { singleCharKeywords, letterKeywords }: ParseKeywordOptions
+  stringToKeyWordMap: Input
 ): TryGetToken<CoreTokensWithData[CoreTokenType.KEY_WORD]> => async function hello (stream) {
-  const matcher = create(Object.keys(letterKeywords))
+  const letterKeywords = new Map([...stringToKeyWordMap]
+    .filter(([string]) => /^\w+$/.test(string)))
+  const singleCharKeywords = new Map([...stringToKeyWordMap]
+    .filter(([string]) => /^[^\w]$/.test(string)))
+  const matcher = create([...letterKeywords.keys()])
   let exactMatch: number | undefined
   for await (const char of charAsyncIterable(stream)) {
     add(matcher, char)
@@ -22,21 +27,21 @@ const parseKeyword = (
                 enum: CoreTokenType,
                 id: CoreTokenType.KEY_WORD
               },
-              data: letterKeywords[matcher.find[exactMatch]]
+              data: letterKeywords.get(matcher.find[exactMatch]) as EnumItem
             },
             length: matcher.find[exactMatch].length
           }
         } else {
           return
         }
-      } else if (matcher.index === 1 && Object.keys(singleCharKeywords).includes(char)) {
+      } else if (matcher.index === 1 && singleCharKeywords.has(char)) {
         return {
           token: {
             type: {
               enum: CoreTokenType,
               id: CoreTokenType.KEY_WORD
             },
-            data: singleCharKeywords[char]
+            data: singleCharKeywords.get(char) as EnumItem
           },
           length: 1
         }
@@ -52,7 +57,7 @@ const parseKeyword = (
           enum: CoreTokenType,
           id: CoreTokenType.KEY_WORD
         },
-        data: letterKeywords[matcher.find[exactMatch]]
+        data: letterKeywords.get(matcher.find[exactMatch]) as EnumItem
       },
       length: matcher.find[exactMatch].length
     }
