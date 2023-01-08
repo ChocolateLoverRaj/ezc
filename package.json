@@ -25,7 +25,7 @@
   "main": "dist/index.js",
   "types": "./dist/esm/index.d.ts",
   "dependencies": {
-    "llvm-bindings": "^0.3.4",
+    "@selrond/knit": "^0.2.3",
     "never": "^1.1.0",
     "tslib": "^2.3.1"
   },

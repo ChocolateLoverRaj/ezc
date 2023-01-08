@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hi 1`] = `
+Array [
+  Object {
+    "data": Object {
+      "data": "hi",
+      "type": Object {
+        "enum": Object {
+          "0": "IDENTIFIER",
+          "1": "NUMBER_LITERAL",
+          "2": "INTEGER_TYPE",
+          "3": "STRING_LITERAL",
+          "4": "KEY_WORD",
+          "IDENTIFIER": 0,
+          "INTEGER_TYPE": 2,
+          "KEY_WORD": 4,
+          "NUMBER_LITERAL": 1,
+          "STRING_LITERAL": 3,
+        },
+        "id": 3,
+      },
+    },
+    "type": 0,
+  },
+]
+`;

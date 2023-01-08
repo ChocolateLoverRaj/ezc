@@ -7,6 +7,7 @@
     "noalias",
     "nocapture",
     "nofree",
+    "selrond",
     "tryer",
     "tryers",
     "Unparse",
