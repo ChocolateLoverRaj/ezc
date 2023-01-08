@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`indenting 1`] = `
+"[  
+  7
+]"
+`;
+
+exports[`nested indenting 1`] = `
+"[  
+  [  
+    6969
+  ]
+]"
+`;
+
+exports[`new line 1`] = `
+"60
+120"
+`;
+
+exports[`one line 1`] = `"c\\"Hello\\" c\\"World\\""`;
+
+exports[`sub node 1`] = `"i32 nocapture"`;
