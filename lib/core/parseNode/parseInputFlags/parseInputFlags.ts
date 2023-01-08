@@ -1,20 +1,20 @@
-import CoreTokensWithData from '../../CoreTokensWithData'
-import CoreTokenType from '../../CoreTokenType'
-import EnumItem from '../../EnumItem'
 import EnumItemWithData from '../../EnumItemWithData'
+import skip from '../../splitAsyncIterator/skip'
+import splitAsyncIterator from '../../splitAsyncIterator/splitAsyncIterator'
+import parseInputFlag from '../parseInputFlag/parseInputFlag'
 import Input from './Input'
 import Output from './Output'
 
 const parseInputFlags = (
   keyWordsToInputFlags: Input
 ) => async (stream: AsyncIterable<EnumItemWithData>): Output => {
-  const flags: EnumItem[] = []
-  for await (const value of stream) {
-    if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) break
-    const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
-    const flag = keyWordsToInputFlags.get(data.enum)?.get(data.id)
-    if (flag === undefined) break
-    flags.push(flag)
+  const flags: EnumItemWithData[] = []
+  const splittedIterator = splitAsyncIterator(stream[Symbol.asyncIterator]())
+  while (true) {
+    const parsedFlag = await parseInputFlag(keyWordsToInputFlags)(splittedIterator.asyncIterable)
+    if (parsedFlag === undefined) break
+    flags.push(parsedFlag.node)
+    skip(splittedIterator, 1)
   }
   return {
     flags,

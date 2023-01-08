@@ -1,7 +1,7 @@
-import EnumItem from '../../EnumItem'
+import EnumItemWithData from '../../EnumItemWithData'
 
 type Output = Promise<{
-  flags: EnumItem[]
+  flags: EnumItemWithData[]
   /**
    * This is so that in the future flags could be made up of more than one token
    */

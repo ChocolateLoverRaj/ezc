@@ -9,9 +9,8 @@ import splitAsyncIterator from '../../splitAsyncIterator/splitAsyncIterator'
 import skipSplittedIterator from '../../splitAsyncIterator/skip'
 import tryNodeParsers from '../tryNodeParsers'
 import parseIdentifier from '../parseIdentifier'
-import InputType from '../InputType'
-import parseInputFlags from '../parseInputFlags/parseInputFlags'
 import EnumItemWithData from '../../EnumItemWithData'
+import parseInput from '../parseInput/parseInput'
 
 const parseFunction = (
   { typeParsers, keyWordsToInputFlags, parseBlock }: Input
@@ -52,8 +51,7 @@ const parseFunction = (
   }
 
   // Parse inputs
-  const inputTypes: InputType[] = []
-  const inputNames: string[] = []
+  const inputs: EnumItemWithData[] = []
   while (true) {
     // Check for )
     {
@@ -68,24 +66,11 @@ const parseFunction = (
       }
     }
 
-    const parsedType = await tryNodeParsers(typeParsers)(splittedIterator.asyncIterable)
-    if (parsedType === undefined) return
-    skip(parsedType.length)
-
-    const flags = await parseInputFlags(keyWordsToInputFlags)(splittedIterator.asyncIterable)
-    skip(flags.length)
-
-    inputTypes.push({
-      flags: flags.flags,
-      type: parsedType.node
-    })
-
-    const parsedIdentifier = await parseIdentifier(splittedIterator.asyncIterable)
-    if (parsedIdentifier === undefined) return
-    skip(parsedIdentifier.length)
-
-    // FIXME: @identifiers should not be allowed, but in this code they are
-    inputNames.push(parsedIdentifier.node.data.name)
+    const parseInputInput = { typeParsers, keyWordsToInputFlags }
+    const parsedInput = await parseInput(parseInputInput)(splittedIterator.asyncIterable)
+    if (parsedInput === undefined) return
+    skip(parsedInput.length)
+    inputs.push(parsedInput.node)
 
     {
       const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
@@ -139,11 +124,8 @@ const parseFunction = (
       },
       data: {
         name: parsedIdentifier.node.data.name,
-        inputNames,
-        type: {
-          inputTypes,
-          returnType: parsedReturnType.node
-        },
+        inputs,
+        returnType: parsedReturnType.node,
         blocks
       }
     },

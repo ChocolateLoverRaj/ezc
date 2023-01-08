@@ -1,41 +1,15 @@
-import CoreInputFlag from '../../../parseNode/CoreInputFlag'
-import CoreNodeType from '../../../parseNode/CoreNodeType'
+import arrayToAsyncIterable from '../../../arrayToAsyncIterable'
+import parseDeclare from '../../../parseNode/parseDeclare/parseDeclare'
+import coreTryers from '../../../tryGetToken/coreTryers'
+import parseAllTokens from '../../../tryGetToken/parseAllTokens'
 import coreInput from '../coreInput'
 import unparseDeclare from '../unparseDeclare'
+import coreParseDeclareInput from '../../../parseNode/parseDeclare/coreInput'
 
-test('declare void @someFn(ptr nofree, i1)', () => {
-  expect(unparseDeclare(coreInput)({
-    name: 'someFn',
-    type: {
-      inputTypes: [{
-        type: {
-          type: {
-            enum: CoreNodeType,
-            id: CoreNodeType.POINTER_TYPE
-          },
-          data: undefined
-        },
-        flags: [{
-          enum: CoreInputFlag,
-          id: CoreInputFlag.NO_FREE
-        }]
-      }, {
-        type: {
-          type: {
-            enum: CoreNodeType,
-            id: CoreNodeType.INTEGER_TYPE
-          },
-          data: 1
-        },
-        flags: []
-      }],
-      returnType: {
-        type: {
-          enum: CoreNodeType,
-          id: CoreNodeType.VOID_TYPE
-        },
-        data: undefined
-      }
-    }
-  })).toMatchSnapshot()
+test('declare void @someFn(ptr nofree, i1)', async () => {
+  expect(unparseDeclare(coreInput)((await parseDeclare(coreParseDeclareInput)(
+    parseAllTokens(coreTryers)(
+      arrayToAsyncIterable([
+        'declare void @someFn(ptr nofree, i1)'
+      ])) as any))?.node.data as any)).toMatchSnapshot()
 })

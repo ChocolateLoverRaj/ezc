@@ -1,10 +1,8 @@
 import CoreKeyWord from '../../CoreKeyWord'
 import CoreTokenType from '../../CoreTokenType'
-import EnumItem from '../../EnumItem'
 import IdentifierType from '../../IdentifierType'
 import CoreNodeDatas from '../../parseNode/CoreNodeDatas'
 import CoreNodeType from '../../parseNode/CoreNodeType'
-import UnparsedPart from '../UnparsedPart'
 import UnparsedPartType from '../UnparsedPartType'
 import UnparseNode from '../UnparseNode'
 import Input from './Input'
@@ -12,7 +10,7 @@ import { knit } from '@selrond/knit'
 
 const unparseDeclare = (
   flagsToKeyWords: Input
-): UnparseNode<CoreNodeDatas[CoreNodeType.DECLARE]> => ({ name, type }) => [
+): UnparseNode<CoreNodeDatas[CoreNodeType.DECLARE]> => ({ name, inputs, returnType }) => [
   {
     type: UnparsedPartType.TOKEN,
     data: {
@@ -30,7 +28,7 @@ const unparseDeclare = (
     data: undefined
   }, {
     type: UnparsedPartType.NODE,
-    data: type.returnType
+    data: returnType
   }, {
     type: UnparsedPartType.SPACE,
     data: undefined
@@ -60,28 +58,7 @@ const unparseDeclare = (
     }
   },
   ...knit(
-    type.inputTypes.map<UnparsedPart[]>(({ type, flags }) => knit(
-      [
-        {
-          type: UnparsedPartType.NODE,
-          data: type
-        },
-        ...flags.map<UnparsedPart>(flag => ({
-          type: UnparsedPartType.TOKEN,
-          data: {
-            type: {
-              enum: CoreTokenType,
-              id: CoreTokenType.KEY_WORD
-            },
-            data: flagsToKeyWords.get(flag.enum)?.get(flag.id) as EnumItem
-          }
-        }))
-      ],
-      {
-        type: UnparsedPartType.SPACE,
-        data: undefined
-      })
-    ),
+    inputs,
     [
       {
         type: UnparsedPartType.TOKEN,
@@ -99,7 +76,20 @@ const unparseDeclare = (
         type: UnparsedPartType.SPACE,
         data: undefined
       }
-    ]).flat()
+    ]).flat(),
+  {
+    type: UnparsedPartType.TOKEN,
+    data: {
+      type: {
+        enum: CoreTokenType,
+        id: CoreTokenType.KEY_WORD
+      },
+      data: {
+        enum: CoreKeyWord,
+        id: CoreKeyWord.CLOSE_PARENTHESIS
+      }
+    }
+  }
 ]
 
 export default unparseDeclare

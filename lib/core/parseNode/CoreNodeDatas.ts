@@ -3,21 +3,22 @@ import IdentifierType from '../IdentifierType'
 import CoreNodesWithData from './CoreNodesWithData'
 import CoreNodeType from './CoreNodeType'
 import FloatType from './FloatType'
-import FunctionTypeData from './FunctionTypeData'
 import ConstantOrGlobal from './ConstantOrGlobal'
 import Linkage from './Linkage'
 import CallAssignableInput from './parseCallAssignable/CallAssignableInput'
+import EnumItem from '../EnumItem'
 
 interface CoreNodeDatas {
   [CoreNodeType.FUNCTION]: {
     name: string
-    inputNames: string[]
-    type: FunctionTypeData
+    inputs: EnumItemWithData[]
+    returnType: EnumItemWithData
     blocks: any
   }
   [CoreNodeType.DECLARE]: {
     name: string
-    type: FunctionTypeData
+    inputs: EnumItemWithData[]
+    returnType: EnumItemWithData
   }
   [CoreNodeType.GLOBAL_VARIABLE]: {
     constantOrGlobal: ConstantOrGlobal
@@ -61,6 +62,15 @@ interface CoreNodeDatas {
     identifier: EnumItemWithData
     assignable: EnumItemWithData
   }
+  [CoreNodeType.INPUT]: {
+    /**
+     * The actual type, like `i8` or `ptr`
+     */
+    type: EnumItemWithData
+    flags: EnumItemWithData[]
+    identifier: EnumItemWithData | undefined
+  }
+  [CoreNodeType.INPUT_FLAG]: EnumItem
 }
 
 export default CoreNodeDatas

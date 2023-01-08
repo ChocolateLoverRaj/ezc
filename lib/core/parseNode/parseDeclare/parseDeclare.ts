@@ -5,15 +5,15 @@ import skip from '../../splitAsyncIterator/skip'
 import splitAsyncIterator from '../../splitAsyncIterator/splitAsyncIterator'
 import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
-import InputType from '../InputType'
 import parseIdentifier from '../parseIdentifier'
 import tryNodeParsers from '../tryNodeParsers'
 import TryParseNode from '../TryParseNode'
-import parseInputFlags from '../parseInputFlags/parseInputFlags'
 import Input from './Input'
+import parseInput from '../parseInput/parseInput'
+import EnumItemWithData from '../../EnumItemWithData'
 
 const parseDeclare = (
-  { typeParsers, keyWordsToInputFlags }: Input
+  input: Input
 ): TryParseNode<CoreNodesWithData[CoreNodeType.DECLARE]> => async stream => {
   const splittedIterator = splitAsyncIterator(stream[Symbol.asyncIterator]())
   let parsedTokens = 0
@@ -28,7 +28,7 @@ const parseDeclare = (
     parsedTokens++
   }
 
-  const returnType = await tryNodeParsers(typeParsers)(splittedIterator.asyncIterable)
+  const returnType = await tryNodeParsers(input.typeParsers)(splittedIterator.asyncIterable)
   if (returnType === undefined) return
   skip(splittedIterator, returnType.length)
   parsedTokens += returnType.length
@@ -51,7 +51,7 @@ const parseDeclare = (
   }
 
   // Parse all inputs, there could be 0 - Infinity
-  const inputTypes: InputType[] = []
+  const inputs: EnumItemWithData[] = []
   while (true) {
     // We're done if it's )
     {
@@ -67,15 +67,10 @@ const parseDeclare = (
       }
     }
 
-    const inputType = await tryNodeParsers(typeParsers)(splittedIterator.asyncIterable)
-    if (inputType === undefined) return
-    skip(splittedIterator, inputType.length)
-    parsedTokens += inputType.length
-
-    // Parse all flags
-    const parsedFlags = await parseInputFlags(keyWordsToInputFlags)(splittedIterator.asyncIterable)
-    skip(splittedIterator, parsedFlags.length)
-    parsedTokens += parsedFlags.length
+    const parsedInput = await parseInput(input)(splittedIterator.asyncIterable)
+    if (parsedInput === undefined) return
+    skip(splittedIterator, parsedInput.length)
+    parsedTokens += parsedInput.length
 
     // Skip past ,
     const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
@@ -88,10 +83,7 @@ const parseDeclare = (
       }
     }
 
-    inputTypes.push({
-      type: inputType.node,
-      flags: parsedFlags.flags
-    })
+    inputs.push(parsedInput.node)
   }
 
   return {
@@ -102,10 +94,8 @@ const parseDeclare = (
       },
       data: {
         name: identifier.node.data.name,
-        type: {
-          returnType: returnType.node,
-          inputTypes
-        }
+        inputs,
+        returnType: returnType.node
       }
     },
     length: parsedTokens
