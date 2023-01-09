@@ -1,6 +1,7 @@
 import CoreNodeType from '../parseNode/CoreNodeType'
 import unparseArrayType from '../unparseNode/unparseArrayType'
 import unparseBlock from '../unparseNode/unparseBlock'
+import unparseCallAssignable from '../unparseNode/unparseCallAssignable'
 import unparseDeclare from '../unparseNode/unparseDeclare/unparseDeclare'
 import unparseFile from '../unparseNode/unparseFile'
 import unparseFunction from '../unparseNode/unparseFunction'
@@ -30,7 +31,8 @@ const coreNodeUnparsers: NodeUnparsers = new Map([
     [CoreNodeType.NUMBER, unparseNumber],
     [CoreNodeType.FUNCTION, unparseFunction],
     [CoreNodeType.BLOCK, unparseBlock],
-    [CoreNodeType.RETURN_INSTRUCTION, unparseReturnInstruction]
+    [CoreNodeType.RETURN_INSTRUCTION, unparseReturnInstruction],
+    [CoreNodeType.CALL_ASSIGNABLE, unparseCallAssignable]
   ])]
 ])
 

@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`call i32 @printf(ptr @0, i32 %n) 1`] = `"call i32 @printf(ptr @0, i32 %n)"`;
+
+exports[`call i32 @puts(ptr @0) 1`] = `"call i32 @puts(ptr @0)"`;
