@@ -1,12 +1,17 @@
 import CoreNodeType from '../parseNode/CoreNodeType'
 import unparseArrayType from '../unparseNode/unparseArrayType'
+import unparseBlock from '../unparseNode/unparseBlock'
 import unparseDeclare from '../unparseNode/unparseDeclare/unparseDeclare'
 import unparseFile from '../unparseNode/unparseFile'
+import unparseFunction from '../unparseNode/unparseFunction'
+import unparseIdentifier from '../unparseNode/unparseIdentifier'
 import coreUnparseInputFlagInput from '../unparseNode/unparseInputFlag/coreInput'
 import unparseInputFlag from '../unparseNode/unparseInputFlag/unparseInputFlag'
 import unparseIntegerType from '../unparseNode/unparseIntegerType'
 import UnparseNode from '../unparseNode/UnparseNode'
+import unparseNumber from '../unparseNode/unparseNumber'
 import unparsePointerType from '../unparseNode/unparsePointerType'
+import unparseReturnInstruction from '../unparseNode/unparseReturnInstruction'
 import unparseString from '../unparseNode/unparseString'
 import unparseVoidType from '../unparseNode/unparseVoidType'
 import NodeUnparsers from './NodeUnparsers'
@@ -20,7 +25,12 @@ const coreNodeUnparsers: NodeUnparsers = new Map([
     [CoreNodeType.STRING, unparseString],
     [CoreNodeType.VOID_TYPE, unparseVoidType],
     [CoreNodeType.INTEGER_TYPE, unparseIntegerType],
-    [CoreNodeType.POINTER_TYPE, unparsePointerType]
+    [CoreNodeType.POINTER_TYPE, unparsePointerType],
+    [CoreNodeType.IDENTIFIER, unparseIdentifier],
+    [CoreNodeType.NUMBER, unparseNumber],
+    [CoreNodeType.FUNCTION, unparseFunction],
+    [CoreNodeType.BLOCK, unparseBlock],
+    [CoreNodeType.RETURN_INSTRUCTION, unparseReturnInstruction]
   ])]
 ])
 

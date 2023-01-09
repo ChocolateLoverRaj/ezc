@@ -1,0 +1,6 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`simple function 1`] = `
+"0:  
+  ret i1 0"
+`;
