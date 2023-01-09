@@ -5,7 +5,7 @@ declare i32 @printf(ptr, ...)
 define i1 @main() {
   EntryBlock:
     %ptrEntry = alloca i32
-    store i32 3, ptr %ptrEntry
+      store i32 3, ptr %ptrEntry
     %varEntry = load i32, ptr %ptrEntry
 
     ; Change this to %BlockA or another block to see what happened
