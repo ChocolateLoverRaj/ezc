@@ -26,7 +26,14 @@ const coreKeyWordToStringMap: Map<CoreKeyWord, string> = new Map([
   [CoreKeyWord.OPEN_BRACKET, '['],
   [CoreKeyWord.CLOSE_BRACKET, ']'],
   [CoreKeyWord.OPEN_CURLY_BRACKET, '{'],
-  [CoreKeyWord.CLOSE_CURLY_BRACKET, '}']
+  [CoreKeyWord.CLOSE_CURLY_BRACKET, '}'],
+  [CoreKeyWord.HALF, 'half'],
+  [CoreKeyWord.BFLOAT, 'bfloat'],
+  [CoreKeyWord.FLOAT, 'float'],
+  [CoreKeyWord.DUOBLE, 'double'],
+  [CoreKeyWord.FP128, 'fp128'],
+  [CoreKeyWord.X86_FP80, 'x86_fp80'],
+  [CoreKeyWord.PPC_FP128, 'ppc_fp128']
 ])
 
 const coreInput: Input = new Map([

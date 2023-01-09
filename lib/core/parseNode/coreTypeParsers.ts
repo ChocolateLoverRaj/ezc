@@ -1,5 +1,6 @@
 import EnumItemWithData from '../EnumItemWithData'
 import parseArrayType from './parseArrayType'
+import parseFloatType from './parseFloatType'
 import parseIntegerType from './parseIntegerType'
 import parsePointerType from './parsePointerType'
 import parseVoidType from './parseVoidType'
@@ -9,7 +10,8 @@ const coreTypeParsers = ((): ReadonlyArray<TryParseNode<EnumItemWithData>> => {
   const coreTypeParsers: Array<TryParseNode<EnumItemWithData>> = [
     parseIntegerType,
     parsePointerType,
-    parseVoidType
+    parseVoidType,
+    parseFloatType
   ]
   coreTypeParsers.push(parseArrayType(coreTypeParsers))
   return coreTypeParsers

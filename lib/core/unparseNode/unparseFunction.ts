@@ -10,7 +10,7 @@ import UnparseNode from './UnparseNode'
 
 const unparseFunction: UnparseNode<CoreNodeDatas[CoreNodeType.FUNCTION]> = (
   { name, inputs, blocks, returnType }
-) => console.log(name, inputs) as unknown as false || [
+) => [
   {
     type: UnparsedPartType.TOKEN,
     data: {

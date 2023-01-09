@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`nofree 1`] = `
+exports[`double 1`] = `
 Array [
   Object {
     "data": Object {
@@ -71,7 +71,7 @@ Array [
           "X": 9,
           "X86_FP80": 30,
         },
-        "id": 17,
+        "id": 28,
       },
       "type": Object {
         "enum": Object {

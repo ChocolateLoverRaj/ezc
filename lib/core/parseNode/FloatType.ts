@@ -1,11 +1,11 @@
 enum FloatType {
-  half,
-  bfloat,
-  float,
-  double,
-  fp128,
-  x86_fp80,
-  ppc_fp128
+  HALF,
+  BFLOAT,
+  FLOAT,
+  DUOBLE,
+  FP128,
+  X86_FP80,
+  PPC_FP128
 }
 
 export default FloatType
