@@ -44,7 +44,7 @@ const parseBlock = (
     node: {
       type: {
         enum: CoreNodeType,
-        id: CoreNodeType.RETURN_INSTRUCTION
+        id: CoreNodeType.BLOCK
       },
       data: {
         name,
