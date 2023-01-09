@@ -13,7 +13,7 @@ interface CoreNodeDatas {
     name: string
     inputs: EnumItemWithData[]
     returnType: EnumItemWithData
-    blocks: any
+    blocks: EnumItemWithData[]
   }
   [CoreNodeType.DECLARE]: {
     name: string

@@ -6,6 +6,7 @@ import CoreNodeType from '../../parseNode/CoreNodeType'
 import UnparsedPartType from '../UnparsedPartType'
 import UnparseNode from '../UnparseNode'
 import { knit } from '@selrond/knit'
+import UnparsedPart from '../UnparsedPart'
 
 const unparseDeclare: UnparseNode<CoreNodeDatas[CoreNodeType.DECLARE]> = (
   { name, inputs, returnType }
@@ -56,8 +57,11 @@ const unparseDeclare: UnparseNode<CoreNodeDatas[CoreNodeType.DECLARE]> = (
       }
     }
   },
-  ...knit(
-    inputs,
+  ...knit<UnparsedPart[]>(
+    inputs.map(input => [{
+      type: UnparsedPartType.NODE,
+      data: input
+    }]),
     [
       {
         type: UnparsedPartType.TOKEN,
