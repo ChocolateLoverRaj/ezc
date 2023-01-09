@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`{ i1, i64, ptr } 1`] = `
+"{  
+  i1,
+  i64,
+  ptr
+}"
+`;
+
+exports[`{ i32 } 1`] = `
+"{  
+  i32
+}"
+`;
+
+exports[`{ i64, ptr } 1`] = `
+"{  
+  i64,
+  ptr
+}"
+`;
