@@ -62,31 +62,33 @@ const unparseCallAssignable: UnparseNode<CoreNodeDatas[CoreNodeType.CALL_ASSIGNA
       }
     }
   },
-  ...knit<UnparsedPart[]>(inputs.map(({ type, value }) => [{
-    type: UnparsedPartType.NODE,
-    data: type
-  }, {
-    type: UnparsedPartType.SPACE,
-    data: undefined
-  }, {
-    type: UnparsedPartType.NODE,
-    data: value
-  }]), [{
-    type: UnparsedPartType.TOKEN,
-    data: {
-      type: {
-        enum: CoreTokenType,
-        id: CoreTokenType.KEY_WORD
-      },
+  ...inputs.length > 0
+    ? knit<UnparsedPart[]>(inputs.map(({ type, value }) => [{
+      type: UnparsedPartType.NODE,
+      data: type
+    }, {
+      type: UnparsedPartType.SPACE,
+      data: undefined
+    }, {
+      type: UnparsedPartType.NODE,
+      data: value
+    }]), [{
+      type: UnparsedPartType.TOKEN,
       data: {
-        enum: CoreKeyWord,
-        id: CoreKeyWord.COMMA
+        type: {
+          enum: CoreTokenType,
+          id: CoreTokenType.KEY_WORD
+        },
+        data: {
+          enum: CoreKeyWord,
+          id: CoreKeyWord.COMMA
+        }
       }
-    }
-  }, {
-    type: UnparsedPartType.SPACE,
-    data: undefined
-  }]).flat(),
+    }, {
+      type: UnparsedPartType.SPACE,
+      data: undefined
+    }]).flat()
+    : [],
   {
     type: UnparsedPartType.TOKEN,
     data: {
