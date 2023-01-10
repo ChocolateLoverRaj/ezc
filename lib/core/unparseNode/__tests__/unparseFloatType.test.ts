@@ -1,6 +1,6 @@
-import FloatType from '../../parseNode/FloatType'
-import unparseFloatType from '../unparseFloatType'
+import parseFloatType from '../../parseNode/parseFloatType'
+import testUnparseNode from '../testUnparseNode'
 
-test('double', () => {
-  expect(unparseFloatType(FloatType.DUOBLE)).toMatchSnapshot()
+test('double', async () => {
+  await testUnparseNode(parseFloatType, 'double')
 })

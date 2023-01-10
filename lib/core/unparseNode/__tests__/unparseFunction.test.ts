@@ -1,19 +1,11 @@
-import arrayToAsyncIterable from '../../arrayToAsyncIterable'
 import parseFnCoreInput from '../../parseNode/parseFunction/coreInput'
 import parseFunction from '../../parseNode/parseFunction/parseFunction'
-import coreTryers from '../../tryGetToken/coreTryers'
-import parseAllTokens from '../../tryGetToken/parseAllTokens'
-import coreToStrInput from '../../unparsedNodeToString/coreInput'
-import unparsedNodeToString from '../../unparsedNodeToString/unparsedNodeToString'
-import unparseFunction from '../unparseFunction'
+import testUnparseNode from '../testUnparseNode'
 
 test('simple function', async () => {
-  expect(unparsedNodeToString(coreToStrInput)(
-    unparseFunction((await parseFunction(parseFnCoreInput)(parseAllTokens(coreTryers)(
-      arrayToAsyncIterable([
+  await testUnparseNode(parseFunction(parseFnCoreInput),
     `define i1 @main() {
       0:
         ret i1 0
-    }`
-      ])) as any))?.node.data as any))).toMatchSnapshot()
+    }`)
 })

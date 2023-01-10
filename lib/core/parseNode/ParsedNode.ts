@@ -1,6 +1,6 @@
-import Node from './Node'
+import EnumItemWithData from '../EnumItemWithData'
 
-interface ParsedNode<T extends Node> {
+interface ParsedNode<T extends EnumItemWithData> {
   node: T
   length: number
 }

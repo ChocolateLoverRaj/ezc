@@ -1,5 +1,6 @@
-import unparseString from '../unparseString'
+import parseString from '../../parseNode/parseString'
+import testUnparseNode from '../testUnparseNode'
 
-test('hi', () => {
-  expect(unparseString('hi')).toMatchSnapshot()
+test('hi', async () => {
+  await testUnparseNode(parseString, 'c"hi"')
 })

@@ -189,7 +189,7 @@ Object {
         "STRUCT_TYPE": 9,
         "VOID_TYPE": 12,
       },
-      "id": 14,
+      "id": 13,
     },
   },
 }
@@ -384,7 +384,7 @@ Object {
         "STRUCT_TYPE": 9,
         "VOID_TYPE": 12,
       },
-      "id": 14,
+      "id": 13,
     },
   },
 }

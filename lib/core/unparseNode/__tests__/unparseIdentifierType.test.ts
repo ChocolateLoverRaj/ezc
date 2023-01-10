@@ -1,11 +1,6 @@
-import IdentifierType from '../../IdentifierType'
-import coreInput from '../../unparsedNodeToString/coreInput'
-import unparsedNodeToString from '../../unparsedNodeToString/unparsedNodeToString'
-import unparseIdentifier from '../unparseIdentifier'
+import parseIdentifier from '../../parseNode/parseIdentifier'
+import testUnparseNode from '../testUnparseNode'
 
-test('%magic', () => {
-  expect(unparsedNodeToString(coreInput)(unparseIdentifier({
-    name: 'magic',
-    type: IdentifierType.PERCENT
-  }))).toMatchSnapshot()
+test('%magic', async () => {
+  await testUnparseNode(parseIdentifier, '%magic')
 })

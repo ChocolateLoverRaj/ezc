@@ -1,7 +1,6 @@
-import coreInput from '../../unparsedNodeToString/coreInput'
-import unparsedNodeToString from '../../unparsedNodeToString/unparsedNodeToString'
-import unparseNumber from '../unparseNumber'
+import parseNumber from '../../parseNode/parseNumber'
+import testUnparseNode from '../testUnparseNode'
 
-test('1.2', () => {
-  expect(unparsedNodeToString(coreInput)(unparseNumber(1.2))).toMatchSnapshot()
+test('1.2', async () => {
+  await testUnparseNode(parseNumber, '1.2')
 })

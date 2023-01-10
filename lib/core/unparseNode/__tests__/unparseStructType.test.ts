@@ -1,52 +1,15 @@
-import CoreNodeType from '../../parseNode/CoreNodeType'
-import coreInput from '../../unparsedNodeToString/coreInput'
-import unparsedNodeToString from '../../unparsedNodeToString/unparsedNodeToString'
-import unparseStructType from '../unparseStructType'
+import coreInput from '../../parseNode/parseStructType/coreInput'
+import parseStructType from '../../parseNode/parseStructType/parseStructType'
+import testUnparseNode from '../testUnparseNode'
 
-test('{ i64, ptr }', () => {
-  expect(unparsedNodeToString(coreInput)(unparseStructType([{
-    type: {
-      enum: CoreNodeType,
-      id: CoreNodeType.INTEGER_TYPE
-    },
-    data: 64
-  }, {
-    type: {
-      enum: CoreNodeType,
-      id: CoreNodeType.POINTER_TYPE
-    },
-    data: undefined
-  }]))).toMatchSnapshot()
+test('{ i64, ptr }', async () => {
+  await testUnparseNode(parseStructType(coreInput), '{ i64, ptr }')
 })
 
-test('{ i32 }', () => {
-  expect(unparsedNodeToString(coreInput)(unparseStructType([{
-    type: {
-      enum: CoreNodeType,
-      id: CoreNodeType.INTEGER_TYPE
-    },
-    data: 32
-  }]))).toMatchSnapshot()
+test('{ i32 }', async () => {
+  await testUnparseNode(parseStructType(coreInput), '{ i32 }')
 })
 
-test('{ i1, i64, ptr }', () => {
-  expect(unparsedNodeToString(coreInput)(unparseStructType([{
-    type: {
-      enum: CoreNodeType,
-      id: CoreNodeType.INTEGER_TYPE
-    },
-    data: 1
-  }, {
-    type: {
-      enum: CoreNodeType,
-      id: CoreNodeType.INTEGER_TYPE
-    },
-    data: 64
-  }, {
-    type: {
-      enum: CoreNodeType,
-      id: CoreNodeType.POINTER_TYPE
-    },
-    data: undefined
-  }]))).toMatchSnapshot()
+test('{ i1, i64, ptr }', async () => {
+  await testUnparseNode(parseStructType(coreInput), '{ i1, i64, ptr }')
 })

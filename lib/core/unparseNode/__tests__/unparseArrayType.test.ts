@@ -1,15 +1,7 @@
-import CoreNodeType from '../../parseNode/CoreNodeType'
-import unparseArrayType from '../unparseArrayType'
+import coreTypeParsers from '../../parseNode/coreTypeParsers'
+import parseArrayType from '../../parseNode/parseArrayType'
+import testUnparseNode from '../testUnparseNode'
 
-test('[0 x i8]', () => {
-  expect(unparseArrayType({
-    length: 0,
-    itemsType: {
-      type: {
-        enum: CoreNodeType,
-        id: CoreNodeType.INTEGER_TYPE
-      },
-      data: 8
-    }
-  })).toMatchSnapshot()
+test('[0 x i8]', async () => {
+  await testUnparseNode(parseArrayType(coreTypeParsers), '[0 x i8]')
 })

@@ -1,5 +1,6 @@
-import unparsePointerType from '../unparsePointerType'
+import parsePointerType from '../../parseNode/parsePointerType'
+import testUnparseNode from '../testUnparseNode'
 
-test('ptr', () => {
-  expect(unparsePointerType(undefined)).toMatchSnapshot()
+test('ptr', async () => {
+  await testUnparseNode(parsePointerType, 'ptr')
 })

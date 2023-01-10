@@ -1,5 +1,6 @@
-import unparseVoidType from '../unparseVoidType'
+import parseVoidType from '../../parseNode/parseVoidType'
+import testUnparseNode from '../testUnparseNode'
 
-test('void', () => {
-  expect(unparseVoidType(undefined)).toMatchSnapshot()
+test('void', async () => {
+  await testUnparseNode(parseVoidType, 'void')
 })
