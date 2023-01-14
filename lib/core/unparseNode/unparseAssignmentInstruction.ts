@@ -5,7 +5,7 @@ import CoreNodeType from '../parseNode/CoreNodeType'
 import UnparsedPartType from './UnparsedPartType'
 import UnparseNode from './UnparseNode'
 
-const unparseAssignmentIntruction:
+const unparseAssignmentInstruction:
 UnparseNode<CoreNodeDatas[CoreNodeType.ASSIGNMENT_INSTRUCTION]> = (
   { assignable, identifier }
 ) => [{
@@ -34,4 +34,4 @@ UnparseNode<CoreNodeDatas[CoreNodeType.ASSIGNMENT_INSTRUCTION]> = (
   data: assignable
 }]
 
-export default unparseAssignmentIntruction
+export default unparseAssignmentInstruction
