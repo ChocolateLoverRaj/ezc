@@ -5,6 +5,7 @@
   "description": "CLI to transform custom code into LLVM IR",
   "dependencies": {
     "commander": "^9.5.0",
+    "concat-maps": "^1.0.2",
     "jsonfile": "^6.1.0",
     "never": "^1.1.0",
     "tslib": "^2.4.1"
