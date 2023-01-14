@@ -28,6 +28,7 @@ const unparsedNodeToString = ({ nodeUnparsers, unparseTokenInput }: Input) => (
     } else if (type === UnparsedPartType.NODE) {
       const unparsedParts =
         nodeUnparsers.get(data.type.enum)?.get(data.type.id)?.(data.data) as UnparsedPart[]
+      if (unparsedParts === undefined) console.log(data)
       partsToUnparse.unshift(...unparsedParts)
     }
   }

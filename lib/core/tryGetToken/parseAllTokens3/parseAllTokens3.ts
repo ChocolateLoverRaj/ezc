@@ -29,6 +29,10 @@ const parseAllTokens3 = (tryers: ReadonlyArray<TryGetToken<EnumItemWithData>>) =
     }
     const token = await parseToken3(tryers)(splittedIterator.asyncIterable)
     if (token === undefined) {
+      // Check for end of file
+      const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
+      if (done === true || value === '') return
+
       yield {
         error: true,
         value: undefined

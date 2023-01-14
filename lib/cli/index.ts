@@ -1,11 +1,15 @@
 import { Command } from 'commander'
 import { createReadStream } from 'fs'
+import { writeFile } from 'fs/promises'
 import { readFileSync } from 'jsonfile'
 import never from 'never'
-import coreInput from '../core/parseNode/parseFile/coreInput'
+import coreParseFileInput from '../core/parseNode/parseFile/coreInput'
 import parseFile from '../core/parseNode/parseFile/parseFile'
 import coreTryers from '../core/tryGetToken/coreTryers'
 import parseAllTokens3 from '../core/tryGetToken/parseAllTokens3/parseAllTokens3'
+import coreToStrInput from '../core/unparsedNodeToString/coreInput'
+import unparsedNodeToString from '../core/unparsedNodeToString/unparsedNodeToString'
+import unparseFile from '../core/unparseNode/unparseFile'
 import getLineFromPos from './getLineFromPos'
 
 const { name, version, description } = readFileSync('./package.json')
@@ -15,13 +19,14 @@ new Command()
   .version(version)
   .description(description)
   .argument('<inputFile>', 'File to parse')
-  .action(async (file: string) => {
+  .option('-o <outputFile>', 'File to write to')
+  .action(async (file: string, { o }) => {
     const stream = createReadStream(file, 'utf8')
     console.log('Parsing file')
     const tokensStream = parseAllTokens3(coreTryers)(stream)
     let index = 0
     let parseTokenError = false
-    const parsedFile = await parseFile(coreInput)({
+    const parsedFile = await parseFile(coreParseFileInput)({
       async * [Symbol.asyncIterator] () {
         for await (const { error, value } of tokensStream) {
           if (error) {
@@ -48,6 +53,12 @@ new Command()
       console.log('Invalid file')
       return
     }
-    console.log('Parsed file', parsedFile.node.data)
+    if (o === undefined) {
+      console.log('Not outputting a file because no output file inputted')
+      return
+    }
+    console.log('Writing output file')
+    await writeFile(o, unparsedNodeToString(coreToStrInput)(unparseFile(parsedFile.node.data)))
+    console.log('Done')
   })
   .parse()
