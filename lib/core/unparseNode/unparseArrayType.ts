@@ -17,7 +17,7 @@ const unparseArrayType: UnparseNode<CoreNodeDatas[CoreNodeType.ARRAY_TYPE]> = ({
     },
     data: {
       enum: CoreKeyWord,
-      data: CoreKeyWord.OPEN_BRACKET
+      id: CoreKeyWord.OPEN_BRACKET
     }
   }
 }, {
@@ -41,7 +41,7 @@ const unparseArrayType: UnparseNode<CoreNodeDatas[CoreNodeType.ARRAY_TYPE]> = ({
     },
     data: {
       enum: CoreKeyWord,
-      data: CoreKeyWord.X
+      id: CoreKeyWord.X
     }
   }
 }, {
@@ -50,6 +50,18 @@ const unparseArrayType: UnparseNode<CoreNodeDatas[CoreNodeType.ARRAY_TYPE]> = ({
 }, {
   type: UnparsedPartType.NODE,
   data: itemsType
+}, {
+  type: UnparsedPartType.TOKEN,
+  data: {
+    type: {
+      enum: CoreTokenType,
+      id: CoreTokenType.KEY_WORD
+    },
+    data: {
+      enum: CoreKeyWord,
+      id: CoreKeyWord.CLOSE_BRACKET
+    }
+  }
 }]
 
 export default unparseArrayType
