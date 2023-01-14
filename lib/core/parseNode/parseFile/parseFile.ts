@@ -22,7 +22,6 @@ const parseFile = (parseSubNode: Input): TryParseNode<CoreNodesWithData[CoreNode
         const { done } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
         if (done === true) break
         else {
-          console.log('r')
           return
         }
       }
