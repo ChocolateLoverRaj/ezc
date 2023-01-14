@@ -9,6 +9,7 @@ import unparseFloatType from '../unparseNode/unparseFloatType'
 import unparseFunction from '../unparseNode/unparseFunction'
 import unparseGlobalVariable from '../unparseNode/unparseGlobalVariable'
 import unparseIdentifier from '../unparseNode/unparseIdentifier'
+import unparseInput from '../unparseNode/unparseInput'
 import coreUnparseInputFlagInput from '../unparseNode/unparseInputFlag/coreInput'
 import unparseInputFlag from '../unparseNode/unparseInputFlag/unparseInputFlag'
 import unparseIntegerType from '../unparseNode/unparseIntegerType'
@@ -40,7 +41,8 @@ const coreNodeUnparsers: NodeUnparsers = new Map([
     [CoreNodeType.ASSIGNMENT_INSTRUCTION, unparseAssignmentInstruction],
     [CoreNodeType.GLOBAL_VARIABLE, unparseGlobalVariable],
     [CoreNodeType.FLOAT_TYPE, unparseFloatType],
-    [CoreNodeType.STRUCT_TYPE, unparseStructType]
+    [CoreNodeType.STRUCT_TYPE, unparseStructType],
+    [CoreNodeType.INPUT, unparseInput]
   ])]
 ])
 
