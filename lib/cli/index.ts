@@ -20,7 +20,12 @@ new Command()
   .description(description)
   .argument('<inputFile>', 'File to parse')
   .option('-o <outputFile>', 'File to write to')
-  .action(async (file: string, { o }) => {
+  .option('-p, --plugins <plugins...>', 'Plugins to extend LLVM IR')
+  .action(async (file: string, { o, plugins }: { o: string, plugins: string[] }) => {
+    console.log('Loading plugins')
+    const loadedPlugins =
+      await Promise.all(plugins.map(async plugin => (await import(plugin)).default))
+    console.log('Loaded plugins', loadedPlugins)
     const stream = createReadStream(file, 'utf8')
     console.log('Parsing file')
     const tokensStream = parseAllTokens3(coreTryers)(stream)
