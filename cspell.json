@@ -8,6 +8,7 @@
     "nocapture",
     "nofree",
     "selrond",
+    "Splittable",
     "tryer",
     "tryers",
     "Unparse",

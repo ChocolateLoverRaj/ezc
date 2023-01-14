@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "ezc-cli",
+  "version": "1.0.0",
+  "description": "CLI to transform custom code into LLVM IR",
+  "dependencies": {
+    "commander": "^9.5.0",
+    "jsonfile": "^6.1.0",
+    "never": "^1.1.0",
+    "tslib": "^2.4.1"
+  },
+  "devDependencies": {
+    "@types/jsonfile": "^6.1.1"
+  }
+}
