@@ -1,11 +1,8 @@
-import CoreTokensWithData from '../../CoreTokensWithData'
-import CoreTokenType from '../../CoreTokenType'
 import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
-import ParsedNode from '../ParsedNode'
-import CoreKeyWord from '../../CoreKeyWord'
-import parseArrayType from '../parseArrayType'
 import coreTypeParsers from '../coreTypeParsers'
+import parseArrayType from '../parseArrayType'
+import testParseNode from '../testParseNode'
 
 test('[13 x i8]', async () => {
   const integerTypeData: CoreNodesWithData[CoreNodeType.INTEGER_TYPE] = {
@@ -15,7 +12,7 @@ test('[13 x i8]', async () => {
     },
     data: 8
   }
-  const expected: ParsedNode<CoreNodesWithData[CoreNodeType.ARRAY_TYPE]> = {
+  await testParseNode(parseArrayType(coreTypeParsers), '[13 x i8]', {
     node: {
       type: {
         enum: CoreNodeType,
@@ -27,62 +24,5 @@ test('[13 x i8]', async () => {
       }
     },
     length: 5
-  }
-  await expect(parseArrayType(coreTypeParsers)({
-    async * [Symbol.asyncIterator] () {
-      const openingBracket: CoreTokensWithData[CoreTokenType.KEY_WORD] = {
-        type: {
-          enum: CoreTokenType,
-          id: CoreTokenType.KEY_WORD
-        },
-        data: {
-          enum: CoreKeyWord,
-          id: CoreKeyWord.OPEN_BRACKET
-        }
-      }
-      yield openingBracket
-
-      const numberOfItems: CoreTokensWithData[CoreTokenType.NUMBER_LITERAL] = {
-        type: {
-          enum: CoreTokenType,
-          id: CoreTokenType.NUMBER_LITERAL
-        },
-        data: 13
-      }
-      yield numberOfItems
-
-      const x: CoreTokensWithData[CoreTokenType.KEY_WORD] = {
-        type: {
-          enum: CoreTokenType,
-          id: CoreTokenType.KEY_WORD
-        },
-        data: {
-          enum: CoreKeyWord,
-          id: CoreKeyWord.X
-        }
-      }
-      yield x
-
-      const i8: CoreTokensWithData[CoreTokenType.INTEGER_TYPE] = {
-        type: {
-          enum: CoreTokenType,
-          id: CoreTokenType.INTEGER_TYPE
-        },
-        data: 8
-      }
-      yield i8
-
-      const closingBracket: CoreTokensWithData[CoreTokenType.KEY_WORD] = {
-        type: {
-          enum: CoreTokenType,
-          id: CoreTokenType.KEY_WORD
-        },
-        data: {
-          enum: CoreKeyWord,
-          id: CoreKeyWord.CLOSE_BRACKET
-        }
-      }
-      yield closingBracket
-    }
-  })).resolves.toEqual(expected)
+  })
 })

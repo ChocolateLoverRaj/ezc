@@ -6,7 +6,7 @@ import skipSplittedIterator from '../../../util/splitAsyncIterator/skip'
 import splitAsyncIterator from '../../../util/splitAsyncIterator/splitAsyncIterator'
 import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
-import tryNodeParsers from '../tryNodeParsers'
+import tryNodeParsers from '../tryNodeParsers/tryNodeParsers'
 import TryParseNode from '../TryParseNode'
 
 // TODO: Validate if block ends with a instruction that switches to a different block
@@ -19,6 +19,10 @@ const parseBlock = (
     length += count
     skipSplittedIterator(splittedIterator, count)
   }
+  const type = {
+    enum: CoreNodeType,
+    id: CoreNodeType.BLOCK
+  }
 
   const name = await (async () => {
     const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
@@ -29,29 +33,39 @@ const parseBlock = (
     skip(1)
     return name
   })()
-  if (name === undefined) return
+  if (name === undefined) {
+    return {
+      success: false,
+      result: {
+        type,
+        index: 0,
+        message: 'Expected name identifier',
+        subAttempts: undefined
+      }
+    }
+  }
 
   const instructions: EnumItemWithData[] = []
   while (true) {
-    const parsedInstruction = await tryNodeParsers(instructionParsers)(
+    const { success, result } = await tryNodeParsers(instructionParsers)(
       splittedIterator.asyncIterable)
-    if (parsedInstruction === undefined) break
-    instructions.push(parsedInstruction.node)
-    skip(parsedInstruction.length)
+    if (!success) break
+    instructions.push(result.node)
+    skip(result.length)
   }
 
   return {
-    node: {
-      type: {
-        enum: CoreNodeType,
-        id: CoreNodeType.BLOCK
+    success: true,
+    result: {
+      node: {
+        type,
+        data: {
+          name,
+          instructions
+        }
       },
-      data: {
-        name,
-        instructions
-      }
-    },
-    length
+      length
+    }
   }
 }
 

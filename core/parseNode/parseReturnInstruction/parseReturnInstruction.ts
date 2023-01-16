@@ -1,48 +1,74 @@
 import CoreKeyWord from '../../CoreKeyWord'
-import CoreTokensWithData from '../../CoreTokensWithData'
-import CoreTokenType from '../../CoreTokenType'
 import skip from '../../../util/splitAsyncIterator/skip'
 import splitAsyncIterator from '../../../util/splitAsyncIterator/splitAsyncIterator'
 import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
-import tryNodeParsers from '../tryNodeParsers'
+import tryNodeParsers from '../tryNodeParsers/tryNodeParsers'
 import TryParseNode from '../TryParseNode'
 import Input from './Input'
+import checkKeyWord from '../checkKeyWord'
 
 const parseReturnInstruction = (
   { typeParsers, valueParsers }: Input
 ): TryParseNode<CoreNodesWithData[CoreNodeType.RETURN_INSTRUCTION]> => async stream => {
   const splittedIterator = splitAsyncIterator(stream[Symbol.asyncIterator]())
+  const type = {
+    enum: CoreNodeType,
+    id: CoreNodeType.RETURN_INSTRUCTION
+  }
 
   {
-    const { value, done } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
-    if (done === true) return
-    if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) return
-    const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
-    if (!(data.enum === CoreKeyWord && data.id === CoreKeyWord.RETURN)) return
+    const error = await checkKeyWord(
+      splittedIterator.asyncIterable[Symbol.asyncIterator](),
+      type,
+      0,
+      'Expected return',
+      { enum: CoreKeyWord, id: CoreKeyWord.RETURN }
+    )
+    if (error !== undefined) return error
     skip(splittedIterator, 1)
   }
 
-  const parsedType = await tryNodeParsers(typeParsers)(splittedIterator.asyncIterable)
-  if (parsedType === undefined) return
-  skip(splittedIterator, parsedType.length)
+  const parseTypeResult = await tryNodeParsers(typeParsers)(splittedIterator.asyncIterable)
+  if (!parseTypeResult.success) {
+    return {
+      success: false,
+      result: {
+        type,
+        index: 1,
+        message: 'Expected type',
+        subAttempts: parseTypeResult.result
+      }
+    }
+  }
+  skip(splittedIterator, parseTypeResult.result.length)
 
-  const parsedValue = await tryNodeParsers(valueParsers)(splittedIterator.asyncIterable)
-  if (parsedValue === undefined) return
-  skip(splittedIterator, parsedValue.length)
+  const parseValueResult = await tryNodeParsers(valueParsers)(splittedIterator.asyncIterable)
+  if (!parseValueResult.success) {
+    return {
+      success: false,
+      result: {
+        type,
+        index: 1 + parseTypeResult.result.length,
+        message: 'Expected value',
+        subAttempts: parseValueResult.result
+      }
+    }
+  }
+  skip(splittedIterator, parseValueResult.result.length)
 
   return {
-    node: {
-      type: {
-        enum: CoreNodeType,
-        id: CoreNodeType.RETURN_INSTRUCTION
+    success: true,
+    result: {
+      node: {
+        type,
+        data: {
+          type: parseTypeResult.result.node,
+          value: parseValueResult.result.node
+        }
       },
-      data: {
-        type: parsedType.node,
-        value: parsedValue.node
-      }
-    },
-    length: 1 + parsedType.length + parsedValue.length
+      length: 1 + parseTypeResult.result.length + parseValueResult.result.length
+    }
   }
 }
 

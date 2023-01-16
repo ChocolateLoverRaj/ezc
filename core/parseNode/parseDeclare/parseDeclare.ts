@@ -6,99 +6,152 @@ import splitAsyncIterator from '../../../util/splitAsyncIterator/splitAsyncItera
 import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
 import parseIdentifier from '../parseIdentifier'
-import tryNodeParsers from '../tryNodeParsers'
+import tryNodeParsers from '../tryNodeParsers/tryNodeParsers'
 import TryParseNode from '../TryParseNode'
 import Input from './Input'
 import parseInput from '../parseInput/parseInput'
 import EnumItemWithData from '../../EnumItemWithData'
+import checkKeyWord from '../checkKeyWord'
 
 const parseDeclare = (
   input: Input
 ): TryParseNode<CoreNodesWithData[CoreNodeType.DECLARE]> => async stream => {
   const splittedIterator = splitAsyncIterator(stream[Symbol.asyncIterator]())
-  let parsedTokens = 0
-
-  {
-    const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
-    if (done === true) return
-    if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) return
-    const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
-    if (!(data.enum === CoreKeyWord && data.id === CoreKeyWord.DECLARE)) return
-    skip(splittedIterator, 1)
-    parsedTokens++
+  let length = 0
+  const type = {
+    enum: CoreNodeType,
+    id: CoreNodeType.DECLARE
   }
 
-  const returnType = await tryNodeParsers(input.typeParsers)(splittedIterator.asyncIterable)
-  if (returnType === undefined) return
-  skip(splittedIterator, returnType.length)
-  parsedTokens += returnType.length
+  {
+    const error = await checkKeyWord(
+      splittedIterator.asyncIterable[Symbol.asyncIterator](),
+      type,
+      length,
+      'Expected declare',
+      { enum: CoreKeyWord, id: CoreKeyWord.DECLARE }
+    )
+    if (error !== undefined) return error
+    skip(splittedIterator, 1)
+    length++
+  }
 
-  const identifier = await parseIdentifier(splittedIterator.asyncIterable)
-  if (identifier === undefined) return
-  skip(splittedIterator, identifier.length)
-  parsedTokens += identifier.length
+  const parseReturnTypeResult =
+    await tryNodeParsers(input.typeParsers)(splittedIterator.asyncIterable)
+  if (!parseReturnTypeResult.success) {
+    return {
+      success: false,
+      result: {
+        type,
+        index: length,
+        message: 'Expected return type',
+        subAttempts: parseReturnTypeResult.result
+      }
+    }
+  }
+  skip(splittedIterator, parseReturnTypeResult.result.length)
+  length += parseReturnTypeResult.result.length
+
+  const parseIdentifierResult = await parseIdentifier(splittedIterator.asyncIterable)
+  if (!parseIdentifierResult.success) {
+    return {
+      success: false,
+      result: {
+        type,
+        index: length,
+        message: 'Expected identifier',
+        subAttempts: [parseIdentifierResult.result]
+      }
+    }
+  }
+  skip(splittedIterator, parseIdentifierResult.result.length)
+  length += parseIdentifierResult.result.length
 
   {
-    const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
-    if (done === true) return
-    if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) {
-      return
-    }
-    const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
-    if (!(data.enum === CoreKeyWord && data.id === CoreKeyWord.OPEN_PARENTHESIS)) return
+    const error = await checkKeyWord(
+      splittedIterator.asyncIterable[Symbol.asyncIterator](),
+      type,
+      length,
+      'Expected open parenthesis',
+      { enum: CoreKeyWord, id: CoreKeyWord.OPEN_PARENTHESIS }
+    )
+    if (error !== undefined) return error
     skip(splittedIterator, 1)
-    parsedTokens++
+    length++
   }
 
   // Parse all inputs, there could be 0 - Infinity
   const inputs: EnumItemWithData[] = []
-  while (true) {
+  for (let firstInput = true; ; firstInput = false) {
     // We're done if it's )
     {
       const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
-      if (done === true) return
+      if (done === true) {
+        return {
+          success: false,
+          result: {
+            type,
+            index: length,
+            message: 'Expected close parenthesis',
+            subAttempts: undefined
+          }
+        }
+      }
       if (value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD) {
         const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
         if (data.enum === CoreKeyWord && data.id === CoreKeyWord.CLOSE_PARENTHESIS) {
           skip(splittedIterator, 1)
-          parsedTokens++
+          length++
           break
         }
       }
     }
 
-    const parsedInput = await parseInput(input)(splittedIterator.asyncIterable)
-    if (parsedInput === undefined) return
-    skip(splittedIterator, parsedInput.length)
-    parsedTokens += parsedInput.length
-
     // Skip past ,
-    const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
-    if (done === true) return
-    if (value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD) {
-      const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
-      if (data.enum === CoreKeyWord && data.id === CoreKeyWord.COMMA) {
-        skip(splittedIterator, 1)
-        parsedTokens++
-      }
+    if (!firstInput) {
+      const error = await checkKeyWord(
+        splittedIterator.asyncIterable[Symbol.asyncIterator](),
+        type,
+        length,
+        'Expected comma',
+        { enum: CoreKeyWord, id: CoreKeyWord.COMMA }
+      )
+      if (error !== undefined) return error
+      skip(splittedIterator, 1)
+      length++
     }
 
-    inputs.push(parsedInput.node)
+    const parseInputResult = await parseInput(input)(splittedIterator.asyncIterable)
+    if (!parseInputResult.success) {
+      return {
+        success: false,
+        result: {
+          type,
+          index: length,
+          message: 'Expected input',
+          subAttempts: [parseInputResult.result]
+        }
+      }
+    }
+    skip(splittedIterator, parseInputResult.result.length)
+    length += parseInputResult.result.length
+
+    inputs.push(parseInputResult.result.node)
   }
 
   return {
-    node: {
-      type: {
-        enum: CoreNodeType,
-        id: CoreNodeType.DECLARE
+    success: true,
+    result: {
+      node: {
+        type,
+        data: {
+          name: parseIdentifierResult.result.node.data.name,
+          inputs,
+          returnType: parseReturnTypeResult.result.node
+        }
       },
-      data: {
-        name: identifier.node.data.name,
-        inputs,
-        returnType: returnType.node
-      }
-    },
-    length: parsedTokens
+      length
+    }
   }
 }
 

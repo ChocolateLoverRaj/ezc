@@ -7,10 +7,12 @@ import coreKeyWordsToInputFlags from '../coreKeyWordsToInputFlags'
 import parseInputFlags from '../parseInputFlags'
 
 test('nocapture noalias', async () => {
-  await expect(parseInputFlags(coreKeyWordsToInputFlags)(parseAllTokens(coreTryers)(
-    arrayToAsyncIterable([
-      'nocapture noalias'
-    ])) as any)).resolves.toEqual({
+  const { flags, length, error } = await parseInputFlags(coreKeyWordsToInputFlags)(
+    parseAllTokens(coreTryers)(
+      arrayToAsyncIterable([
+        'nocapture noalias'
+      ])) as any)
+  expect({ flags, length }).toEqual({
     flags: [{
       type: {
         enum: CoreNodeType,
@@ -32,23 +34,28 @@ test('nocapture noalias', async () => {
     }],
     length: 2
   })
+  expect(error).toBeDefined()
 })
 
 test('nofree', async () => {
-  await expect(parseInputFlags(coreKeyWordsToInputFlags)(parseAllTokens(coreTryers)(
+  const {
+    error,
+    flags,
+    length
+  } = await parseInputFlags(coreKeyWordsToInputFlags)(parseAllTokens(coreTryers)(
     arrayToAsyncIterable([
       'nofree'
-    ])) as any)).resolves.toEqual({
-    flags: [{
-      type: {
-        enum: CoreNodeType,
-        id: CoreNodeType.INPUT_FLAG
-      },
-      data: {
-        enum: CoreInputFlag,
-        id: CoreInputFlag.NO_FREE
-      }
-    }],
-    length: 1
-  })
+    ])) as any)
+  expect(flags).toEqual([{
+    type: {
+      enum: CoreNodeType,
+      id: CoreNodeType.INPUT_FLAG
+    },
+    data: {
+      enum: CoreInputFlag,
+      id: CoreInputFlag.NO_FREE
+    }
+  }])
+  expect(length).toEqual(1)
+  expect(error).toBeDefined()
 })

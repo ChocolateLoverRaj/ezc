@@ -5,10 +5,8 @@ import CoreNodeType from '../../CoreNodeType'
 import Linkage from '../../Linkage'
 import ParsedNode from '../../ParsedNode'
 import parseGlobalVariable from '../parseGlobalVariable'
-import parseAllTokens from '../../../tryGetToken/parseAllTokens'
-import coreTryers from '../../../tryGetToken/coreTryers'
-import arrayToAsyncIterable from '../../../../util/arrayToAsyncIterable/arrayToAsyncIterable'
 import coreInput from '../coreInput'
+import testParseNode from '../../testParseNode'
 
 test('@0 = private unnamed_addr constant [13 x i8] c"Hello World!\\00"', async () => {
   const expected: ParsedNode<CoreNodesWithData[CoreNodeType.GLOBAL_VARIABLE]> = {
@@ -59,9 +57,10 @@ test('@0 = private unnamed_addr constant [13 x i8] c"Hello World!\\00"', async (
     },
     length: 11
   }
-  await expect(parseGlobalVariable(coreInput)(parseAllTokens(coreTryers)(arrayToAsyncIterable([
-    '@0 = private unnamed_addr constant [13 x i8] c"Hello World!\\00"'
-  ])) as any)).resolves.toEqual(expected)
+  await testParseNode(
+    parseGlobalVariable(coreInput),
+    '@0 = private unnamed_addr constant [13 x i8] c"Hello World!\\00"',
+    expected)
 })
 
 test.todo('align')

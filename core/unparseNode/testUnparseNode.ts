@@ -13,9 +13,9 @@ const testUnparseNode = async (
 ): Promise<void> => {
   expect(unparsedNodeToString(coreInput)([{
     type: UnparsedPartType.NODE,
-    data: (await parseNode(
+    data: ((await parseNode(
       parseAllTokens(coreTryers)(
-        arrayToAsyncIterable([code])) as any))?.node as EnumItemWithData
+        arrayToAsyncIterable([code])) as any))?.result as any).node as EnumItemWithData
   }])).toMatchSnapshot()
 }
 

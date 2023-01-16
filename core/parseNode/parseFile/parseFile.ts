@@ -5,9 +5,14 @@ import TryParseNode from '../TryParseNode'
 import skipSplittedAsyncIterator from '../../../util/splitAsyncIterator/skip'
 import Input from './Input'
 import EnumItemWithData from '../../EnumItemWithData'
+import tryNodeParsers from '../tryNodeParsers/tryNodeParsers'
 
-const parseFile = (parseSubNode: Input): TryParseNode<CoreNodesWithData[CoreNodeType.FILE]> =>
+const parseFile = (subNodeParsers: Input): TryParseNode<CoreNodesWithData[CoreNodeType.FILE]> =>
   async stream => {
+    const type = {
+      enum: CoreNodeType,
+      id: CoreNodeType.FILE
+    }
     const splittedIterator = splitAsyncIterator(stream[Symbol.asyncIterator]())
     let length = 0
     const skip = (count: number): void => {
@@ -16,29 +21,36 @@ const parseFile = (parseSubNode: Input): TryParseNode<CoreNodesWithData[CoreNode
     }
     const nodes: EnumItemWithData[] = []
     while (true) {
-      const parsedNode = await parseSubNode(splittedIterator.asyncIterable)
-      if (parsedNode === undefined) {
+      const parseNodeResult = await tryNodeParsers(subNodeParsers)(splittedIterator.asyncIterable)
+      if (!parseNodeResult.success) {
         // Return undefined if there is a token which can't be parsed
         const { done } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
         if (done === true) break
         else {
-          return
+          return {
+            success: false,
+            result: {
+              type,
+              index: length,
+              message: "Couldn't parse any sub-node",
+              subAttempts: parseNodeResult.result
+            }
+          }
         }
       }
-      const { node, length } = parsedNode
-      nodes.push(node)
-      skip(length)
+      nodes.push(parseNodeResult.result.node)
+      skip(parseNodeResult.result.length)
     }
 
     return {
-      node: {
-        type: {
-          enum: CoreNodeType,
-          id: CoreNodeType.FILE
+      success: true,
+      result: {
+        node: {
+          type,
+          data: nodes
         },
-        data: nodes
-      },
-      length
+        length
+      }
     }
   }
 

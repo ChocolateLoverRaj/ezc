@@ -45,7 +45,7 @@ new Command()
     ])(stream)
     let index = 0
     let parseTokenError = false
-    const parsedFile = await parseFile(coreParseFileInput)({
+    const parseFileResult = await parseFile(coreParseFileInput)({
       async * [Symbol.asyncIterator] () {
         for await (const { error, value } of tokensStream) {
           if (error) {
@@ -68,8 +68,8 @@ new Command()
       console.log('Invalid token:', `${file}:${line + 1}:${characterInLine + 1}`)
       return
     }
-    if (parsedFile === undefined) {
-      console.log('Invalid file')
+    if (!parseFileResult.success) {
+      console.log('Invalid file', parseFileResult.result)
       return
     }
     if (o === undefined) {
@@ -77,7 +77,8 @@ new Command()
       return
     }
     console.log('Writing output file')
-    await writeFile(o, unparsedNodeToString(coreToStrInput)(unparseFile(parsedFile.node.data)))
+    await writeFile(o, unparsedNodeToString(coreToStrInput)(
+      unparseFile(parseFileResult.result.node.data)))
     console.log('Done')
   })
   .parse()

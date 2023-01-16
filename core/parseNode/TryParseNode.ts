@@ -1,9 +1,9 @@
 import CoreTokenWithData from '../CoreTokenWithData'
 import EnumItemWithData from '../EnumItemWithData'
-import ParsedNode from './ParsedNode'
+import TryParseNodeResult from './tryParseNodeResult/TryParseNodeResult'
 
 type TryParseNode<T extends EnumItemWithData> = (
   stream: AsyncIterable<CoreTokenWithData>
-) => Promise<ParsedNode<T> | undefined>
+) => Promise<TryParseNodeResult<T>>
 
 export default TryParseNode

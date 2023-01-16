@@ -1,24 +1,33 @@
-import CoreTokensWithData from '../CoreTokensWithData'
+import CoreTokenDatas from '../CoreTokenDatas'
 import CoreTokenType from '../CoreTokenType'
+import checkToken from './checkToken'
 import CoreNodesWithData from './CoreNodesWithData'
 import CoreNodeType from './CoreNodeType'
 import TryParseNode from './TryParseNode'
 
 const parseIntegerType: TryParseNode<CoreNodesWithData[CoreNodeType.INTEGER_TYPE]> =
   async stream => {
-    const iterator = stream[Symbol.asyncIterator]()
-    const { value, done } = await iterator.next()
-    if (done === true) return
-    if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.INTEGER_TYPE)) return
+    const type = {
+      enum: CoreNodeType,
+      id: CoreNodeType.INTEGER_TYPE
+    }
+    const result = await checkToken(
+      stream[Symbol.asyncIterator](),
+      type,
+      0,
+      'Expected integer type',
+      { enum: CoreTokenType, id: CoreTokenType.INTEGER_TYPE })
+    if (!result.success) return result
+
     return {
-      node: {
-        type: {
-          enum: CoreNodeType,
-          id: CoreNodeType.INTEGER_TYPE
+      success: true,
+      result: {
+        node: {
+          type,
+          data: result.result as CoreTokenDatas[CoreTokenType.INTEGER_TYPE]
         },
-        data: (value as CoreTokensWithData[CoreTokenType.INTEGER_TYPE]).data
-      },
-      length: 1
+        length: 1
+      }
     }
   }
 

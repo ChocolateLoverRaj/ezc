@@ -1,16 +1,11 @@
-import arrayToAsyncIterable from '../../../../util/arrayToAsyncIterable/arrayToAsyncIterable'
-import coreTryers from '../../../tryGetToken/coreTryers'
-import parseAllTokens from '../../../tryGetToken/parseAllTokens'
 import CoreInputFlag from '../../CoreInputFlag'
 import CoreNodeType from '../../CoreNodeType'
+import testParseNode from '../../testParseNode'
 import coreInput from '../coreInput'
 import parseInputFlag from '../parseInputFlag'
 
 test('nofree', async () => {
-  await expect(parseInputFlag(coreInput)(parseAllTokens(coreTryers)(
-    arrayToAsyncIterable([
-      'nofree'
-    ])) as any)).resolves.toEqual({
+  await testParseNode(parseInputFlag(coreInput), 'nofree', {
     node: {
       type: {
         enum: CoreNodeType,

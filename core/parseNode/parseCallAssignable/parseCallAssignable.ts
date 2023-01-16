@@ -7,9 +7,10 @@ import skipSplittedAsyncIterable from '../../../util/splitAsyncIterator/skip'
 import CoreTokenType from '../../CoreTokenType'
 import CoreTokensWithData from '../../CoreTokensWithData'
 import CoreKeyWord from '../../CoreKeyWord'
-import tryNodeParsers from '../tryNodeParsers'
+import tryNodeParsers from '../tryNodeParsers/tryNodeParsers'
 import parseIdentifier from '../parseIdentifier'
 import CallAssignableInput from './CallAssignableInput'
+import checkKeyWord from '../checkKeyWord'
 
 const parseCallAssignable = (
   { typeParsers, valueParsers }: Input
@@ -20,34 +21,65 @@ const parseCallAssignable = (
     skipSplittedAsyncIterable(splittedIterator, count)
     length += count
   }
+  const type = {
+    enum: CoreNodeType,
+    id: CoreNodeType.CALL_ASSIGNABLE
+
+  }
 
   // Check for 'call'
   {
-    const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
-    if (done === true) return
-    if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) return
-    const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
-    if (!(data.enum === CoreKeyWord && data.id === CoreKeyWord.CALL)) return
+    const error = await checkKeyWord(
+      splittedIterator.asyncIterable[Symbol.asyncIterator](),
+      type,
+      length,
+      'Expected call',
+      { enum: CoreKeyWord, id: CoreKeyWord.CALL }
+    )
+    if (error !== undefined) return error
     skip(1)
   }
 
   // Check for type
-  const parsedReturnType = await tryNodeParsers(typeParsers)(splittedIterator.asyncIterable)
-  if (parsedReturnType === undefined) return
-  skip(parsedReturnType.length)
+  const parseReturnTypeResult = await tryNodeParsers(typeParsers)(splittedIterator.asyncIterable)
+  if (!parseReturnTypeResult.success) {
+    return {
+      success: false,
+      result: {
+        type,
+        index: length,
+        message: 'Expected type',
+        subAttempts: parseReturnTypeResult.result
+      }
+    }
+  }
+  skip(parseReturnTypeResult.result.length)
 
   // Check for identifier
-  const parsedIdentifier = await parseIdentifier(splittedIterator.asyncIterable)
-  if (parsedIdentifier === undefined) return
-  skip(parsedIdentifier.length)
+  const parseIdentifierResult = await parseIdentifier(splittedIterator.asyncIterable)
+  if (!parseIdentifierResult.success) {
+    return {
+      success: false,
+      result: {
+        type,
+        index: length,
+        message: 'Expected identifier',
+        subAttempts: [parseIdentifierResult.result]
+      }
+    }
+  }
+  skip(parseIdentifierResult.result.length)
 
   // Check for (
   {
-    const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
-    if (done === true) return
-    if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) return
-    const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
-    if (!(data.enum === CoreKeyWord && data.id === CoreKeyWord.OPEN_PARENTHESIS)) return
+    const error = await checkKeyWord(
+      splittedIterator.asyncIterable[Symbol.asyncIterator](),
+      type,
+      length,
+      'Expected open parenthesis',
+      { enum: CoreKeyWord, id: CoreKeyWord.OPEN_PARENTHESIS }
+    )
+    if (error !== undefined) return error
     skip(1)
   }
 
@@ -57,7 +89,17 @@ const parseCallAssignable = (
     // Check for ) or ,
     {
       const { done, value } = await splittedIterator.asyncIterable[Symbol.asyncIterator]().next()
-      if (done === true) return
+      if (done === true) {
+        return {
+          success: false,
+          result: {
+            type,
+            index: length,
+            message: 'Expected close parenthesis',
+            subAttempts: undefined
+          }
+        }
+      }
       if (value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD) {
         const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
         if (data.enum === CoreKeyWord && data.id === CoreKeyWord.CLOSE_PARENTHESIS) {
@@ -66,41 +108,65 @@ const parseCallAssignable = (
         }
       }
       if (!firstInput) {
-        if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) return
-        const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
-        if (!(data.enum === CoreKeyWord && data.id === CoreKeyWord.COMMA)) return
+        const error = await checkKeyWord(
+          splittedIterator.asyncIterable[Symbol.asyncIterator](),
+          type,
+          length,
+          'Expected comma after input',
+          { enum: CoreKeyWord, id: CoreKeyWord.COMMA }
+        )
+        if (error !== undefined) return error
         skip(1)
       }
     }
 
-    const parsedInputType = await tryNodeParsers(typeParsers)(splittedIterator.asyncIterable)
-    if (parsedInputType === undefined) return
-    skip(parsedInputType.length)
+    const parseInputTypeResult = await tryNodeParsers(typeParsers)(splittedIterator.asyncIterable)
+    if (!parseInputTypeResult.success) {
+      return {
+        success: false,
+        result: {
+          type,
+          index: length,
+          message: 'Expected type',
+          subAttempts: parseInputTypeResult.result
+        }
+      }
+    }
+    skip(parseInputTypeResult.result.length)
 
-    const parsedInputValue = await tryNodeParsers(valueParsers)(splittedIterator.asyncIterable)
-    if (parsedInputValue === undefined) return
-    skip(parsedInputValue.length)
+    const parseInputValueResult = await tryNodeParsers(valueParsers)(splittedIterator.asyncIterable)
+    if (!parseInputValueResult.success) {
+      return {
+        success: false,
+        result: {
+          type,
+          index: length,
+          message: 'Expected value',
+          subAttempts: parseInputValueResult.result
+        }
+      }
+    }
+    skip(parseInputValueResult.result.length)
 
     inputs.push({
-      type: parsedInputType.node,
-      value: parsedInputValue.node
+      type: parseInputTypeResult.result.node,
+      value: parseInputValueResult.result.node
     })
   }
 
   return {
-    node: {
-      type: {
-        enum: CoreNodeType,
-        id: CoreNodeType.CALL_ASSIGNABLE
-
+    success: true,
+    result: {
+      node: {
+        type,
+        data: {
+          name: parseIdentifierResult.result.node.data.name,
+          inputs,
+          returnType: parseReturnTypeResult.result.node
+        }
       },
-      data: {
-        name: parsedIdentifier.node.data.name,
-        inputs,
-        returnType: parsedReturnType.node
-      }
-    },
-    length
+      length
+    }
   }
 }
 

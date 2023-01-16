@@ -1,31 +1,16 @@
-import CoreTokensWithData from '../../CoreTokensWithData'
-import CoreTokenType from '../../CoreTokenType'
-import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
-import ParsedNode from '../ParsedNode'
 import parseString from '../parseString'
+import testParseNode from '../testParseNode'
 
 test('c"Hello World!\\00"', async () => {
-  const expected: ParsedNode<CoreNodesWithData[CoreNodeType.STRING]> = {
+  await testParseNode(parseString, 'c"Hello World!\\00"', {
     node: {
       type: {
         enum: CoreNodeType,
         id: CoreNodeType.STRING
       },
-      data: 'Hello World!\\00'
+      data: 'Hello World!\x00'
     },
     length: 1
-  }
-  await expect(parseString({
-    async * [Symbol.asyncIterator] () {
-      const token: CoreTokensWithData[CoreTokenType.STRING_LITERAL] = {
-        type: {
-          enum: CoreTokenType,
-          id: CoreTokenType.STRING_LITERAL
-        },
-        data: 'Hello World!\\00'
-      }
-      yield token
-    }
-  })).resolves.toEqual(expected)
+  })
 })

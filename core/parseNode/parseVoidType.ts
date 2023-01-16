@@ -1,25 +1,32 @@
-import CoreTokensWithData from '../CoreTokensWithData'
-import CoreTokenType from '../CoreTokenType'
 import CoreKeyWord from '../CoreKeyWord'
 import CoreNodesWithData from './CoreNodesWithData'
 import CoreNodeType from './CoreNodeType'
 import TryParseNode from './TryParseNode'
+import checkKeyWord from './checkKeyWord'
 
 const parseVoidType: TryParseNode<CoreNodesWithData[CoreNodeType.VOID_TYPE]> = async stream => {
-  const { done, value } = await stream[Symbol.asyncIterator]().next()
-  if (done === true) return
-  if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) return
-  const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
-  if (!(data.enum === CoreKeyWord && data.id === CoreKeyWord.VOID)) return
+  const type = {
+    enum: CoreNodeType,
+    id: CoreNodeType.VOID_TYPE
+  }
+  const error = await checkKeyWord(
+    stream[Symbol.asyncIterator](),
+    type,
+    0,
+    'Expected void',
+    { enum: CoreKeyWord, id: CoreKeyWord.VOID }
+  )
+  if (error !== undefined) return error
+
   return {
-    node: {
-      type: {
-        enum: CoreNodeType,
-        id: CoreNodeType.VOID_TYPE
+    success: true,
+    result: {
+      node: {
+        type,
+        data: undefined
       },
-      data: undefined
-    },
-    length: 1
+      length: 1
+    }
   }
 }
 

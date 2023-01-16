@@ -8,29 +8,46 @@ import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
 import Linkage from '../Linkage'
 import parseIdentifier from '../parseIdentifier'
-import tryNodeParsers from '../tryNodeParsers'
+import tryNodeParsers from '../tryNodeParsers/tryNodeParsers'
 import TryParseNode from '../TryParseNode'
 import Input from './Input'
+import checkKeyWord from '../checkKeyWord'
 
 const parseGlobalVariable = (
   { typeParsers, valueParsers }: Input
 ): TryParseNode<CoreNodesWithData[CoreNodeType.GLOBAL_VARIABLE]> =>
   async stream => {
+    const type = {
+      enum: CoreNodeType,
+      id: CoreNodeType.GLOBAL_VARIABLE
+    }
     const asyncIterator = stream[Symbol.asyncIterator]()
     const splittedAsyncIterator = splitAsyncIterator(asyncIterator)
-    const identifier = await parseIdentifier(splittedAsyncIterator.asyncIterable)
-    if (identifier === undefined) return
-    skip(splittedAsyncIterator, identifier.length)
+    const parsedIdentifier = await parseIdentifier(splittedAsyncIterator.asyncIterable)
+    if (!parsedIdentifier.success) {
+      return {
+        success: false,
+        result: {
+          type,
+          index: 0,
+          message: 'Expected identifier',
+          subAttempts: [parsedIdentifier.result]
+        }
+      }
+    }
+    skip(splittedAsyncIterator, parsedIdentifier.result.length)
 
     {
-      const { done, value } =
-        await splittedAsyncIterator.asyncIterable[Symbol.asyncIterator]().next()
-      if (done === true) return
-      if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) return
-      const data = value.data as CoreTokenDatas[CoreTokenType.KEY_WORD]
-      if (!(data.enum === CoreKeyWord && data.id === CoreKeyWord.EQUALS)) return
+      const error = await checkKeyWord(
+        splittedAsyncIterator.asyncIterable[Symbol.asyncIterator](),
+        type,
+        parsedIdentifier.result.length,
+        'Expected equals',
+        { enum: CoreKeyWord, id: CoreKeyWord.EQUALS }
+      )
+      if (error !== undefined) return error
+      skip(splittedAsyncIterator, 1)
     }
-    skip(splittedAsyncIterator, 1)
 
     const allowedKeyWords = [
       CoreKeyWord.PRIVATE,
@@ -54,38 +71,68 @@ const parseGlobalVariable = (
     const isGlobal = keyWords.includes(CoreKeyWord.GLOBAL)
     // Must have exactly one of constant or global
     if (Number(isConstant) + Number(isGlobal) !== 1) {
-      return
+      return {
+        success: false,
+        result: {
+          type,
+          index: parsedIdentifier.result.length + 1 + keyWords.length,
+          message: 'Cannot have both constant and global',
+          subAttempts: undefined
+        }
+      }
     }
 
-    const type = await tryNodeParsers(typeParsers)(splittedAsyncIterator.asyncIterable)
-    if (type === undefined) return
-    skip(splittedAsyncIterator, type.length)
+    const parseTypeResult = await tryNodeParsers(typeParsers)(splittedAsyncIterator.asyncIterable)
+    if (!parseTypeResult.success) {
+      return {
+        success: false,
+        result: {
+          type,
+          index: parsedIdentifier.result.length + 1 + keyWords.length,
+          message: 'Expected type',
+          subAttempts: parseTypeResult.result
+        }
+      }
+    }
+    skip(splittedAsyncIterator, parseTypeResult.result.length)
 
-    const value = await tryNodeParsers(valueParsers)(splittedAsyncIterator.asyncIterable)
-    if (value === undefined) return
-    skip(splittedAsyncIterator, value.length)
+    const parseValueResult = await tryNodeParsers(valueParsers)(splittedAsyncIterator.asyncIterable)
+    if (!parseValueResult.success) {
+      return {
+        success: false,
+        result: {
+          type,
+          index: parsedIdentifier.result.length + 1 + keyWords.length +
+            parseTypeResult.result.length,
+          message: 'Expected value',
+          subAttempts: parseValueResult.result
+        }
+      }
+    }
+    skip(splittedAsyncIterator, parseValueResult.result.length)
 
     return {
-      node: {
-        type: {
-          enum: CoreNodeType,
-          id: CoreNodeType.GLOBAL_VARIABLE
+      success: true,
+      result: {
+        node: {
+          type,
+          data: {
+            // FIXME: No align logic
+            align: undefined,
+            constantOrGlobal: isConstant
+              ? ConstantOrGlobal.CONSTANT
+              : ConstantOrGlobal.GLOBAL,
+            identifier: parsedIdentifier.result.node,
+            // FIXME: No other linkage types
+            linkage: Linkage.PRIVATE,
+            type: parseTypeResult.result.node,
+            unnamed_addr: keyWords.includes(CoreKeyWord.UNNAMED_ADDR),
+            value: parseValueResult.result.node
+          }
         },
-        data: {
-        // FIXME: No align logic
-          align: undefined,
-          constantOrGlobal: isConstant
-            ? ConstantOrGlobal.CONSTANT
-            : ConstantOrGlobal.GLOBAL,
-          identifier: identifier.node,
-          // FIXME: No other linkage types
-          linkage: Linkage.PRIVATE,
-          type: type.node,
-          unnamed_addr: keyWords.includes(CoreKeyWord.UNNAMED_ADDR),
-          value: value.node
-        }
-      },
-      length: identifier.length + 1 + keyWords.length + type.length + value.length
+        length: parsedIdentifier.result.length + 1 + keyWords.length +
+        parseTypeResult.result.length + parseValueResult.result.length
+      }
     }
   }
 

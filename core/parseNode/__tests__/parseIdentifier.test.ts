@@ -1,14 +1,10 @@
-import arrayToAsyncIterable from '../../../util/arrayToAsyncIterable/arrayToAsyncIterable'
 import IdentifierType from '../../IdentifierType'
-import coreTryers from '../../tryGetToken/coreTryers'
-import parseAllTokens from '../../tryGetToken/parseAllTokens'
-import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
-import ParsedNode from '../ParsedNode'
 import parseIdentifier from '../parseIdentifier'
+import testParseNode from '../testParseNode'
 
 test('@0', async () => {
-  const expected: ParsedNode<CoreNodesWithData[CoreNodeType.IDENTIFIER]> = {
+  await testParseNode(parseIdentifier, '@0', {
     node: {
       type: {
         enum: CoreNodeType,
@@ -20,8 +16,5 @@ test('@0', async () => {
       }
     },
     length: 1
-  }
-  await expect(parseIdentifier(parseAllTokens(coreTryers)(arrayToAsyncIterable([
-    '@0'
-  ])) as any)).resolves.toEqual(expected)
+  })
 })

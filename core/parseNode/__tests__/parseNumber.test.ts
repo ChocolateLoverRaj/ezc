@@ -1,12 +1,9 @@
-import CoreTokensWithData from '../../CoreTokensWithData'
-import CoreTokenType from '../../CoreTokenType'
-import CoreNodesWithData from '../CoreNodesWithData'
 import CoreNodeType from '../CoreNodeType'
-import ParsedNode from '../ParsedNode'
 import parseNumber from '../parseNumber'
+import testParseNode from '../testParseNode'
 
 test('0', async () => {
-  const expected: ParsedNode<CoreNodesWithData[CoreNodeType.NUMBER]> = {
+  await testParseNode(parseNumber, '0', {
     node: {
       type: {
         enum: CoreNodeType,
@@ -15,17 +12,5 @@ test('0', async () => {
       data: 0
     },
     length: 1
-  }
-  await expect(parseNumber({
-    async * [Symbol.asyncIterator] () {
-      const token: CoreTokensWithData[CoreTokenType.NUMBER_LITERAL] = {
-        type: {
-          enum: CoreTokenType,
-          id: CoreTokenType.NUMBER_LITERAL
-        },
-        data: 0
-      }
-      yield token
-    }
-  })).resolves.toEqual(expected)
+  })
 })

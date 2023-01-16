@@ -1,30 +1,51 @@
 import CoreKeyWord from '../CoreKeyWord'
-import CoreTokensWithData from '../CoreTokensWithData'
 import CoreTokenType from '../CoreTokenType'
 import reverseMap from '../../util/reverseMap/reverseMap'
 import CoreNodesWithData from './CoreNodesWithData'
 import CoreNodeType from './CoreNodeType'
 import floatTypeToKeyWord from './floatTypeToKeyWord'
 import TryParseNode from './TryParseNode'
+import checkToken from './checkToken'
+import EnumItem from '../EnumItem'
+import TryParseNodeResult from './tryParseNodeResult/TryParseNodeResult'
 
 const parseFloatType: TryParseNode<CoreNodesWithData[CoreNodeType.FLOAT_TYPE]> = async stream => {
-  const { done, value } = await stream[Symbol.asyncIterator]().next()
-  if (done === true) return
-  if (!(value.type.enum === CoreTokenType && value.type.id === CoreTokenType.KEY_WORD)) return
-  const { data } = value as CoreTokensWithData[CoreTokenType.KEY_WORD]
-  if (data.enum !== CoreKeyWord) return
-  const floatType = reverseMap(floatTypeToKeyWord).get(data.id)
-  if (floatType === undefined) return
+  const type = {
+    enum: CoreNodeType,
+    id: CoreNodeType.FLOAT_TYPE
+  }
+
+  const message = 'Expected float type'
+  const result = await checkToken(
+    stream[Symbol.asyncIterator](),
+    type,
+    0,
+    message,
+    { enum: CoreTokenType, id: CoreTokenType.KEY_WORD })
+  if (!result.success) return result
+  const enumItem = result.result as EnumItem
+  const error: TryParseNodeResult<CoreNodesWithData[CoreNodeType.FLOAT_TYPE]> = {
+    success: false,
+    result: {
+      type,
+      index: 0,
+      message,
+      subAttempts: undefined
+    }
+  }
+  if (enumItem.enum !== CoreKeyWord) return error
+  const floatType = reverseMap(floatTypeToKeyWord).get(enumItem.id)
+  if (floatType === undefined) return error
 
   return {
-    node: {
-      type: {
-        enum: CoreNodeType,
-        id: CoreNodeType.FLOAT_TYPE
+    success: true,
+    result: {
+      node: {
+        type,
+        data: floatType
       },
-      data: floatType
-    },
-    length: 1
+      length: 1
+    }
   }
 }
 

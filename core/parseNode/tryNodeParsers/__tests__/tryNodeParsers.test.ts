@@ -1,14 +1,15 @@
-import ParsedNode from '../ParsedNode'
-import CoreNodesWithData from '../CoreNodesWithData'
-import CoreNodeType from '../CoreNodeType'
+import ParsedNode from '../../ParsedNode'
+import CoreNodesWithData from '../../CoreNodesWithData'
+import CoreNodeType from '../../CoreNodeType'
 import tryNodeParsers from '../tryNodeParsers'
-import CoreTokensWithData from '../../CoreTokensWithData'
-import CoreTokenType from '../../CoreTokenType'
-import CoreKeyWord from '../../CoreKeyWord'
-import coreTypeParsers from '../coreTypeParsers'
+import CoreTokensWithData from '../../../CoreTokensWithData'
+import CoreTokenType from '../../../CoreTokenType'
+import CoreKeyWord from '../../../CoreKeyWord'
+import coreTypeParsers from '../../coreTypeParsers'
+import Output from '../Output'
 
 test('ptr', async () => {
-  const expected: ParsedNode<CoreNodesWithData[CoreNodeType.POINTER_TYPE]> = {
+  const expectedParsedNode: ParsedNode<CoreNodesWithData[CoreNodeType.POINTER_TYPE]> = {
     node: {
       type: {
         enum: CoreNodeType,
@@ -17,6 +18,10 @@ test('ptr', async () => {
       data: undefined
     },
     length: 1
+  }
+  const expected: Output = {
+    success: true,
+    result: expectedParsedNode
   }
   await expect(tryNodeParsers(coreTypeParsers)({
     async * [Symbol.asyncIterator] () {
@@ -36,7 +41,7 @@ test('ptr', async () => {
 })
 
 test('i8', async () => {
-  const expected: ParsedNode<CoreNodesWithData[CoreNodeType.INTEGER_TYPE]> = {
+  const expectedParsedNode: ParsedNode<CoreNodesWithData[CoreNodeType.INTEGER_TYPE]> = {
     node: {
       type: {
         enum: CoreNodeType,
@@ -45,6 +50,10 @@ test('i8', async () => {
       data: 8
     },
     length: 1
+  }
+  const expected: Output = {
+    success: true,
+    result: expectedParsedNode
   }
   await expect(tryNodeParsers(coreTypeParsers)({
     async * [Symbol.asyncIterator] () {
