@@ -19,3 +19,8 @@ samples/c-to-ll/**/main.ll
 samples/libuv/**/*.exe
 
 .vscode/c_cpp_properties.json
+
+cli/o.ll
+
+samples/dynamic-load/main.bin
+samples/dynamic-load/*.so
