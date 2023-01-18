@@ -6,11 +6,13 @@
   "dependencies": {
     "commander": "^9.5.0",
     "concat-maps": "^1.0.2",
+    "console-log-tree": "^1.2.1",
     "jsonfile": "^6.1.0",
     "never": "^1.1.0",
     "tslib": "^2.4.1"
   },
   "devDependencies": {
+    "@types/console-log-tree": "^1.2.0",
     "@types/jsonfile": "^6.1.1"
   }
 }

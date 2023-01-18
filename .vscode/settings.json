@@ -61,6 +61,7 @@
     "unordered_map": "c",
     "cctype": "c",
     "thread": "c",
-    "__threading_support": "c"
+    "__threading_support": "c",
+    "types.h": "c"
   }
 }
