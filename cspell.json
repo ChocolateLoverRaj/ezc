@@ -1,12 +1,14 @@
 {
   "version": "0.2",
   "words": [
+    "binded",
     "Datas",
     "getchar",
     "getelementptr",
     "noalias",
     "nocapture",
     "nofree",
+    "Pico",
     "selrond",
     "tryer",
     "tryers",
