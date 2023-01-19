@@ -1,9 +1,9 @@
+import AllNodeFns from '../nodeFns/AllNodeFns'
 import UnparseTokenInput from '../unparseToken/unparseToken/Input'
-import NodeUnparsers from './NodeUnparsers'
 
 interface Input {
   unparseTokenInput: UnparseTokenInput
-  nodeUnparsers: NodeUnparsers
+  allNodeFns: AllNodeFns
 }
 
 export default Input

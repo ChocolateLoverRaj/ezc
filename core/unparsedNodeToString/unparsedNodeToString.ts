@@ -5,7 +5,7 @@ import UnparsedPart from '../unparseNode/UnparsedPart'
 
 const indentSpaces = 2
 const indentStr = ' '.repeat(indentSpaces)
-const unparsedNodeToString = ({ nodeUnparsers, unparseTokenInput }: Input) => (
+const unparsedNodeToString = ({ allNodeFns: nodeUnparsers, unparseTokenInput }: Input) => (
   unparsedParts: readonly UnparsedPart[]
 ): string => {
   let indentLevel = 0
@@ -27,7 +27,7 @@ const unparsedNodeToString = ({ nodeUnparsers, unparseTokenInput }: Input) => (
       string += unparseToken(unparseTokenInput)(data)
     } else if (type === UnparsedPartType.NODE) {
       const unparsedParts =
-        nodeUnparsers.get(data.type.enum)?.get(data.type.id)?.(data.data) as UnparsedPart[]
+        nodeUnparsers.get(data.type.enum)?.get(data.type.id)?.unparse?.(data.data) as UnparsedPart[]
       if (unparsedParts === undefined) console.log(data)
       partsToUnparse.unshift(...unparsedParts)
     }
