@@ -3,6 +3,9 @@
   "name": "ezc-cli",
   "version": "1.0.0",
   "description": "CLI to transform custom code into LLVM IR",
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "commander": "^9.5.0",
     "concat-maps": "^1.0.2",
@@ -13,6 +16,9 @@
   },
   "devDependencies": {
     "@types/console-log-tree": "^1.2.0",
-    "@types/jsonfile": "^6.1.1"
+    "@types/jsonfile": "^6.1.1",
+    "jest": "^29.3.1",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.9.4"
   }
 }

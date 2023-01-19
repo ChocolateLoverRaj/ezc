@@ -3,8 +3,6 @@ import { createReadStream } from 'fs'
 import { writeFile } from 'fs/promises'
 import { readFileSync } from 'jsonfile'
 import never from 'never'
-import coreParseFileInput from '../core/parseNode/parseFile/coreInput'
-import parseFile from '../core/parseNode/parseFile/parseFile'
 import parseAllTokens3 from '../core/tryGetToken/parseAllTokens3/parseAllTokens3'
 import parseIdentifier from '../core/tryGetToken/parseIdentifier'
 import parseIntegerType from '../core/tryGetToken/parseIntegerType'
@@ -15,7 +13,6 @@ import parseStringLiteral from '../core/tryGetToken/parseStringLiteral'
 import coreToStrInput from '../core/unparsedNodeToString/coreInput'
 import unparsedNodeToString from '../core/unparsedNodeToString/unparsedNodeToString'
 import unparseFile from '../core/unparseNode/unparseFile'
-import getLineFromPos from '../util/getLineFromPos/getLineFromPos'
 import { concat } from 'concat-maps'
 import Plugin from './Plugin'
 import countLineLengths from '../util/countLineLengths/countLineLengths'
@@ -27,6 +24,8 @@ import ParsedNodeError from '../core/parseNode/ParseNodeError'
 import PosInLine from '../util/getPosInLine/PosInLine'
 import getPosInLine from '../util/getPosInLine/getPosInLine'
 import { EOL } from 'os'
+import getStrIndexFromTokenIndex from './getStrIndexFromTokenIndex/getStrIndexFromTokenIndex'
+import parseFileWithUnknownTokens from './parseFileWithUnknownTokens/parseFileWithUnknownTokens'
 
 const { name, version, description } = readFileSync('./package.json')
 
@@ -52,60 +51,20 @@ new Command()
       parseIdentifier,
       parseNumberLiteral
     ])(splitStream(stream))
-    let index = 0
-    let parseTokenError = false
-    interface TokenLength {
-      /**
-       * If it's false, then it's whitespace
-       */
-      token: boolean
-      length: number
-    }
-    const tokenLengths: TokenLength[] = []
-    const getStrIndexFromTokenIndex = (tokenIndex: number): number | undefined => {
-      let currentStrIndex = 0
-      let currentTokenIndex = 0
-      for (const { token, length } of tokenLengths) {
-        if (token) {
-          currentTokenIndex++
-          if (currentTokenIndex > tokenIndex) {
-            return currentStrIndex
-          }
-        }
-        currentStrIndex += length
-      }
-    }
-
     const lineLengthsPromise = arrayFromAsync(countLineLengths(splitStream(stream)))
-    const parseFileResult = await parseFile(coreParseFileInput)({
-      async * [Symbol.asyncIterator] () {
-        for await (const { error, value } of tokensStream) {
-          if (error) {
-            parseTokenError = true
-            return
-          }
-          if (value.token !== undefined) {
-            tokenLengths.push({
-              token: true,
-              length: value.length
-            })
-            yield value.token
-          } else {
-            tokenLengths.push({
-              token: false,
-              length: value.length
-            })
-          }
-          index += value.length
-        }
-      }
-    })
+    const {
+      index,
+      parseFileResult,
+      parseTokenError,
+      tokenLengths
+    } = await parseFileWithUnknownTokens(tokensStream)
+
     // Destroy stream in case tokens stream has an error and file isn't completely read
     stream.destroy()
     const getFileLink = ({ line, characterInLine }: PosInLine): string =>
       `${file}:${line + 1}:${characterInLine + 1}`
     if (parseTokenError) {
-      const posInLine = await getLineFromPos(createReadStream(file, 'utf8'), index) ?? never()
+      const posInLine = getPosInLine(EOL.length, await lineLengthsPromise, index) ?? never()
       console.log('Invalid token:', getFileLink(posInLine))
       return
     }
@@ -122,7 +81,7 @@ new Command()
             getPosInLine(
               EOL.length,
               lineLengths,
-              getStrIndexFromTokenIndex(pos) ?? never()
+              getStrIndexFromTokenIndex(tokenLengths, pos) ?? never()
             ) ?? never())} - ${message}`,
           children: subAttempts?.map(subAttempt => errorResultToTree(pos, subAttempt))
         }
