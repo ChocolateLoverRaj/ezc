@@ -1,4 +1,9 @@
 import EnumItemWithData from '../EnumItemWithData'
+import getDeclareIdentifierDefinitions from '../getIdentifierDefinitions/declare/declare'
+import getAssignmentInstructionIdentifierDefinitions from
+  '../getIdentifierDefinitions/assignmentInstruction/assignmentInstruction'
+import getFunctionIdentifierDefinitions from
+  '../getIdentifierDefinitions/function/function'
 import CoreNodeType from '../parseNode/CoreNodeType'
 import unparseArrayType from '../unparseNode/unparseArrayType'
 import unparseAssignmentInstruction from '../unparseNode/unparseAssignmentInstruction'
@@ -22,11 +27,14 @@ import unparseStructType from '../unparseNode/unparseStructType'
 import unparseVoidType from '../unparseNode/unparseVoidType'
 import AllNodeFns from './AllNodeFns'
 import NodeFns from './NodeFns'
+import getGlobalVariableIdentifierDefinitions from
+  '../getIdentifierDefinitions/globalVariable/globalVariable'
 
 const coreNodeFns: AllNodeFns = new Map([
   [CoreNodeType, new Map<number, NodeFns<EnumItemWithData>>([
     [CoreNodeType.DECLARE, {
-      unparse: unparseDeclare
+      unparse: unparseDeclare,
+      getIdentifierDefinitions: getDeclareIdentifierDefinitions
     }],
     [CoreNodeType.INPUT_FLAG, {
       unparse: unparseInputFlag(coreUnparseInputFlagInput)
@@ -56,7 +64,8 @@ const coreNodeFns: AllNodeFns = new Map([
       unparse: unparseNumber
     }],
     [CoreNodeType.FUNCTION, {
-      unparse: unparseFunction
+      unparse: unparseFunction,
+      getIdentifierDefinitions: getFunctionIdentifierDefinitions
     }],
     [CoreNodeType.BLOCK, {
       unparse: unparseBlock
@@ -68,10 +77,12 @@ const coreNodeFns: AllNodeFns = new Map([
       unparse: unparseCallAssignable
     }],
     [CoreNodeType.ASSIGNMENT_INSTRUCTION, {
-      unparse: unparseAssignmentInstruction
+      unparse: unparseAssignmentInstruction,
+      getIdentifierDefinitions: getAssignmentInstructionIdentifierDefinitions
     }],
     [CoreNodeType.GLOBAL_VARIABLE, {
-      unparse: unparseGlobalVariable
+      unparse: unparseGlobalVariable,
+      getIdentifierDefinitions: getGlobalVariableIdentifierDefinitions
     }],
     [CoreNodeType.FLOAT_TYPE, {
       unparse: unparseFloatType

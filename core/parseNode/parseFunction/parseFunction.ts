@@ -190,7 +190,7 @@ const parseFunction = (
       node: {
         type,
         data: {
-          name: parseIdentifierResult.result.node.data.name,
+          name: parseIdentifierResult.result.node,
           inputs,
           returnType: parseReturnTypeResult.result.node,
           blocks

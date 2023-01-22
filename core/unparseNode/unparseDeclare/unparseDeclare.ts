@@ -1,6 +1,5 @@
 import CoreKeyWord from '../../CoreKeyWord'
 import CoreTokenType from '../../CoreTokenType'
-import IdentifierType from '../../IdentifierType'
 import CoreNodeDatas from '../../parseNode/CoreNodeDatas'
 import CoreNodeType from '../../parseNode/CoreNodeType'
 import UnparsedPartType from '../UnparsedPartType'
@@ -34,16 +33,7 @@ const unparseDeclare: UnparseNode<CoreNodeDatas[CoreNodeType.DECLARE]> = (
     data: undefined
   }, {
     type: UnparsedPartType.NODE,
-    data: {
-      type: {
-        enum: CoreNodeType,
-        id: CoreNodeType.IDENTIFIER
-      },
-      data: {
-        name,
-        type: IdentifierType.AT
-      }
-    }
+    data: name
   }, {
     type: UnparsedPartType.TOKEN,
     data: {

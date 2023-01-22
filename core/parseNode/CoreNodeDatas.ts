@@ -10,13 +10,13 @@ import EnumItem from '../EnumItem'
 
 interface CoreNodeDatas {
   [CoreNodeType.FUNCTION]: {
-    name: string
+    name: CoreNodesWithData[CoreNodeType.IDENTIFIER]
     inputs: EnumItemWithData[]
     returnType: EnumItemWithData
     blocks: EnumItemWithData[]
   }
   [CoreNodeType.DECLARE]: {
-    name: string
+    name: CoreNodesWithData[CoreNodeType.IDENTIFIER]
     inputs: EnumItemWithData[]
     returnType: EnumItemWithData
   }
