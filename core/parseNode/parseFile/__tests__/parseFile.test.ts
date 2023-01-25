@@ -4,6 +4,10 @@ import coreTryers from '../../../tryGetToken/coreTryers'
 import parseAllTokens from '../../../tryGetToken/parseAllTokens'
 import coreInput from '../coreInput'
 import parseFile from '../parseFile'
+import { dirname } from 'dirname-filename-esm'
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const __dirname = dirname(import.meta)
 
 test('hello world example', async () => {
   await expect(parseFile(coreInput)(

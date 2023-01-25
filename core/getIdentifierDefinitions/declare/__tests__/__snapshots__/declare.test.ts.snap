@@ -3,7 +3,9 @@
 exports[`declare i1 @isOdd(i32) 1`] = `
 Array [
   Object {
-    "index": 1,
+    "index": Array [
+      1,
+    ],
     "node": Object {
       "data": Object {
         "name": "isOdd",

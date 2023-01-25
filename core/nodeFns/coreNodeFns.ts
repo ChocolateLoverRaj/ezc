@@ -29,6 +29,7 @@ import AllNodeFns from './AllNodeFns'
 import NodeFns from './NodeFns'
 import getGlobalVariableIdentifierDefinitions from
   '../getIdentifierDefinitions/globalVariable/globalVariable'
+import checkFile from '../checkNode/file/file'
 
 const coreNodeFns: AllNodeFns = new Map([
   [CoreNodeType, new Map<number, NodeFns<EnumItemWithData>>([
@@ -43,7 +44,8 @@ const coreNodeFns: AllNodeFns = new Map([
       unparse: unparseArrayType
     }],
     [CoreNodeType.FILE, {
-      unparse: unparseFile
+      unparse: unparseFile,
+      check: checkFile
     }],
     [CoreNodeType.STRING, {
       unparse: unparseString

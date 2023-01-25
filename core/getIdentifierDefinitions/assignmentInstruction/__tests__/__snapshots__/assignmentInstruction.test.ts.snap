@@ -3,7 +3,9 @@
 exports[`%var = call i1 @someFn() 1`] = `
 Array [
   Object {
-    "index": 0,
+    "index": Array [
+      0,
+    ],
     "node": Object {
       "data": Object {
         "name": "var",

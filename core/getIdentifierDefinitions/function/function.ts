@@ -5,7 +5,7 @@ import CoreNodeType from '../../parseNode/CoreNodeType'
 const getIdentifierDefinitions: GetIdentifierDefinitions<CoreNodeDatas[CoreNodeType.FUNCTION]> = (
   { name }
 ) => [{
-  index: 1,
+  index: [1],
   node: name
 }]
 

@@ -47,29 +47,31 @@ const unparseDeclare: UnparseNode<CoreNodeDatas[CoreNodeType.DECLARE]> = (
       }
     }
   },
-  ...knit<UnparsedPart[]>(
-    inputs.map(input => [{
-      type: UnparsedPartType.NODE,
-      data: input
-    }]),
-    [
-      {
-        type: UnparsedPartType.TOKEN,
-        data: {
-          type: {
-            enum: CoreTokenType,
-            id: CoreTokenType.KEY_WORD
-          },
+  ...inputs.length > 0
+    ? knit<UnparsedPart[]>(
+      inputs.map(input => [{
+        type: UnparsedPartType.NODE,
+        data: input
+      }]),
+      [
+        {
+          type: UnparsedPartType.TOKEN,
           data: {
-            enum: CoreKeyWord,
-            id: CoreKeyWord.COMMA
+            type: {
+              enum: CoreTokenType,
+              id: CoreTokenType.KEY_WORD
+            },
+            data: {
+              enum: CoreKeyWord,
+              id: CoreKeyWord.COMMA
+            }
           }
+        }, {
+          type: UnparsedPartType.SPACE,
+          data: undefined
         }
-      }, {
-        type: UnparsedPartType.SPACE,
-        data: undefined
-      }
-    ]).flat(),
+      ]).flat()
+    : [],
   {
     type: UnparsedPartType.TOKEN,
     data: {

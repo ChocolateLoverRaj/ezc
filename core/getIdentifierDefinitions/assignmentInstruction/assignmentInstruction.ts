@@ -6,7 +6,7 @@ const getIdentifierDefinitions:
 GetIdentifierDefinitions<CoreNodeDatas[CoreNodeType.ASSIGNMENT_INSTRUCTION]> = (
   { identifier }
 ) => [{
-  index: 0,
+  index: [0],
   node: identifier
 }]
 
