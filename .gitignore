@@ -22,5 +22,7 @@ samples/libuv/**/*.exe
 
 cli/o.ll
 
+dist
+
 samples/dynamic-load/main.bin
 samples/dynamic-load/*.so

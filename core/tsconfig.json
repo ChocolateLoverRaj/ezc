@@ -4,6 +4,10 @@
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "strictNullChecks": true,
-    "target": "ES2022"
+    "target": "ES2022",
+    "emitDeclarationOnly": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declaration": true
   }
 }

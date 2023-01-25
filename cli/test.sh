@@ -1,1 +1,1 @@
-ts-node index ./test/leftArrowReturn.ll -o o.ll -p ./testPlugins/leftArrowReturn
+node ./dist/index ./test/leftArrowReturn.ll -o o.ll -p ./dist/testPlugins/leftArrowReturn.js

@@ -3,22 +3,32 @@
   "name": "ezc-cli",
   "version": "1.0.0",
   "description": "CLI to transform custom code into LLVM IR",
+  "type": "module",
   "scripts": {
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "build:js": "babel src -d dist -x .ts --plugins=add-import-extension --ignore **/__tests__/**,**/*.d.ts --source-maps",
+    "build:ts": "tsc",
+    "build": "npm run build:js & npm run build:ts"
   },
   "dependencies": {
+    "babel-plugin-add-import-extension": "^1.6.0",
     "commander": "^9.5.0",
     "concat-maps": "^1.0.2",
     "console-log-tree": "^1.2.1",
     "jsonfile": "^6.1.0",
     "never": "^1.1.0",
-    "tslib": "^2.4.1"
+    "tslib": "^2.4.1",
+    "util": "link:../util"
   },
   "devDependencies": {
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.12",
+    "@babel/preset-typescript": "^7.18.6",
     "@types/console-log-tree": "^1.2.0",
     "@types/jsonfile": "^6.1.1",
+    "@types/node": "^18.11.18",
+    "ezc": "link:../core",
     "jest": "^29.3.1",
-    "ts-jest": "^29.0.5",
     "typescript": "^4.9.4"
   }
 }
