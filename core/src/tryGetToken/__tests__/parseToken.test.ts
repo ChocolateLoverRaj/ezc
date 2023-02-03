@@ -35,7 +35,10 @@ test('leading space', async () => {
         enum: CoreTokenType,
         id: CoreTokenType.NUMBER_LITERAL
       },
-      data: 34
+      data: {
+        value: 34,
+        floatType: undefined
+      }
     },
     length: 3
   })

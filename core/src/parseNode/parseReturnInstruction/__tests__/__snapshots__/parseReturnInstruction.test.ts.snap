@@ -53,7 +53,10 @@ Object {
           },
         },
         "value": Object {
-          "data": 0,
+          "data": Object {
+            "floatType": undefined,
+            "value": 0,
+          },
           "type": Object {
             "enum": Object {
               "0": "FILE",

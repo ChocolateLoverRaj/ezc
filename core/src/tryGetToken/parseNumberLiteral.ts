@@ -1,5 +1,6 @@
 import CoreTokensWithData from '../CoreTokensWithData'
 import CoreTokenType from '../CoreTokenType'
+import FloatType from '../parseNode/FloatType'
 import charAsyncIterable from './charAsyncIterable'
 import TryGetToken from './TryGetToken'
 
@@ -26,7 +27,10 @@ const parseNumberLiteral: TryGetToken<CoreTokensWithData[CoreTokenType.NUMBER_LI
           enum: CoreTokenType,
           id: CoreTokenType.NUMBER_LITERAL
         },
-        data: parseFloat(number)
+        data: {
+          value: parseFloat(number),
+          floatType: number.includes('.') ? FloatType.DOUBLE : undefined
+        }
       },
       length: number.length
     }

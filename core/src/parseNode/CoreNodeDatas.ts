@@ -7,6 +7,8 @@ import ConstantOrGlobal from './ConstantOrGlobal'
 import Linkage from './Linkage'
 import CallAssignableInput from './parseCallAssignable/CallAssignableInput'
 import EnumItem from '../EnumItem'
+import CoreTokenDatas from '../CoreTokenDatas'
+import CoreTokenType from '../CoreTokenType'
 
 interface CoreNodeDatas {
   [CoreNodeType.FUNCTION]: {
@@ -42,7 +44,7 @@ interface CoreNodeDatas {
     type: IdentifierType
     name: string
   }
-  [CoreNodeType.NUMBER]: number
+  [CoreNodeType.NUMBER]: CoreTokenDatas[CoreTokenType.NUMBER_LITERAL]
   [CoreNodeType.VOID_TYPE]: undefined
   [CoreNodeType.BLOCK]: {
     name: string

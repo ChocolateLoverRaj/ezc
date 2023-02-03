@@ -9,7 +9,10 @@ test('0', async () => {
         enum: CoreNodeType,
         id: CoreNodeType.NUMBER
       },
-      data: 0
+      data: {
+        value: 0,
+        floatType: undefined
+      }
     },
     length: 1
   })

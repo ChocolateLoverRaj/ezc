@@ -29,8 +29,6 @@ const checkFile: Check<CoreNodeDatas[CoreNodeType.FILE]> = ({ nodeData, allNodeF
     mapGetOrSet(nameMap, identifierDefinition.node.data.name, () => []).push(identifierDefinition)
   })
 
-  console.log(subNodes, identifierDefinitions)
-
   return [...nameMap.entries()]
     .filter(([, identifierDefinitions]) => identifierDefinitions.length > 0)
     .map(([name, identifierDefinitions]) => ({
