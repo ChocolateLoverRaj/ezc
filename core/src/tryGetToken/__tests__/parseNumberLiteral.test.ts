@@ -1,4 +1,5 @@
 import CoreTokenType from '../../CoreTokenType'
+import FloatType from '../../parseNode/FloatType'
 import parseNumberLiteral from '../parseNumberLiteral'
 
 test('123', async () => {
@@ -12,7 +13,10 @@ test('123', async () => {
         enum: CoreTokenType,
         id: CoreTokenType.NUMBER_LITERAL
       },
-      data: 123
+      data: {
+        value: 123,
+        floatType: undefined
+      }
     },
     length: 3
   })
@@ -29,7 +33,10 @@ test('3.0', async () => {
         enum: CoreTokenType,
         id: CoreTokenType.NUMBER_LITERAL
       },
-      data: 3.0
+      data: {
+        value: 3.0,
+        floatType: FloatType.DOUBLE
+      }
     },
     length: 3
   })
@@ -46,7 +53,10 @@ test('-2', async () => {
         enum: CoreTokenType,
         id: CoreTokenType.NUMBER_LITERAL
       },
-      data: -2
+      data: {
+        value: -2,
+        floatType: undefined
+      }
     },
     length: 2
   })

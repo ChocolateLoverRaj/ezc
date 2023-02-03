@@ -8,6 +8,9 @@ test('5', () => {
       enum: CoreTokenType,
       id: CoreTokenType.NUMBER_LITERAL
     },
-    data: 5
+    data: {
+      value: 5,
+      decimal: true
+    }
   })).toBe('5')
 })

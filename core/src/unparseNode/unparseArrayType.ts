@@ -27,7 +27,10 @@ const unparseArrayType: UnparseNode<CoreNodeDatas[CoreNodeType.ARRAY_TYPE]> = ({
       enum: CoreNodeType,
       id: CoreNodeType.NUMBER
     },
-    data: length
+    data: {
+      value: length,
+      floatType: undefined
+    }
   }
 }, {
   type: UnparsedPartType.SPACE,

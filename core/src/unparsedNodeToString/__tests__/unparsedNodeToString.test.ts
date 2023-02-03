@@ -67,7 +67,10 @@ test('new line', () => {
         enum: CoreTokenType,
         id: CoreTokenType.NUMBER_LITERAL
       },
-      data: 60
+      data: {
+        value: 60,
+        floatType: undefined
+      }
     }
   }, {
     type: UnparsedPartType.NEW_LINE,
@@ -79,7 +82,10 @@ test('new line', () => {
         enum: CoreTokenType,
         id: CoreTokenType.NUMBER_LITERAL
       },
-      data: 120
+      data: {
+        value: 120,
+        floatType: undefined
+      }
     }
   }])).toMatchSnapshot()
 })
@@ -110,7 +116,10 @@ test('indenting', () => {
         enum: CoreTokenType,
         id: CoreTokenType.NUMBER_LITERAL
       },
-      data: 7
+      data: {
+        value: 7,
+        floatType: undefined
+      }
     }
   }, {
     type: UnparsedPartType.UNINDENT,
@@ -177,7 +186,10 @@ test('nested indenting', () => {
         enum: CoreTokenType,
         id: CoreTokenType.NUMBER_LITERAL
       },
-      data: 6969
+      data: {
+        value: 6969,
+        floatType: undefined
+      }
     }
   }, {
     type: UnparsedPartType.UNINDENT,

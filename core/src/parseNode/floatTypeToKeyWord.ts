@@ -8,7 +8,7 @@ const floatTypeToKeyWord = new Map<FloatType, CoreKeyWord>([
   [FloatType.FP128, CoreKeyWord.FP128],
   [FloatType.HALF, CoreKeyWord.HALF],
   [FloatType.X86_FP80, CoreKeyWord.X86_FP80],
-  [FloatType.DUOBLE, CoreKeyWord.DUOBLE]
+  [FloatType.DOUBLE, CoreKeyWord.DUOBLE]
 ])
 
 export default floatTypeToKeyWord

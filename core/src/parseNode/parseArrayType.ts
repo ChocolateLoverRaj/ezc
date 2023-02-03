@@ -85,7 +85,7 @@ const parseArrayType = (
         type,
         data: {
           itemsType: result.node,
-          length: numberOfItems
+          length: numberOfItems.value
         }
       },
       length: 4 + result.length
