@@ -1,3 +1,5 @@
+# I discovered the best programming language ([Rust](https://www.rust-lang.org/)). There is no need to make my own programming language. I recommend using Rust.
+
 # ezc
 
 [![TS-Standard - Typescript Standard Style Guide](https://badgen.net/badge/code%20style/ts-standard/blue?icon=typescript)](https://github.com/standard/ts-standard)
